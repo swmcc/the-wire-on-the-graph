@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Putting The Wire on the Graph</title>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/theme/black.css">
+  <link rel="stylesheet" href="css/custom.css">
+</head>
+<body>
+
+<div class="reveal">
+<div class="slides">
+
+<!-- ── 1: Title ─────────────────────────────────────────────────────────── -->
+<section class="slide-title"
+  data-background-image="assets/bg-title.png"
+  data-background-size="cover"
+  data-background-position="center"
+  data-background-opacity="0.38">
+  <h1>Putting <em>The Wire</em><br>on the Graph</h1>
+  <h3>Five seasons. One graph. What actually changes.</h3>
+  <div class="slide-byline">
+    <span class="byline-name">Stephen McCullough</span>
+    <span class="byline-sep">·</span>
+    <span class="byline-date">April 2026</span>
+  </div>
+
+  <aside class="notes">
+    Opening line if you want one: "I've been watching The Wire again. And this time I started thinking about it differently — as a graph problem."
+
+    The question is genuine. Not who you root for. Who actually wins the game?
+
+    Instead of arguing about it, I modelled it. This talk is what I found.
+
+    Keep it brief. Let the title slide breathe. Transition: let's start with the question itself.
+  </aside>
+</section>
+
+<!-- ── 1b: What is The Wire? ─────────────────────────────────────────────── -->
+<section>
+  <h2>What is <em>The Wire</em>?</h2>
+
+  <div class="wire-header">
+    <div class="wire-meta">
+      <span class="wire-stat">HBO</span>
+      <span class="wire-sep">·</span>
+      <span class="wire-stat">Baltimore</span>
+      <span class="wire-sep">·</span>
+      <span class="wire-stat">2002 – 2008</span>
+      <span class="wire-sep">·</span>
+      <span class="wire-stat">5 seasons</span>
+    </div>
+    <p class="wire-desc">Not a cops-and-robbers show. Five seasons tracking one city through multiple institutions at once.</p>
+  </div>
+
+  <div class="wire-inst-grid">
+    <div class="wire-inst-card wire-inst--street">
+      <div class="wire-inst-icon"><i data-lucide="crosshair"></i></div>
+      <div class="wire-inst-body">
+        <span class="wire-inst-name">The Street</span>
+        <span class="wire-inst-desc">West Baltimore drug trade</span>
+      </div>
+    </div>
+    <div class="wire-inst-card wire-inst--police">
+      <div class="wire-inst-icon"><i data-lucide="shield"></i></div>
+      <div class="wire-inst-body">
+        <span class="wire-inst-name">The Police</span>
+        <span class="wire-inst-desc">Baltimore PD, the stats game</span>
+      </div>
+    </div>
+    <div class="wire-inst-card wire-inst--politics">
+      <div class="wire-inst-icon"><i data-lucide="landmark"></i></div>
+      <div class="wire-inst-body">
+        <span class="wire-inst-name">City Hall</span>
+        <span class="wire-inst-desc">Politics, ambition, compromise</span>
+      </div>
+    </div>
+    <div class="wire-inst-card wire-inst--schools">
+      <div class="wire-inst-icon"><i data-lucide="book-open"></i></div>
+      <div class="wire-inst-body">
+        <span class="wire-inst-name">The Schools</span>
+        <span class="wire-inst-desc">Season 4, four kids, the system</span>
+      </div>
+    </div>
+    <div class="wire-inst-card wire-inst--docks wire-inst-wide">
+      <div class="wire-inst-icon"><i data-lucide="anchor"></i></div>
+      <div class="wire-inst-body">
+        <span class="wire-inst-name">The Docks</span>
+        <span class="wire-inst-desc">Season 2, stevedores, a dying industry</span>
+      </div>
+    </div>
+  </div>
+
+  <p class="wire-hook">Complex enough to be worth modelling.</p>
+
+  <aside class="notes">
+    Quick context for anyone who hasn't seen it. Do not sell the show — just give enough to follow the talk.
+
+    Key points: it is not a simple good-versus-evil narrative. The institutions are as important as the individuals. The drug organisations, the police, politics, the schools, the docks — each gets its own season of focus.
+
+    The phrase "the game is the game" comes from the show. It is used across multiple contexts — the street, the police, politics. That is what this talk is testing.
+
+    Transition: So — in a show this complicated — who actually wins?
+  </aside>
+</section>
+
+<!-- ── 2: The question ──────────────────────────────────────────────────── -->
+<section>
+  <h2>Who wins the game?</h2>
+  <div class="suspect-grid">
+    <div class="suspect-card">
+      <div class="suspect-photo">
+        <img src="assets/characters/avon.jpg" alt="Avon Barksdale">
+      </div>
+      <div class="suspect-info">
+        <span class="suspect-name">Avon</span>
+        <span class="suspect-tag">West Side, three seasons</span>
+      </div>
+    </div>
+    <div class="suspect-card">
+      <div class="suspect-photo">
+        <img src="assets/characters/stringer.jpg" alt="Stringer Bell">
+      </div>
+      <div class="suspect-info">
+        <span class="suspect-name">Stringer</span>
+        <span class="suspect-tag">Tried to go legit</span>
+      </div>
+    </div>
+    <div class="suspect-card">
+      <div class="suspect-photo">
+        <img src="assets/characters/marlo.jpg" alt="Marlo Stanfield">
+      </div>
+      <div class="suspect-info">
+        <span class="suspect-name">Marlo</span>
+        <span class="suspect-tag">Took the whole city</span>
+      </div>
+    </div>
+    <div class="suspect-card">
+      <div class="suspect-photo">
+        <img src="assets/characters/mcnulty.jpg" alt="Jimmy McNulty">
+      </div>
+      <div class="suspect-info">
+        <span class="suspect-name">McNulty</span>
+        <span class="suspect-tag">Broke every rule going</span>
+      </div>
+    </div>
+    <div class="suspect-card">
+      <div class="suspect-photo">
+        <img src="assets/characters/carcetti.png" alt="Tommy Carcetti">
+      </div>
+      <div class="suspect-info">
+        <span class="suspect-name">Carcetti</span>
+        <span class="suspect-tag">Won the mayor's race</span>
+      </div>
+    </div>
+    <div class="suspect-card suspect-card--open">
+      <div class="suspect-photo suspect-photo--empty">
+        <i data-lucide="circle-help"></i>
+      </div>
+      <div class="suspect-info">
+        <span class="suspect-name">Nobody?</span>
+        <span class="suspect-tag">Maybe that is the point</span>
+      </div>
+    </div>
+  </div>
+
+  <aside class="notes">
+    Let these land. Brief note on each:
+
+    Avon — runs the west side for three seasons. Gets locked up, comes back, gets locked up again.
+
+    Stringer — tries to go legit. Ends up dead before he makes it.
+
+    Marlo — takes over the whole city. Then gets forced out into respectability, which he hates more than prison.
+
+    McNulty — retires. Comes back. Breaks every rule available. Gets pushed out again.
+
+    Carcetti — wins the mayor's race. Compromises everything in the process. Then does it again to run for governor.
+
+    "Nobody" is tempting but it is too easy and not quite right.
+
+    Do not answer yet. Let the question sit. The graph will answer it.
+
+    Transition: Before the answer, here is how I built the model.
+  </aside>
+</section>
+
+<!-- ── 3: The setup ─────────────────────────────────────────────────────── -->
+<section>
+  <h2>I modelled it as a graph</h2>
+  <div class="model-grid">
+    <div class="model-card model-card--person">
+      <span class="model-dot"></span>
+      <div class="model-body">
+        <span class="model-label">People</span>
+        <span class="model-eg">Avon · Stringer · Omar · McNulty</span>
+      </div>
+    </div>
+    <div class="model-card model-card--org">
+      <span class="model-dot"></span>
+      <div class="model-body">
+        <span class="model-label">Organisations</span>
+        <span class="model-eg">Barksdale Org · Baltimore PD · City Hall</span>
+      </div>
+    </div>
+    <div class="model-card model-card--role">
+      <span class="model-dot"></span>
+      <div class="model-body">
+        <span class="model-label">Roles</span>
+        <span class="model-eg">Kingpin · Outside Predator · Detective</span>
+      </div>
+    </div>
+    <div class="model-card model-card--rel">
+      <span class="model-dot"></span>
+      <div class="model-body">
+        <span class="model-label">Relationships</span>
+        <span class="model-eg">LEADS · WORKS_FOR · TARGETS · INFORMS</span>
+      </div>
+    </div>
+    <div class="model-card model-card--time model-wide">
+      <span class="model-dot"></span>
+      <div class="model-body">
+        <span class="model-label">Time</span>
+        <span class="model-eg">Same graph. Different edges active per season.</span>
+      </div>
+    </div>
+  </div>
+
+  <aside class="notes">
+    Five node types. Keep this brief — no graph theory lecture.
+
+    People: the characters. Avon, Stringer, Omar, McNulty, Marlo, Namond, Michael, Clay Davis.
+
+    Organisations: the institutions. Barksdale org, Stanfield org, Baltimore Police, City Hall, School System.
+
+    Roles: structural positions that outlast individuals. Outside Predator. Kingpin. Rule-Bending Detective. The person changes — the role stays.
+
+    And Time. This is what makes the model useful. Not just a snapshot. A model that evolves across all five seasons.
+
+    Transition: But before the model — where did the data actually come from?
+  </aside>
+</section>
+
+<!-- ── 3b: How the data got in ──────────────────────────────────────────── -->
+<section>
+  <h2>Before this talk — the actual experiment</h2>
+
+  <div class="pipeline">
+    <div class="pipeline-step">
+      <span class="step-num">1</span>
+      <div class="step-body">
+        <span class="step-title">Raw transcripts</span>
+        <span class="step-sub">All 5 seasons, scene by scene</span>
+      </div>
+    </div>
+    <div class="pipeline-step">
+      <span class="step-num">2</span>
+      <div class="step-body">
+        <span class="step-title">AI speaker ID</span>
+        <span class="step-sub">Attribute every line of dialogue</span>
+      </div>
+    </div>
+    <div class="pipeline-step">
+      <span class="step-num">3</span>
+      <div class="step-body">
+        <span class="step-title">Neo4j</span>
+        <span class="step-sub">Characters, relationships, centrality scores</span>
+      </div>
+    </div>
+    <div class="pipeline-step pipeline-step--accent">
+      <span class="step-num">4</span>
+      <div class="step-body">
+        <span class="step-title">This graph</span>
+        <span class="step-sub">The model driving this talk</span>
+      </div>
+    </div>
+  </div>
+
+  <a class="experiment-cta" href="https://experiments.swm.cc/the-wire-graph/" target="_blank">
+    <div class="cta-body">
+      <span class="cta-label">Live experiment</span>
+      <span class="cta-url">experiments.swm.cc/the-wire-graph</span>
+    </div>
+    <span class="cta-desc">Pipeline writeup · Neo4j queries · Source data</span>
+    <span class="cta-icon">↗</span>
+  </a>
+
+  <aside class="notes">
+    This talk came out of a real experiment, not a thought experiment.
+
+    The starting point: raw transcripts for all five seasons. The problem with transcripts is speaker attribution — you get the dialogue but not always who said what. I used AI to work through that attribution pipeline.
+
+    From there, the data went into Neo4j. Characters as nodes. Relationships as edges. Then I ran actual graph queries: shortest paths between characters, centrality metrics to find the connectors, community detection to see which clusters formed.
+
+    That analysis is what shaped the model you are seeing in this talk. The experiments page documents the pipeline if anyone wants to dig into it.
+
+    Key point to make: "I wanted to test this rather than just talk about it. So I ran the data first."
+
+    Transition: Now here is the design decision that makes the graph useful across all five seasons.
+  </aside>
+</section>
+
+<!-- ── 4: One graph, changing timeline ──────────────────────────────────── -->
+<section>
+  <h2>Same graph, different active relationships</h2>
+
+  <div class="timeline">
+    <div class="tl-row">
+      <span class="tl-label">S1</span>
+      <div class="tl-track"><div class="tl-fill" style="--offset: 0%"></div></div>
+    </div>
+    <div class="tl-row">
+      <span class="tl-label">S2</span>
+      <div class="tl-track"><div class="tl-fill" style="--offset: 20%"></div></div>
+    </div>
+    <div class="tl-row">
+      <span class="tl-label">S3</span>
+      <div class="tl-track"><div class="tl-fill" style="--offset: 40%"></div></div>
+    </div>
+    <div class="tl-row">
+      <span class="tl-label">S4</span>
+      <div class="tl-track"><div class="tl-fill" style="--offset: 60%"></div></div>
+    </div>
+    <div class="tl-row">
+      <span class="tl-label">S5</span>
+      <div class="tl-track"><div class="tl-fill" style="--offset: 80%"></div></div>
+    </div>
+  </div>
+
+  <div class="tl-facts">
+    <div class="tl-fact">
+      <span class="tlf-label">Nodes</span>
+      <span class="tlf-value">Persist across all seasons</span>
+    </div>
+    <div class="tl-fact">
+      <span class="tlf-label">Edges</span>
+      <span class="tlf-value">Switch on and off per season</span>
+    </div>
+    <div class="tl-fact">
+      <span class="tlf-label">Roles</span>
+      <span class="tlf-value">Move between people over time</span>
+    </div>
+    <div class="tl-fact">
+      <span class="tlf-label">Relationships</span>
+      <span class="tlf-value">Shift as the story changes</span>
+    </div>
+  </div>
+
+  <aside class="notes">
+    This is the architectural decision that makes everything else work.
+
+    I am not building five separate graphs — one per season. That gives you snapshots, not dynamics.
+
+    One graph. Every edge has a season_start and a season_end.
+
+    When Avon goes to prison, his LEADS edge to Barksdale Org becomes inactive. The node stays. The edge just stops being live.
+
+    When you move from Season 1 to Season 2 in the demo, you are not switching graphs. You are asking: which edges are active right now?
+
+    This is where the graph gets useful. Same model. Different point in the timeline.
+
+    Transition: But first — what exactly is "the game"? Worth being clear on this before running the experiments.
+  </aside>
+</section>
+
+<!-- ── 5: What is "the game"? ───────────────────────────────────────────── -->
+<section>
+  <h2>The game is not only the street</h2>
+  <div class="games-grid">
+    <div class="game-card">
+      <div class="game-top">
+        <span class="game-name">Drug Trade</span>
+        <span class="game-badge">PLAYS_GAME</span>
+      </div>
+      <span class="game-players">Barksdale · Stanfield · Omar</span>
+    </div>
+    <div class="game-card">
+      <div class="game-top">
+        <span class="game-name">Police Stats</span>
+        <span class="game-badge">PLAYS_GAME</span>
+      </div>
+      <span class="game-players">Baltimore PD · CompStat</span>
+    </div>
+    <div class="game-card">
+      <div class="game-top">
+        <span class="game-name">Politics</span>
+        <span class="game-badge">PLAYS_GAME</span>
+      </div>
+      <span class="game-players">City Hall · Carcetti · Clay Davis</span>
+    </div>
+    <div class="game-card">
+      <div class="game-top">
+        <span class="game-name">Schools</span>
+        <span class="game-badge">PLAYS_GAME</span>
+      </div>
+      <span class="game-players">Tilghman Middle · Season 4</span>
+    </div>
+    <div class="game-card game-card--wide">
+      <div class="game-top">
+        <span class="game-name">The Docks</span>
+        <span class="game-badge">PLAYS_GAME</span>
+      </div>
+      <span class="game-players">Stevedores Union · Season 2</span>
+    </div>
+  </div>
+
+  <aside class="notes">
+    In the show, "the game is the game" starts as a street-level phrase. Avon says it. Omar says it. It is about the drug trade.
+
+    But once you start modelling, the same structure shows up everywhere.
+
+    The police have a game: CompStat, clearance rates, political visibility. Not justice. Numbers.
+
+    Carcetti is playing the political game. Baltimore is a stepping stone and everyone knows it.
+
+    The schools are trapped in their own version — teaching to tests, protecting budget lines, the kids as throughput.
+
+    Briefly: the docks in Season 2, the stevedores trying to keep a dying industry alive by making compromises.
+
+    Not going to turn this into a full institutional analysis. Just worth noting: the pattern is not exclusive to the street.
+
+    Transition: Right. Let's look at the actual graph.
+  </aside>
+</section>
+
+<!-- ── 6: Interactive graph demo ────────────────────────────────────────── -->
+<section id="demo-slide" class="demo-slide">
+  <h2 class="demo-heading">The Graph</h2>
+  <div id="graph-container">
+    <div id="cy"></div>
+    <div id="controls">
+
+      <div class="control-section">
+        <span class="ctrl-label">Season</span>
+        <div class="season-controls">
+          <button class="season-btn active" data-season="1">S1</button>
+          <button class="season-btn"        data-season="2">S2</button>
+          <button class="season-btn"        data-season="3">S3</button>
+          <button class="season-btn"        data-season="4">S4</button>
+          <button class="season-btn"        data-season="5">S5</button>
+        </div>
+      </div>
+
+      <div class="control-section">
+        <span class="ctrl-label">Experiments</span>
+        <label class="toggle">
+          <input type="checkbox" id="toggle-avon">
+          <span>Remove Avon</span>
+        </label>
+        <label class="toggle">
+          <input type="checkbox" id="toggle-mcnulty">
+          <span>Remove McNulty</span>
+        </label>
+      </div>
+
+      <div class="control-section">
+        <span class="ctrl-label">Show</span>
+        <label class="toggle">
+          <input type="checkbox" id="toggle-roles">
+          <span>Roles</span>
+        </label>
+        <label class="toggle">
+          <input type="checkbox" id="toggle-games">
+          <span>Games</span>
+        </label>
+      </div>
+
+      <div id="status-text"></div>
+
+      <div class="legend">
+        <div class="legend-item"><span class="legend-dot person"></span>Person</div>
+        <div class="legend-item"><span class="legend-dot organisation"></span>Organisation</div>
+        <div class="legend-item"><span class="legend-dot role"></span>Role</div>
+        <div class="legend-item"><span class="legend-dot game"></span>Game</div>
+      </div>
+
+    </div>
+  </div>
+
+  <aside class="notes">
+    [Graph initialises automatically when you land on this slide]
+
+    Start with Season 1. People and organisations only — Roles and Games hidden to keep it readable.
+
+    Point out the key clusters:
+    — Barksdale org and its connections centre-left
+    — Baltimore Police and McNulty on the right
+    — Omar sitting between them, targeting the Barksdale side
+
+    [Click S2] Watch what changes. Stringer starts leading directly. Avon's edges fade.
+
+    [Click S3] Marlo's org begins appearing. Barksdale is weakening. Both orgs are now in the drug trade game.
+
+    [Toggle Roles ON] Now you can see the structural positions. Notice how the Kingpin role shifts from Avon toward Marlo across the seasons.
+
+    [Click S5, then toggle Remove Avon] The Barksdale org reorganises. The investigation edges stay. The games continue.
+
+    Key observation: removing Avon changes the local graph. It does not collapse the system.
+
+    Transition: Let me be more specific about what that experiment actually shows.
+  </aside>
+</section>
+
+<!-- ── 7: Experiment — remove Avon ──────────────────────────────────────── -->
+<section>
+  <h2>What happens if Avon is removed?</h2>
+  <div class="two-col">
+    <div>
+      <p class="col-label">Before</p>
+      <div class="edge-list">
+        <div class="edge-item">Avon <span class="edge-type">LEADS</span> Barksdale Org</div>
+        <div class="edge-item">Stringer <span class="edge-type">WORKS_FOR</span> Avon</div>
+        <div class="edge-item">Barksdale Org <span class="edge-type">CONTROLS</span> territory</div>
+      </div>
+    </div>
+    <div>
+      <p class="col-label">After</p>
+      <div class="edge-list">
+        <div class="edge-item">Stringer <span class="edge-type">LEADS</span> Barksdale Org</div>
+        <div class="edge-item">Barksdale Org <span class="edge-type">CONTROLS</span> territory</div>
+      </div>
+    </div>
+  </div>
+
+  <aside class="notes">
+    Walk through this clearly.
+
+    Before: Avon leads the org. Stringer reports to Avon. The org controls territory. The police are investigating. Omar is targeting them.
+
+    After Avon goes to prison in Season 2: Stringer leads directly. The territory edges stay. The investigation edges stay. Omar is still out there.
+
+    Key line: "Avon goes. Stringer gets the bump. The relationships change, but the game carries on."
+
+    Important nuance — do not shortcut this: I am not saying nothing changes. Stringer leads differently. He is more political. He tries to transition out of the game entirely. That matters locally.
+
+    But structurally? The organisation still controls territory. The police still investigate. The competition with Stanfield continues. The game carries on.
+
+    Transition: So what does the graph "carrying on" actually mean?
+  </aside>
+</section>
+
+<!-- ── 8: The graph reorganises ─────────────────────────────────────────── -->
+<section>
+  <h2>It does not stay the same</h2>
+  <div class="reorg-split">
+    <div class="reorg-left">
+      <span class="reorg-col-label">What changes locally</span>
+      <div class="reorg-items">
+        <div class="reorg-item">Leadership changes.</div>
+        <div class="reorg-item">Relationships shift.</div>
+        <div class="reorg-item">The organisation adapts.</div>
+      </div>
+    </div>
+    <div class="reorg-right">
+      <span class="reorg-col-label">What persists</span>
+      <p class="reorg-persist">The game carries on.</p>
+    </div>
+  </div>
+
+  <aside class="notes">
+    This slide does important work. Do not rush it.
+
+    The graph does change. Locally, it is a different structure. Stringer-led Barksdale is not the same as Avon-led Barksdale.
+
+    Stringer tries to get out of the game itself — he starts buying into Clay Davis's political machine, tries to legitimise the money. That is a different set of edges.
+
+    But the system-level structure persists:
+    — An organisation still controls territory.
+    — The police are still investigating.
+    — Competition from Stanfield is intensifying.
+    — The drug trade game carries on.
+
+    The graph reorganises locally. The wider pattern does not collapse.
+
+    This is the honest version of "the game is the game" — it is not fatalism, it is a structural observation. The system continues regardless of who occupies which node.
+
+    Transition: And the clearest way to see that is through roles.
+  </aside>
+</section>
+
+<!-- ── 9: Roles get reoccupied ──────────────────────────────────────────── -->
+<section>
+  <h2>People change. Roles get reoccupied.</h2>
+  <div class="role-grid">
+    <div class="role-item">
+      <span class="person-name">Omar</span>
+      <span class="role-arrow">→</span>
+      <span class="role-name">Outside Predator</span>
+    </div>
+    <div class="role-item">
+      <span class="person-name">Michael</span>
+      <span class="role-arrow">→</span>
+      <span class="role-name">Outside Predator</span>
+    </div>
+    <div class="role-item">
+      <span class="person-name">McNulty</span>
+      <span class="role-arrow">→</span>
+      <span class="role-name">Rule-Bending Detective</span>
+    </div>
+    <div class="role-item">
+      <span class="person-name">Sydnor</span>
+      <span class="role-arrow">→</span>
+      <span class="role-name">Rule-Bending Detective</span>
+    </div>
+  </div>
+
+  <aside class="notes">
+    This is the most interesting structural observation in the model.
+
+    The naive version would be "Michael becomes Omar". That feels wrong — different characters, different arcs, different contexts.
+
+    The graph gives you a better framing. Michael does not become Omar. He starts occupying the same structural position in the graph.
+
+    Omar occupies the Outside Predator role from Season 1 through to his death in Season 5. He operates outside both the police and the drug organisations. Takes what he wants. Answers to no-one.
+
+    Michael in Season 5 is doing the same thing. Different person. Same position.
+
+    Same for McNulty and Sydnor. Sydnor is not McNulty — he is more disciplined, more political, better at the institution. But by Season 5 he is doing what McNulty always did: bending the rules to work the case, chasing what the institution does not want chased.
+
+    The person changes. The role is reoccupied.
+
+    This is what makes the graph useful — it lets you say something precise without overclaiming.
+
+    Transition: Now — does anyone actually escape this structure?
+  </aside>
+</section>
+
+<!-- ── 10: The exception ─────────────────────────────────────────────────── -->
+<section>
+  <h2>Some stop. Some just find a different game.</h2>
+  <p class="large-answer">Namond might.</p>
+
+  <div class="exception-grid">
+    <div class="exception-col exception-col--out">
+      <span class="excol-label">Stopped playing</span>
+      <div class="exc-names">
+        <span class="exc-name">Namond</span>
+        <span class="exc-name">Bubbles</span>
+        <span class="exc-name">Cutty</span>
+        <span class="exc-name">Poot</span>
+      </div>
+    </div>
+    <div class="exception-col exception-col--switch">
+      <span class="excol-label">Changed arenas</span>
+      <div class="exc-names">
+        <div class="exc-move-item">
+          <span class="exc-name">Carcetti</span>
+          <span class="exc-move">Governor race</span>
+        </div>
+        <div class="exc-move-item">
+          <span class="exc-name">Rawls</span>
+          <span class="exc-move">State Police</span>
+        </div>
+      </div>
+    </div>
+    <div class="exception-col exception-col--persist">
+      <span class="excol-label">The Game carried on</span>
+      <div class="exc-roles">
+        <span class="exc-role">Kingpin reoccupied</span>
+        <span class="exc-role">Outside Predator reoccupied</span>
+        <span class="exc-role">Stats game unchanged</span>
+      </div>
+    </div>
+  </div>
+
+  <p class="exception-punchline">
+    <span class="ep-line">Namond didn't win the game. He stopped playing it.</span>
+    <span class="ep-line">Carcetti and Rawls didn't even stop. They just found a bigger table.</span>
+    <span class="ep-line ep-kicker">The game carried on regardless.</span>
+  </p>
+
+  <aside class="notes">
+    The talk would be too deterministic without Namond. He stops the argument becoming "nobody can ever leave".
+
+    He is one of the few characters who might genuinely get out. Colvin intervenes in Season 4. Namond goes to a different environment, a different life.
+
+    But notice what the graph says: Namond gets out. The game does not end.
+
+    His MEMBER_OF edge to the Barksdale org fades out in Season 4. The rest of the graph carries on without him.
+
+    He does not win the game. He stops playing it. That is a different thing entirely.
+
+    Optional line if it feels right: "There is also that uncomfortable echo — by Season 4, Namond is already starting to talk like Clay Davis. The performer, the charmer, the one who works the room. Different arena. Same kind of game."
+
+    Some people get out. Most people get replaced. The game carries on.
+
+    Transition: And the game is not limited to one arena.
+  </aside>
+</section>
+
+<!-- ── 11: Across organisations ─────────────────────────────────────────── -->
+<section>
+  <h2>Different arenas, same pattern</h2>
+  <div class="arena-grid">
+    <div class="arena-card">
+      <span class="arena-name">The Street</span>
+      <span class="arena-org">Barksdale · Stanfield</span>
+      <span class="arena-tag">Drug Trade Game</span>
+    </div>
+    <div class="arena-card">
+      <span class="arena-name">The Police</span>
+      <span class="arena-org">Baltimore PD · CompStat</span>
+      <span class="arena-tag">Police Stats Game</span>
+    </div>
+    <div class="arena-card">
+      <span class="arena-name">Politics</span>
+      <span class="arena-org">City Hall · Carcetti</span>
+      <span class="arena-tag">Political Game</span>
+    </div>
+    <div class="arena-card">
+      <span class="arena-name">The Schools</span>
+      <span class="arena-org">Tilghman Middle · Season 4</span>
+      <span class="arena-tag">School System Game</span>
+    </div>
+  </div>
+
+  <aside class="notes">
+    Keep this short. One pass. Not a full institutional analysis.
+
+    The street game is the most visible one. Most of the show's complexity comes from showing the same structural problem in different contexts.
+
+    Police: they are not corrupt in the usual sense. They are trapped in a stats game. CompStat. Clearance rates. Crime numbers down for the press conference. Not justice. Numbers. Bunny Colvin tries to step outside it and gets destroyed.
+
+    Politics: Carcetti is a true believer who becomes a pragmatist. The political game does that. He knows Baltimore is a stepping stone. The machine knows it. The compromises stack up.
+
+    Schools: four kids in Season 4. Four different outcomes. All of them shaped more by the structure around them than by their own choices. The teachers know it. The system rewards something else.
+
+    Different arenas. Same pattern.
+
+    Transition: So — after all of this — who wins?
+  </aside>
+</section>
+
+<!-- ── 12: So who wins? ─────────────────────────────────────────────────── -->
+<section>
+  <h2>Who wins the game?</h2>
+  <div class="answer-stack">
+    <div class="ans-item">People win moments.</div>
+    <div class="ans-item">Some people get out.</div>
+    <div class="ans-item">Most roles get reoccupied.</div>
+    <div class="ans-item ans-final">The game carries on.</div>
+  </div>
+
+  <aside class="notes">
+    The answer. Say it simply. Do not overtalk it.
+
+    People win moments: Avon wins Season 1. Marlo wins Season 4 and 5. Carcetti wins an election. Omar wins a lot of corners and a lot of stick-ups.
+
+    Some people get out: Namond might. Bubbles eventually. Cutty manages it.
+
+    Most roles get reoccupied: Kingpin moves from Avon to Marlo. Outside Predator moves from Omar to Michael. Rule-Bending Detective moves from McNulty to Sydnor.
+
+    When you look at the graph — the thing that keeps surviving, the thing that no single node removal affects — is the game itself.
+
+    Pause here. Let it land.
+
+    That is the honest answer to "who wins the game."
+
+    Transition: And here is why I think the graph is the right tool for this question.
+  </aside>
+</section>
+
+<!-- ── 13: Collective Engine nod ────────────────────────────────────────── -->
+<section>
+  <h2>Why graphs matter</h2>
+  <div class="graph-ops">
+    <div class="op-comment">// a graph lets you test change</div>
+    <div class="op-line">
+      <span class="op-kw">remove</span>
+      <span class="op-node">avon_barksdale</span>
+    </div>
+    <div class="op-line">
+      <span class="op-kw">change_edge</span>
+      <span class="op-node">stringer_bell</span>
+      <span class="op-rel">LEADS</span>
+      <span class="op-node">barksdale_org</span>
+    </div>
+    <div class="op-line">
+      <span class="op-kw">set_season</span>
+      <span class="op-val">3</span>
+    </div>
+    <div class="op-result">
+      <span class="op-arrow">→</span> observe what actually changes
+    </div>
+  </div>
+
+  <aside class="notes">
+    The interesting bit for me is not just the answer. It is that the graph let me test it.
+
+    Remove a node and see what actually changes — not what you assumed would change.
+
+    Move the timeline forward and watch the relationships shift.
+
+    Show where roles get reoccupied without the person who was filling them.
+
+    The model makes the question testable. That is the useful thing.
+
+    Collective Engine line — keep it short: "That is one of the things we are exploring with Collective Engine: model the system as a graph, change it, and observe what actually changes. Not what you expect. What actually happens."
+
+    End there. No summary slide. Open for questions.
+
+    [Press S to close speaker view]
+  </aside>
+</section>
+
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/plugin/notes/notes.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.29.2/cytoscape.min.js"></script>
+<script src="js/graph-demo.js"></script>
+<script>
+  Reveal.initialize({
+    hash:        true,
+    controls:    true,
+    progress:    true,
+    center:      false,
+    transition:  'fade',
+    width:       1280,
+    height:      720,
+    margin:      0.07,
+    slideNumber: 'c/t',
+    plugins:     [ RevealNotes ],
+  });
+
+  lucide.createIcons();
+</script>
+</body>
+</html>

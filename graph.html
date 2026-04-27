@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Wire — Graph Explorer</title>
+  <style>
+    :root {
+      --bg:            #0d1117;
+      --surface:       #161b22;
+      --surface-2:     #1c2128;
+      --border:        #30363d;
+      --border-dim:    rgba(48,54,61,0.5);
+      --text:          #e6edf3;
+      --muted:         #8b949e;
+      --accent:        #58a6ff;
+      --accent-dim:    rgba(88,166,255,0.12);
+      --accent-border: rgba(88,166,255,0.28);
+      --red:           #f85149;
+      --red-dim:       rgba(248,81,73,0.12);
+      --red-border:    rgba(248,81,73,0.3);
+      --gold:          #f0b429;
+      --gold-dim:      rgba(240,180,41,0.12);
+      --gold-border:   rgba(240,180,41,0.35);
+      --person:        #58a6ff;
+      --org:           #e3b341;
+      --role:          #bc8cff;
+      --game:          #3fb950;
+      --mono:          'SF Mono','Fira Code','Cascadia Code','Consolas',monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ── Header ── */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.6em 1.2em;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+      gap: 1em;
+    }
+
+    header h1 { font-size: 0.88em; font-weight: 600; letter-spacing: -0.01em; }
+    header h1 em { color: var(--accent); font-style: italic; }
+    header .hint { font-size: 0.68em; color: var(--muted); }
+
+    /* ── Main ── */
+    .main { display: flex; flex: 1; overflow: hidden; min-height: 0; }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: 216px;
+      flex-shrink: 0;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    .sb-section { padding: 0.85em 1em; border-bottom: 1px solid var(--border); }
+
+    .ctrl-label {
+      display: block;
+      font-size: 0.58em;
+      font-family: var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+      margin-bottom: 0.65em;
+    }
+
+    /* Season */
+    .season-btns { display: flex; gap: 5px; }
+
+    .s-btn {
+      flex: 1;
+      background: var(--surface-2);
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: 5px 0;
+      font-size: 0.65em;
+      font-family: var(--mono);
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.12s, color 0.12s, border-color 0.12s;
+    }
+
+    .s-btn:hover { color: var(--accent); border-color: var(--accent-border); background: var(--accent-dim); }
+    .s-btn.active { color: var(--accent); border-color: var(--accent-border); background: var(--accent-dim); font-weight: 700; }
+
+    /* Toggles */
+    .toggle {
+      display: flex; align-items: center; gap: 0.5em;
+      cursor: pointer; font-size: 0.72em; color: var(--muted);
+      padding: 0.28em 0; user-select: none; transition: color 0.12s;
+    }
+    .toggle:hover { color: var(--text); }
+    .toggle input { accent-color: var(--accent); width: 13px; height: 13px; cursor: pointer; flex-shrink: 0; }
+
+    /* Legend */
+    .legend { display: flex; flex-direction: column; gap: 0.45em; }
+    .legend-row { display: flex; align-items: center; gap: 0.55em; font-size: 0.7em; color: var(--muted); }
+
+    .dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+    .dot.person       { background: var(--person); }
+    .dot.organisation { background: var(--org); }
+    .dot.role         { background: var(--role); }
+    .dot.game         { background: var(--game); }
+
+    .edge-swatch {
+      width: 18px; height: 2px; flex-shrink: 0;
+      border-radius: 1px;
+    }
+    .edge-swatch.inherited { background: var(--gold); }
+
+    /* Info panel */
+    .info-panel { padding: 0.85em 1em; border-bottom: 1px solid var(--border); display: none; }
+    .info-panel.visible { display: block; }
+
+    .info-name { font-size: 0.88em; font-weight: 700; color: var(--text); margin-bottom: 0.15em; }
+    .info-type {
+      font-size: 0.6em; font-family: var(--mono); color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.6em;
+    }
+    .info-connections { font-size: 0.67em; color: var(--muted); line-height: 1.7; margin-bottom: 0.75em; }
+    .info-connections strong { color: var(--text); font-weight: 500; }
+
+    .action-row { display: flex; flex-direction: column; gap: 0.4em; }
+
+    .btn {
+      border-radius: 5px; padding: 0.45em 0.7em; font-size: 0.68em;
+      cursor: pointer; text-align: left; transition: background 0.12s; font-family: inherit; border: 1px solid;
+    }
+    .btn-remove  { background: var(--red-dim);  color: var(--red);    border-color: var(--red-border); }
+    .btn-restore { background: var(--accent-dim); color: var(--accent); border-color: var(--accent-border); display: none; }
+    .btn-remove:hover  { background: rgba(248,81,73,0.22); }
+    .btn-restore:hover { background: rgba(88,166,255,0.22); }
+
+    /* Succession panel */
+    .succession-panel {
+      padding: 0.85em 1em;
+      border-bottom: 1px solid var(--border);
+      display: none;
+    }
+    .succession-panel.visible { display: block; }
+
+    .succession-event {
+      background: var(--gold-dim);
+      border: 1px solid var(--gold-border);
+      border-radius: 6px;
+      padding: 0.55em 0.7em;
+      margin-bottom: 0.45em;
+      font-size: 0.65em;
+      color: var(--gold);
+      line-height: 1.5;
+    }
+    .succession-event:last-child { margin-bottom: 0; }
+    .succession-event .se-note { display: block; font-weight: 600; margin-bottom: 0.15em; }
+    .succession-event .se-from { color: rgba(240,180,41,0.65); font-family: var(--mono); font-size: 0.88em; }
+
+    /* Removed list */
+    .removed-panel { padding: 0.85em 1em; border-bottom: 1px solid var(--border); display: none; }
+    .removed-panel.visible { display: block; }
+
+    .removed-tag {
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 0.68em;
+      background: var(--red-dim);
+      border: 1px solid var(--red-border);
+      border-radius: 4px;
+      padding: 0.3em 0.5em 0.3em 0.7em;
+      color: var(--red);
+      margin-bottom: 0.4em;
+    }
+    .removed-tag:last-child { margin-bottom: 0; }
+    .removed-tag button {
+      background: none; border: none; color: var(--red); cursor: pointer;
+      font-size: 1em; opacity: 0.55; transition: opacity 0.12s; padding: 0 0.2em; font-family: inherit;
+    }
+    .removed-tag button:hover { opacity: 1; }
+
+    /* Graph canvas */
+    #cy {
+      flex: 1;
+      background: #0a0d14;
+      background-image:
+        radial-gradient(circle at 22% 22%, rgba(88,166,255,0.04) 0%, transparent 55%),
+        radial-gradient(circle at 78% 76%, rgba(188,140,255,0.03) 0%, transparent 50%);
+    }
+
+    /* Status bar */
+    .statusbar {
+      height: 30px;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      display: flex; align-items: center;
+      padding: 0 1em; gap: 1.4em; flex-shrink: 0;
+    }
+
+    .st { font-size: 0.6em; font-family: var(--mono); color: var(--muted); }
+    .st b { color: var(--text); font-weight: 600; }
+    .st.gold b { color: var(--gold); }
+
+    .reset-btn {
+      margin-left: auto;
+      background: transparent; color: var(--muted);
+      border: 1px solid var(--border); border-radius: 4px;
+      padding: 3px 12px; font-size: 0.6em; font-family: var(--mono);
+      cursor: pointer; transition: color 0.12s, border-color 0.12s;
+    }
+    .reset-btn:hover { color: var(--text); border-color: var(--muted); }
+
+    /* Tooltip */
+    #tooltip {
+      position: fixed;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 6px; padding: 0.4em 0.75em;
+      font-size: 0.72em; color: var(--text);
+      pointer-events: none; display: none; z-index: 999;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.45);
+    }
+    .tt-name { font-weight: 600; }
+    .tt-type { color: var(--muted); font-size: 0.85em; font-family: var(--mono); }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Putting <em>The Wire</em> on the Graph</h1>
+  <span class="hint">Click any node to explore. Remove characters to see how the graph reorganises.</span>
+</header>
+
+<div class="main">
+  <div class="sidebar">
+
+    <div class="sb-section">
+      <span class="ctrl-label">Season</span>
+      <div class="season-btns">
+        <button class="s-btn active" data-season="1">S1</button>
+        <button class="s-btn"        data-season="2">S2</button>
+        <button class="s-btn"        data-season="3">S3</button>
+        <button class="s-btn"        data-season="4">S4</button>
+        <button class="s-btn"        data-season="5">S5</button>
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <span class="ctrl-label">Show</span>
+      <label class="toggle"><input type="checkbox" id="show-roles"> Roles</label>
+      <label class="toggle"><input type="checkbox" id="show-games"> Games</label>
+      <label class="toggle"><input type="checkbox" id="fade-inactive" checked> Fade inactive edges</label>
+    </div>
+
+    <div class="sb-section">
+      <span class="ctrl-label">Legend</span>
+      <div class="legend">
+        <div class="legend-row"><span class="dot person"></span>Person</div>
+        <div class="legend-row"><span class="dot organisation"></span>Organisation</div>
+        <div class="legend-row"><span class="dot role"></span>Role</div>
+        <div class="legend-row"><span class="dot game"></span>Game</div>
+        <div class="legend-row" style="margin-top:0.3em">
+          <span class="edge-swatch inherited" style="border-top: 2px dashed var(--gold); background: none; height:0; margin-top:1px"></span>
+          Inherited edge
+        </div>
+      </div>
+    </div>
+
+    <!-- Node info panel -->
+    <div class="info-panel" id="info-panel">
+      <div class="info-name" id="info-name"></div>
+      <div class="info-type" id="info-type"></div>
+      <div class="info-connections" id="info-connections"></div>
+      <div class="action-row">
+        <button class="btn btn-restore" id="restore-btn">Restore this node</button>
+        <button class="btn btn-remove"  id="remove-btn">Remove this node</button>
+      </div>
+    </div>
+
+    <!-- Succession events panel -->
+    <div class="succession-panel" id="succession-panel">
+      <span class="ctrl-label">Graph rewrite</span>
+      <div id="succession-events"></div>
+    </div>
+
+    <!-- Removed nodes list -->
+    <div class="removed-panel" id="removed-panel">
+      <span class="ctrl-label">Removed</span>
+      <div id="removed-tags"></div>
+    </div>
+
+  </div>
+
+  <div id="cy"></div>
+</div>
+
+<div class="statusbar">
+  <div class="st">Season <b id="st-season">1</b></div>
+  <div class="st">Nodes <b id="st-nodes">—</b></div>
+  <div class="st">Active edges <b id="st-edges">—</b></div>
+  <div class="st gold" id="st-inherited-wrap" style="display:none">Inherited <b id="st-inherited">0</b></div>
+  <button class="reset-btn" id="reset-btn">Reset all</button>
+</div>
+
+<div id="tooltip">
+  <div class="tt-name" id="tt-name"></div>
+  <div class="tt-type" id="tt-type"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.29.2/cytoscape.min.js"></script>
+<script>
+let cy            = null;
+let graphData     = null;
+let currentSeason = 1;
+let removedNodes  = new Set();
+let selectedId    = null;
+let showRoles     = false;
+let showGames     = false;
+let fadeInactive  = true;
+
+// synthetic inherited edges currently in the graph: Map<edgeId, {from_node, rule}>
+let inheritedEdges = new Map();
+
+const EDGE_COLORS = {
+  LEADS:         '#f85149',
+  WORKS_FOR:     '#e3b341',
+  INVESTIGATES:  '#58a6ff',
+  TARGETS:       '#f85149',
+  MEMBER_OF:     '#8b949e',
+  OCCUPIES_ROLE: '#bc8cff',
+  PLAYS_GAME:    '#3fb950',
+  EXPOSED_TO:    '#8b949e',
+  CONTROLS:      '#e67e22',
+};
+
+// ── Style ──────────────────────────────────────────────────────────────────
+
+function buildStyle() {
+  const s = [
+    {
+      selector: 'node',
+      style: {
+        label: 'data(label)', color: '#fff',
+        'font-size': 11, 'font-family': "'SF Mono','Fira Code','Consolas',monospace",
+        'text-wrap': 'wrap', 'text-max-width': 80,
+        'text-valign': 'bottom', 'text-margin-y': 7,
+        width: 54, height: 54,
+        'border-width': 2, 'border-color': 'rgba(255,255,255,0.1)',
+        'background-color': '#555',
+        'transition-property': 'opacity', 'transition-duration': '0.18s',
+      }
+    },
+    { selector: 'node[type = "Person"]',       style: { 'background-color': '#58a6ff' } },
+    { selector: 'node[type = "Organisation"]', style: { 'background-color': '#e3b341' } },
+    { selector: 'node[type = "Role"]',         style: { 'background-color': '#bc8cff' } },
+    { selector: 'node[type = "Game"]',         style: { 'background-color': '#3fb950' } },
+    { selector: 'node.selected',  style: { 'border-width': 3, 'border-color': '#fff' } },
+    { selector: 'node.neighbour', style: { 'border-width': 2, 'border-color': 'rgba(255,255,255,0.45)' } },
+    { selector: 'node.dimmed',    style: { opacity: 0.15 } },
+    {
+      selector: 'edge',
+      style: {
+        label: 'data(label)', 'font-size': 8,
+        'font-family': "'SF Mono','Fira Code','Consolas',monospace",
+        color: '#8b949e', 'text-rotation': 'autorotate', 'text-margin-y': -8,
+        'curve-style': 'bezier', 'target-arrow-shape': 'triangle',
+        'line-color': '#30363d', 'target-arrow-color': '#30363d', width: 1.5,
+        'transition-property': 'opacity', 'transition-duration': '0.18s',
+      }
+    },
+  ];
+
+  Object.entries(EDGE_COLORS).forEach(([label, color]) => {
+    s.push({ selector: `edge[label = "${label}"]`, style: { 'line-color': color, 'target-arrow-color': color } });
+  });
+
+  s.push({ selector: 'edge[label = "OCCUPIES_ROLE"]', style: { 'line-style': 'dashed' } });
+  s.push({ selector: 'edge[label = "PLAYS_GAME"]',    style: { 'line-style': 'dotted' } });
+  s.push({ selector: 'edge[label = "TARGETS"]',       style: { 'line-style': 'dashed' } });
+  s.push({ selector: 'edge[label = "EXPOSED_TO"]',    style: { 'line-style': 'dashed' } });
+  s.push({ selector: 'edge.highlighted', style: { width: 2.5, opacity: 1 } });
+  s.push({ selector: 'edge.dimmed',      style: { opacity: 0.06 } });
+
+  // Inherited / rewritten edges — gold, dashed, clearly synthetic
+  s.push({
+    selector: 'edge.inherited',
+    style: {
+      'line-color':          '#f0b429',
+      'target-arrow-color':  '#f0b429',
+      'line-style':          'dashed',
+      width:                 2.5,
+      opacity:               0.95,
+      color:                 '#f0b429',
+    }
+  });
+
+  return s;
+}
+
+// ── Succession logic ───────────────────────────────────────────────────────
+
+function computeInheritedEdges() {
+  // Returns array of {id, source, target, label, from_node, note}
+  const result = [];
+
+  if (!graphData.succession) return result;
+
+  graphData.succession.forEach(entry => {
+    if (!removedNodes.has(entry.when_removed)) return;
+
+    entry.rules.forEach(rule => {
+      const newSource = rule.new_source;
+
+      // Skip if the successor has also been removed
+      if (removedNodes.has(newSource)) return;
+
+      // Skip if target node is hidden (type filtered)
+      const targetNode = graphData.nodes.find(n => n.id === rule.target);
+      if (!targetNode) return;
+      if (!showRoles && targetNode.type === 'Role') return;
+      if (!showGames && targetNode.type === 'Game') return;
+
+      // Skip if this exact edge already exists as a regular (non-removed) edge
+      const alreadyExists = graphData.edges.some(e =>
+        e.source === newSource && e.target === rule.target &&
+        e.label === rule.label &&
+        currentSeason >= e.season_start && currentSeason <= e.season_end
+      );
+      if (alreadyExists) return;
+
+      const edgeId = `inherited__${entry.when_removed}__${newSource}__${rule.label}__${rule.target}`;
+      result.push({
+        id:        edgeId,
+        source:    newSource,
+        target:    rule.target,
+        label:     rule.label,
+        from_node: entry.when_removed,
+        note:      entry.note,
+      });
+    });
+  });
+
+  return result;
+}
+
+function syncInheritedEdges() {
+  const desired   = computeInheritedEdges();
+  const desiredIds = new Set(desired.map(e => e.id));
+
+  // Remove stale inherited edges
+  for (const id of inheritedEdges.keys()) {
+    if (!desiredIds.has(id)) {
+      cy.getElementById(id).remove();
+      inheritedEdges.delete(id);
+    }
+  }
+
+  // Add new inherited edges
+  desired.forEach(spec => {
+    if (inheritedEdges.has(spec.id)) return;
+    // Make sure both endpoints exist and are visible
+    const src = cy.getElementById(spec.source);
+    const tgt = cy.getElementById(spec.target);
+    if (!src.length || !tgt.length) return;
+    if (src.style('display') === 'none' || tgt.style('display') === 'none') return;
+
+    cy.add({
+      group: 'edges',
+      data: { id: spec.id, source: spec.source, target: spec.target, label: spec.label },
+      classes: 'inherited',
+    });
+
+    inheritedEdges.set(spec.id, { from_node: spec.from_node, note: spec.note });
+  });
+
+  renderSuccessionPanel();
+  updateInheritedStatus();
+}
+
+// ── Graph update ───────────────────────────────────────────────────────────
+
+function visibleIds() {
+  const ids = new Set();
+  graphData.nodes.forEach(n => {
+    if (removedNodes.has(n.id))          return;
+    if (!showRoles && n.type === 'Role') return;
+    if (!showGames && n.type === 'Game') return;
+    ids.add(n.id);
+  });
+  return ids;
+}
+
+function activeEdgeIds(season) {
+  const ids = new Set();
+  graphData.edges.forEach(e => {
+    if (season >= e.season_start && season <= e.season_end) ids.add(e.id);
+  });
+  return ids;
+}
+
+function updateGraph() {
+  if (!cy) return;
+  const visible = visibleIds();
+  const active  = activeEdgeIds(currentSeason);
+
+  cy.batch(() => {
+    cy.nodes().forEach(node => {
+      node.style('display', visible.has(node.id()) ? 'element' : 'none');
+    });
+    cy.edges().forEach(edge => {
+      if (edge.hasClass('inherited')) return; // handled separately
+      const sv = visible.has(edge.source().id());
+      const tv = visible.has(edge.target().id());
+      if (!sv || !tv) {
+        edge.style('display', 'none');
+      } else if (active.has(edge.id())) {
+        edge.style({ display: 'element', opacity: 0.85 });
+      } else {
+        edge.style({ display: fadeInactive ? 'element' : 'none', opacity: 0.07 });
+      }
+    });
+  });
+
+  syncInheritedEdges();
+  updateStatus(visible, active);
+  if (selectedId) refreshInfoPanel();
+}
+
+// ── Selection ──────────────────────────────────────────────────────────────
+
+function selectNode(id) {
+  selectedId = id;
+  cy.elements().removeClass('selected dimmed highlighted neighbour');
+  const node  = cy.getElementById(id);
+  const hood  = node.closedNeighborhood();
+  cy.elements().not(hood).addClass('dimmed');
+  hood.edges().addClass('highlighted');
+  hood.nodes().not(node).addClass('neighbour');
+  node.addClass('selected');
+  renderInfoPanel(id);
+}
+
+function clearSelection() {
+  selectedId = null;
+  cy.elements().removeClass('selected dimmed highlighted neighbour');
+  document.getElementById('info-panel').classList.remove('visible');
+}
+
+function refreshInfoPanel() {
+  if (selectedId) renderInfoPanel(selectedId);
+}
+
+function renderInfoPanel(id) {
+  const nodeData = graphData.nodes.find(n => n.id === id);
+  if (!nodeData) return;
+
+  const active = activeEdgeIds(currentSeason);
+
+  // Regular connections
+  const connEdges = graphData.edges.filter(e =>
+    (e.source === id || e.target === id) && active.has(e.id)
+  );
+
+  // Plus any inherited edges touching this node
+  const inheritedConn = [...inheritedEdges.keys()].filter(eid => {
+    const el = cy.getElementById(eid);
+    return el.length && (el.data('source') === id || el.data('target') === id);
+  });
+
+  const lines = connEdges.map(e => {
+    const otherId = e.source === id ? e.target : e.source;
+    const other   = graphData.nodes.find(n => n.id === otherId);
+    return `<strong>${other ? other.label : otherId}</strong> <span style="opacity:.6;font-size:.9em">${e.label}</span>`;
+  });
+
+  inheritedConn.forEach(eid => {
+    const el      = cy.getElementById(eid);
+    const otherId = el.data('source') === id ? el.data('target') : el.data('source');
+    const other   = graphData.nodes.find(n => n.id === otherId);
+    lines.push(`<strong>${other ? other.label : otherId}</strong> <span style="color:var(--gold);font-size:.9em">${el.data('label')} ★</span>`);
+  });
+
+  document.getElementById('info-name').textContent       = nodeData.label;
+  document.getElementById('info-type').textContent       = nodeData.type;
+  document.getElementById('info-connections').innerHTML  =
+    lines.length ? lines.join('<br>') : 'No active connections this season.';
+
+  const isRemoved = removedNodes.has(id);
+  document.getElementById('remove-btn').style.display  = isRemoved ? 'none'  : 'block';
+  document.getElementById('restore-btn').style.display = isRemoved ? 'block' : 'none';
+  document.getElementById('info-panel').classList.add('visible');
+}
+
+// ── Remove / restore ───────────────────────────────────────────────────────
+
+function removeNode(id) {
+  removedNodes.add(id);
+  updateGraph();
+  renderRemovedPanel();
+  clearSelection();
+}
+
+function restoreNode(id) {
+  removedNodes.delete(id);
+  updateGraph();
+  renderRemovedPanel();
+  renderInfoPanel(id);
+}
+
+// ── Succession panel ───────────────────────────────────────────────────────
+
+function renderSuccessionPanel() {
+  const panel  = document.getElementById('succession-panel');
+  const events = document.getElementById('succession-events');
+
+  if (inheritedEdges.size === 0) {
+    panel.classList.remove('visible');
+    return;
+  }
+
+  // Deduplicate by note
+  const seen = new Map(); // note -> from_node label
+  inheritedEdges.forEach(({ from_node, note }) => {
+    if (!seen.has(note)) {
+      const n = graphData.nodes.find(x => x.id === from_node);
+      seen.set(note, n ? n.label : from_node);
+    }
+  });
+
+  events.innerHTML = '';
+  seen.forEach((fromLabel, note) => {
+    const div = document.createElement('div');
+    div.className = 'succession-event';
+    div.innerHTML = `<span class="se-note">${note}</span><span class="se-from">← ${fromLabel} removed</span>`;
+    events.appendChild(div);
+  });
+
+  panel.classList.add('visible');
+}
+
+// ── Removed panel ──────────────────────────────────────────────────────────
+
+function renderRemovedPanel() {
+  const panel = document.getElementById('removed-panel');
+  const tags  = document.getElementById('removed-tags');
+
+  if (removedNodes.size === 0) { panel.classList.remove('visible'); return; }
+
+  panel.classList.add('visible');
+  tags.innerHTML = '';
+  removedNodes.forEach(id => {
+    const n    = graphData.nodes.find(x => x.id === id);
+    const name = n ? n.label : id;
+    const tag  = document.createElement('div');
+    tag.className = 'removed-tag';
+    tag.innerHTML = `<span>${name}</span><button title="Restore" onclick="restoreNode('${id}')">↩</button>`;
+    tags.appendChild(tag);
+  });
+}
+
+// ── Status bar ─────────────────────────────────────────────────────────────
+
+function updateStatus(visible, active) {
+  document.getElementById('st-season').textContent = currentSeason;
+  document.getElementById('st-nodes').textContent  = visible.size;
+  let count = 0;
+  cy.edges().forEach(e => {
+    if (e.hasClass('inherited')) return;
+    if (e.style('display') !== 'none' && active.has(e.id())) count++;
+  });
+  document.getElementById('st-edges').textContent = count;
+}
+
+function updateInheritedStatus() {
+  const n    = inheritedEdges.size;
+  const wrap = document.getElementById('st-inherited-wrap');
+  wrap.style.display = n > 0 ? '' : 'none';
+  document.getElementById('st-inherited').textContent = n;
+}
+
+// ── Reset ──────────────────────────────────────────────────────────────────
+
+function resetAll() {
+  removedNodes.clear();
+  currentSeason = 1;
+  showRoles = showGames = false;
+  fadeInactive = true;
+  document.querySelectorAll('.s-btn').forEach(b => b.classList.toggle('active', b.dataset.season === '1'));
+  document.getElementById('show-roles').checked    = false;
+  document.getElementById('show-games').checked    = false;
+  document.getElementById('fade-inactive').checked = true;
+  clearSelection();
+  syncInheritedEdges();
+  renderRemovedPanel();
+  renderSuccessionPanel();
+  updateGraph();
+}
+
+// ── Tooltip ────────────────────────────────────────────────────────────────
+
+function showTooltip(node, evt) {
+  const tt  = document.getElementById('tooltip');
+  const pos = evt.originalEvent;
+  document.getElementById('tt-name').textContent = node.data('label');
+  document.getElementById('tt-type').textContent = node.data('type');
+  tt.style.display = 'block';
+  tt.style.left    = (pos.clientX + 14) + 'px';
+  tt.style.top     = (pos.clientY - 10) + 'px';
+}
+
+function hideTooltip() {
+  document.getElementById('tooltip').style.display = 'none';
+}
+
+// ── Init ───────────────────────────────────────────────────────────────────
+
+async function init() {
+  const res = await fetch('data/wire-graph.json');
+  graphData = await res.json();
+
+  const nodes = graphData.nodes.map(n => ({ data: { id: n.id, label: n.label, type: n.type } }));
+  const edges = graphData.edges.map(e => ({
+    data: { id: e.id, source: e.source, target: e.target, label: e.label,
+            season_start: e.season_start, season_end: e.season_end }
+  }));
+
+  cy = cytoscape({
+    container: document.getElementById('cy'),
+    elements:  { nodes, edges },
+    style:     buildStyle(),
+    layout: {
+      name: 'cose', animate: false, randomize: false,
+      nodeRepulsion: 14000, idealEdgeLength: 150,
+      gravity: 0.55, numIter: 700, padding: 40,
+    },
+    minZoom: 0.2, maxZoom: 3.5,
+  });
+
+  cy.on('tap', 'node', evt => { hideTooltip(); selectNode(evt.target.id()); });
+  cy.on('tap', evt => { if (evt.target === cy) clearSelection(); });
+  cy.on('mouseover', 'node', evt => showTooltip(evt.target, evt));
+  cy.on('mouseout',  'node', ()  => hideTooltip());
+  cy.on('drag',      'node', ()  => hideTooltip());
+
+  document.querySelectorAll('.s-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.s-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentSeason = parseInt(btn.dataset.season, 10);
+      updateGraph();
+    });
+  });
+
+  document.getElementById('show-roles').addEventListener('change',    e => { showRoles    = e.target.checked; updateGraph(); });
+  document.getElementById('show-games').addEventListener('change',    e => { showGames    = e.target.checked; updateGraph(); });
+  document.getElementById('fade-inactive').addEventListener('change', e => { fadeInactive = e.target.checked; updateGraph(); });
+  document.getElementById('remove-btn').addEventListener('click',  () => selectedId && removeNode(selectedId));
+  document.getElementById('restore-btn').addEventListener('click', () => selectedId && restoreNode(selectedId));
+  document.getElementById('reset-btn').addEventListener('click',   resetAll);
+
+  updateGraph();
+}
+
+init();
+</script>
+</body>
+</html>

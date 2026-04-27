@@ -1,0 +1,103 @@
+{
+  "nodes": [
+    { "id": "avon_barksdale",            "label": "Avon",                    "type": "Person" },
+    { "id": "stringer_bell",             "label": "Stringer",                "type": "Person" },
+    { "id": "marlo_stanfield",           "label": "Marlo",                   "type": "Person" },
+    { "id": "omar_little",               "label": "Omar",                    "type": "Person" },
+    { "id": "michael_lee",               "label": "Michael",                 "type": "Person" },
+    { "id": "jimmy_mcnulty",             "label": "McNulty",                 "type": "Person" },
+    { "id": "sydnor",                    "label": "Sydnor",                  "type": "Person" },
+    { "id": "namond_brice",              "label": "Namond",                  "type": "Person" },
+    { "id": "clay_davis",                "label": "Clay Davis",              "type": "Person" },
+    { "id": "barksdale_org",             "label": "Barksdale Org",           "type": "Organisation" },
+    { "id": "stanfield_org",             "label": "Stanfield Org",           "type": "Organisation" },
+    { "id": "baltimore_police",          "label": "Baltimore Police",        "type": "Organisation" },
+    { "id": "city_hall",                 "label": "City Hall",               "type": "Organisation" },
+    { "id": "school_system",             "label": "School System",           "type": "Organisation" },
+    { "id": "drug_trade_game",           "label": "Drug Trade",              "type": "Game" },
+    { "id": "police_stats_game",         "label": "Police Stats",            "type": "Game" },
+    { "id": "political_game",            "label": "Political Game",          "type": "Game" },
+    { "id": "school_game",               "label": "School Game",             "type": "Game" },
+    { "id": "kingpin_role",              "label": "Kingpin",                 "type": "Role" },
+    { "id": "operator_role",             "label": "Operator",                "type": "Role" },
+    { "id": "outside_predator_role",     "label": "Outside Predator",        "type": "Role" },
+    { "id": "rule_bending_det_role",     "label": "Rule-Bending\nDetective", "type": "Role" }
+  ],
+  "edges": [
+    { "id": "avon_leads_barksdale_s1",        "source": "avon_barksdale",    "target": "barksdale_org",          "label": "LEADS",         "season_start": 1, "season_end": 1 },
+    { "id": "avon_leads_barksdale_s3",        "source": "avon_barksdale",    "target": "barksdale_org",          "label": "LEADS",         "season_start": 3, "season_end": 3 },
+    { "id": "stringer_works_for_avon_s1",     "source": "stringer_bell",     "target": "avon_barksdale",         "label": "WORKS_FOR",     "season_start": 1, "season_end": 1 },
+    { "id": "stringer_leads_barksdale_s2",    "source": "stringer_bell",     "target": "barksdale_org",          "label": "LEADS",         "season_start": 2, "season_end": 3 },
+    { "id": "marlo_leads_stanfield_s3",       "source": "marlo_stanfield",   "target": "stanfield_org",          "label": "LEADS",         "season_start": 3, "season_end": 5 },
+    { "id": "barksdale_plays_drug_game",      "source": "barksdale_org",     "target": "drug_trade_game",        "label": "PLAYS_GAME",    "season_start": 1, "season_end": 3 },
+    { "id": "stanfield_plays_drug_game",      "source": "stanfield_org",     "target": "drug_trade_game",        "label": "PLAYS_GAME",    "season_start": 3, "season_end": 5 },
+    { "id": "police_plays_stats_game",        "source": "baltimore_police",  "target": "police_stats_game",      "label": "PLAYS_GAME",    "season_start": 1, "season_end": 5 },
+    { "id": "city_hall_plays_political",      "source": "city_hall",         "target": "political_game",         "label": "PLAYS_GAME",    "season_start": 1, "season_end": 5 },
+    { "id": "school_plays_school_game",       "source": "school_system",     "target": "school_game",            "label": "PLAYS_GAME",    "season_start": 4, "season_end": 5 },
+    { "id": "clay_davis_plays_political",     "source": "clay_davis",        "target": "political_game",         "label": "PLAYS_GAME",    "season_start": 2, "season_end": 5 },
+    { "id": "avon_occupies_kingpin_s1",       "source": "avon_barksdale",    "target": "kingpin_role",           "label": "OCCUPIES_ROLE", "season_start": 1, "season_end": 1 },
+    { "id": "avon_occupies_kingpin_s3",       "source": "avon_barksdale",    "target": "kingpin_role",           "label": "OCCUPIES_ROLE", "season_start": 3, "season_end": 3 },
+    { "id": "stringer_occupies_operator",     "source": "stringer_bell",     "target": "operator_role",          "label": "OCCUPIES_ROLE", "season_start": 1, "season_end": 3 },
+    { "id": "marlo_occupies_kingpin",         "source": "marlo_stanfield",   "target": "kingpin_role",           "label": "OCCUPIES_ROLE", "season_start": 3, "season_end": 5 },
+    { "id": "omar_occupies_predator",         "source": "omar_little",       "target": "outside_predator_role",  "label": "OCCUPIES_ROLE", "season_start": 1, "season_end": 5 },
+    { "id": "michael_occupies_predator",      "source": "michael_lee",       "target": "outside_predator_role",  "label": "OCCUPIES_ROLE", "season_start": 5, "season_end": 5 },
+    { "id": "mcnulty_occupies_rebel",         "source": "jimmy_mcnulty",     "target": "rule_bending_det_role",  "label": "OCCUPIES_ROLE", "season_start": 1, "season_end": 5 },
+    { "id": "sydnor_occupies_rebel",          "source": "sydnor",            "target": "rule_bending_det_role",  "label": "OCCUPIES_ROLE", "season_start": 5, "season_end": 5 },
+    { "id": "mcnulty_investigates_barksdale", "source": "jimmy_mcnulty",     "target": "barksdale_org",          "label": "INVESTIGATES",  "season_start": 1, "season_end": 3 },
+    { "id": "mcnulty_investigates_stanfield", "source": "jimmy_mcnulty",     "target": "stanfield_org",          "label": "INVESTIGATES",  "season_start": 5, "season_end": 5 },
+    { "id": "sydnor_investigates_stanfield",  "source": "sydnor",            "target": "stanfield_org",          "label": "INVESTIGATES",  "season_start": 4, "season_end": 5 },
+    { "id": "police_investigates_barksdale",  "source": "baltimore_police",  "target": "barksdale_org",          "label": "INVESTIGATES",  "season_start": 1, "season_end": 3 },
+    { "id": "police_investigates_stanfield",  "source": "baltimore_police",  "target": "stanfield_org",          "label": "INVESTIGATES",  "season_start": 4, "season_end": 5 },
+    { "id": "omar_targets_barksdale",         "source": "omar_little",       "target": "barksdale_org",          "label": "TARGETS",       "season_start": 1, "season_end": 3 },
+    { "id": "omar_targets_stanfield",         "source": "omar_little",       "target": "stanfield_org",          "label": "TARGETS",       "season_start": 4, "season_end": 5 },
+    { "id": "michael_member_stanfield",       "source": "michael_lee",       "target": "stanfield_org",          "label": "MEMBER_OF",     "season_start": 4, "season_end": 5 },
+    { "id": "namond_member_barksdale",        "source": "namond_brice",      "target": "barksdale_org",          "label": "MEMBER_OF",     "season_start": 4, "season_end": 4 },
+    { "id": "namond_school_game",             "source": "namond_brice",      "target": "school_game",            "label": "EXPOSED_TO",    "season_start": 4, "season_end": 4 },
+    { "id": "mcnulty_member_police",          "source": "jimmy_mcnulty",     "target": "baltimore_police",       "label": "MEMBER_OF",     "season_start": 1, "season_end": 5 },
+    { "id": "sydnor_member_police",           "source": "sydnor",            "target": "baltimore_police",       "label": "MEMBER_OF",     "season_start": 1, "season_end": 5 },
+    { "id": "clay_davis_member_city_hall",    "source": "clay_davis",        "target": "city_hall",              "label": "MEMBER_OF",     "season_start": 1, "season_end": 5 }
+  ],
+  "succession": [
+    {
+      "when_removed": "avon_barksdale",
+      "note": "Stringer steps up to lead the Barksdale organisation",
+      "rules": [
+        { "label": "LEADS",         "target": "barksdale_org",         "new_source": "stringer_bell" },
+        { "label": "OCCUPIES_ROLE", "target": "kingpin_role",           "new_source": "stringer_bell" }
+      ]
+    },
+    {
+      "when_removed": "stringer_bell",
+      "note": "Avon reasserts direct control",
+      "rules": [
+        { "label": "LEADS",         "target": "barksdale_org",         "new_source": "avon_barksdale" }
+      ]
+    },
+    {
+      "when_removed": "marlo_stanfield",
+      "note": "Michael inherits street leadership of the Stanfield organisation",
+      "rules": [
+        { "label": "LEADS",         "target": "stanfield_org",         "new_source": "michael_lee" },
+        { "label": "OCCUPIES_ROLE", "target": "kingpin_role",           "new_source": "michael_lee" }
+      ]
+    },
+    {
+      "when_removed": "omar_little",
+      "note": "Michael inherits the outside predator role",
+      "rules": [
+        { "label": "TARGETS",       "target": "barksdale_org",         "new_source": "michael_lee" },
+        { "label": "TARGETS",       "target": "stanfield_org",         "new_source": "michael_lee" },
+        { "label": "OCCUPIES_ROLE", "target": "outside_predator_role", "new_source": "michael_lee" }
+      ]
+    },
+    {
+      "when_removed": "jimmy_mcnulty",
+      "note": "Sydnor takes on the lead investigator role",
+      "rules": [
+        { "label": "INVESTIGATES",  "target": "barksdale_org",         "new_source": "sydnor" },
+        { "label": "INVESTIGATES",  "target": "stanfield_org",         "new_source": "sydnor" },
+        { "label": "OCCUPIES_ROLE", "target": "rule_bending_det_role", "new_source": "sydnor" }
+      ]
+    }
+  ]
+}
