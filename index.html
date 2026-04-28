@@ -283,12 +283,12 @@
     </div>
   </div>
 
-  <a class="experiment-cta" href="https://experiments.swm.cc/the-wire-graph/" target="_blank">
+  <a class="experiment-cta" href="graph.html" target="_blank">
     <div class="cta-body">
-      <span class="cta-label">Live experiment</span>
-      <span class="cta-url">experiments.swm.cc/the-wire-graph</span>
+      <span class="cta-label">Graph explorer</span>
+      <span class="cta-url">graph.html — full interactive model</span>
     </div>
-    <span class="cta-desc">Pipeline writeup · Neo4j queries · Source data</span>
+    <span class="cta-desc">Season filters · Remove nodes · Live Cypher · Succession</span>
     <span class="cta-icon">↗</span>
   </a>
 
@@ -435,6 +435,8 @@
   <h2 class="demo-heading">The Graph</h2>
   <div id="graph-container">
     <div id="cy"></div>
+    <div id="graph-tooltip"></div>
+    <div id="slide-obs"></div>
     <div id="controls">
 
       <div class="control-section">
@@ -449,7 +451,7 @@
       </div>
 
       <div class="control-section">
-        <span class="ctrl-label">Experiments</span>
+        <span class="ctrl-label">What changes?</span>
         <label class="toggle">
           <input type="checkbox" id="toggle-avon">
           <span>Remove Avon</span>
@@ -457,6 +459,14 @@
         <label class="toggle">
           <input type="checkbox" id="toggle-mcnulty">
           <span>Remove McNulty</span>
+        </label>
+        <label class="toggle">
+          <input type="checkbox" id="toggle-prop-joe">
+          <span>Remove Prop Joe</span>
+        </label>
+        <label class="toggle">
+          <input type="checkbox" id="toggle-omar">
+          <span>Remove Omar</span>
         </label>
       </div>
 
@@ -473,13 +483,19 @@
       </div>
 
       <div id="status-text"></div>
+      <div id="succession-note"></div>
 
       <div class="legend">
         <div class="legend-item"><span class="legend-dot person"></span>Person</div>
         <div class="legend-item"><span class="legend-dot organisation"></span>Organisation</div>
         <div class="legend-item"><span class="legend-dot role"></span>Role</div>
         <div class="legend-item"><span class="legend-dot game"></span>Game</div>
+        <div class="legend-item legend-item--inh"><span class="legend-dot inherited"></span>Succession</div>
       </div>
+
+      <button id="btn-reset" class="btn-reset">Reset</button>
+
+      <a class="explorer-link" href="graph.html" target="_blank">Full explorer ↗</a>
 
     </div>
   </div>
@@ -517,14 +533,15 @@
       <div class="edge-list">
         <div class="edge-item">Avon <span class="edge-type">LEADS</span> Barksdale Org</div>
         <div class="edge-item">Stringer <span class="edge-type">WORKS_FOR</span> Avon</div>
-        <div class="edge-item">Barksdale Org <span class="edge-type">CONTROLS</span> territory</div>
+        <div class="edge-item">Barksdale Org <span class="edge-type">INVESTIGATES</span> ← Police</div>
       </div>
     </div>
-    <div>
+    <div class="fragment fade-left">
       <p class="col-label">After</p>
       <div class="edge-list">
-        <div class="edge-item">Stringer <span class="edge-type">LEADS</span> Barksdale Org</div>
-        <div class="edge-item">Barksdale Org <span class="edge-type">CONTROLS</span> territory</div>
+        <div class="edge-item edge-item--succession">Stringer <span class="edge-type edge-type--succession">LEADS</span> Barksdale Org</div>
+        <div class="edge-item">Barksdale Org <span class="edge-type">INVESTIGATES</span> ← Police</div>
+        <div class="edge-item edge-item--note">Role reoccupied. Game carries on.</div>
       </div>
     </div>
   </div>
@@ -589,25 +606,29 @@
 <section>
   <h2>People change. Roles get reoccupied.</h2>
   <div class="role-grid">
-    <div class="role-item">
+    <div class="role-item fragment fade-up">
       <span class="person-name">Omar</span>
       <span class="role-arrow">→</span>
       <span class="role-name">Outside Predator</span>
+      <span class="role-seasons">S1–S5</span>
     </div>
-    <div class="role-item">
+    <div class="role-item role-item--succession fragment fade-up">
       <span class="person-name">Michael</span>
       <span class="role-arrow">→</span>
       <span class="role-name">Outside Predator</span>
+      <span class="role-seasons">S5</span>
     </div>
-    <div class="role-item">
+    <div class="role-item fragment fade-up">
       <span class="person-name">McNulty</span>
       <span class="role-arrow">→</span>
       <span class="role-name">Rule-Bending Detective</span>
+      <span class="role-seasons">S1–S5</span>
     </div>
-    <div class="role-item">
+    <div class="role-item role-item--succession fragment fade-up">
       <span class="person-name">Sydnor</span>
       <span class="role-arrow">→</span>
       <span class="role-name">Rule-Bending Detective</span>
+      <span class="role-seasons">S5</span>
     </div>
   </div>
 
@@ -670,10 +691,15 @@
     </div>
   </div>
 
+  <div class="marlo-note fragment fade-up">
+    <span class="marlo-label">Won. Still couldn't leave.</span>
+    <span class="marlo-body">Marlo won the drug trade. Got forced into a suit by Levy. Last scene: corner at night, alone. The game called him back.</span>
+  </div>
+
   <p class="exception-punchline">
-    <span class="ep-line">Namond didn't win the game. He stopped playing it.</span>
-    <span class="ep-line">Carcetti and Rawls didn't even stop. They just found a bigger table.</span>
-    <span class="ep-line ep-kicker">The game carried on regardless.</span>
+    <span class="ep-line fragment">Namond didn't win the game. He stopped playing it.</span>
+    <span class="ep-line fragment">Carcetti and Rawls didn't stop. They found a bigger table.</span>
+    <span class="ep-line ep-kicker fragment">The game carried on regardless.</span>
   </p>
 
   <aside class="notes">
@@ -742,10 +768,10 @@
 <section>
   <h2>Who wins the game?</h2>
   <div class="answer-stack">
-    <div class="ans-item">People win moments.</div>
-    <div class="ans-item">Some people get out.</div>
-    <div class="ans-item">Most roles get reoccupied.</div>
-    <div class="ans-item ans-final">The game carries on.</div>
+    <div class="ans-item fragment fade-up">People win moments.</div>
+    <div class="ans-item fragment fade-up">Some people get out.</div>
+    <div class="ans-item fragment fade-up">Most roles get reoccupied.</div>
+    <div class="ans-item ans-final fragment fade-up">The game carries on.</div>
   </div>
 
   <aside class="notes">
@@ -772,24 +798,28 @@
   <h2>Why graphs matter</h2>
   <div class="graph-ops">
     <div class="op-comment">// a graph lets you test change</div>
-    <div class="op-line">
+    <div class="op-line fragment fade-up">
       <span class="op-kw">remove</span>
       <span class="op-node">avon_barksdale</span>
     </div>
-    <div class="op-line">
+    <div class="op-line fragment fade-up">
       <span class="op-kw">change_edge</span>
       <span class="op-node">stringer_bell</span>
       <span class="op-rel">LEADS</span>
       <span class="op-node">barksdale_org</span>
     </div>
-    <div class="op-line">
+    <div class="op-line fragment fade-up">
       <span class="op-kw">set_season</span>
       <span class="op-val">3</span>
     </div>
-    <div class="op-result">
+    <div class="op-result fragment fade-up">
       <span class="op-arrow">→</span> observe what actually changes
     </div>
   </div>
+
+  <p class="ce-nod fragment fade-up">
+    That is the small connection back to Collective Engine: model the system as a graph, change it, and observe what actually changes. Not what you expect. What actually happens.
+  </p>
 
   <aside class="notes">
     The interesting bit for me is not just the answer. It is that the graph let me test it.

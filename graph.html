@@ -1,256 +1,560 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Wire — Graph Explorer</title>
-  <style>
-    :root {
-      --bg:            #0d1117;
-      --surface:       #161b22;
-      --surface-2:     #1c2128;
-      --border:        #30363d;
-      --border-dim:    rgba(48,54,61,0.5);
-      --text:          #e6edf3;
-      --muted:         #8b949e;
-      --accent:        #58a6ff;
-      --accent-dim:    rgba(88,166,255,0.12);
-      --accent-border: rgba(88,166,255,0.28);
-      --red:           #f85149;
-      --red-dim:       rgba(248,81,73,0.12);
-      --red-border:    rgba(248,81,73,0.3);
-      --gold:          #f0b429;
-      --gold-dim:      rgba(240,180,41,0.12);
-      --gold-border:   rgba(240,180,41,0.35);
-      --person:        #58a6ff;
-      --org:           #e3b341;
-      --role:          #bc8cff;
-      --game:          #3fb950;
-      --mono:          'SF Mono','Fira Code','Cascadia Code','Consolas',monospace;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Wire — Graph Explorer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:            #07090f;
+  --surface:       #0f1623;
+  --surface-2:     #172035;
+  --border:        #1e2d47;
+  --border-dim:    rgba(30,45,71,0.55);
+  --text:          #d8e4f4;
+  --muted:         #5a7396;
+  --person:        #4a9edd;
+  --org:           #e8a43a;
+  --role:          #a78bfa;
+  --game:          #34d399;
+  --amber:         #e8a020;
+  --amber-dim:     rgba(232,160,32,0.10);
+  --amber-border:  rgba(232,160,32,0.30);
+  --red:           #f87171;
+  --red-dim:       rgba(248,113,113,0.08);
+  --red-border:    rgba(248,113,113,0.28);
+  --accent:        #5b9cf6;
+  --accent-dim:    rgba(91,156,246,0.10);
+  --accent-border: rgba(91,156,246,0.28);
+  --green:         #34d399;
+  --mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+  --head: 'Space Grotesk', system-ui, sans-serif;
+}
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--head);
+  overflow: hidden;
+}
 
-    /* ── Header ── */
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.6em 1.2em;
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      flex-shrink: 0;
-      gap: 1em;
-    }
+/* ── Layout ─────────────────────────────────────────────────────────── */
 
-    header h1 { font-size: 0.88em; font-weight: 600; letter-spacing: -0.01em; }
-    header h1 em { color: var(--accent); font-style: italic; }
-    header .hint { font-size: 0.68em; color: var(--muted); }
+.shell {
+  display: grid;
+  grid-template-rows: 48px 1fr auto;
+  grid-template-columns: 236px 1fr;
+  grid-template-areas:
+    "header header"
+    "side   canvas"
+    "cypher cypher";
+  height: 100vh;
+}
 
-    /* ── Main ── */
-    .main { display: flex; flex: 1; overflow: hidden; min-height: 0; }
+/* ── Header ─────────────────────────────────────────────────────────── */
 
-    /* ── Sidebar ── */
-    .sidebar {
-      width: 216px;
-      flex-shrink: 0;
-      background: var(--surface);
-      border-right: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      overflow-y: auto;
-    }
+.header {
+  grid-area: header;
+  display: flex;
+  align-items: center;
+  gap: 0.9em;
+  padding: 0 1.1em;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
 
-    .sb-section { padding: 0.85em 1em; border-bottom: 1px solid var(--border); }
+.header-title {
+  font-size: 0.82em;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--text);
+  white-space: nowrap;
+}
 
-    .ctrl-label {
-      display: block;
-      font-size: 0.58em;
-      font-family: var(--mono);
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: var(--muted);
-      margin-bottom: 0.65em;
-    }
+.header-title em {
+  font-style: italic;
+  color: var(--amber);
+}
 
-    /* Season */
-    .season-btns { display: flex; gap: 5px; }
+.header-stats {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  margin-left: 0.6em;
+}
 
-    .s-btn {
-      flex: 1;
-      background: var(--surface-2);
-      color: var(--muted);
-      border: 1px solid var(--border);
-      border-radius: 5px;
-      padding: 5px 0;
-      font-size: 0.65em;
-      font-family: var(--mono);
-      cursor: pointer;
-      text-align: center;
-      transition: background 0.12s, color 0.12s, border-color 0.12s;
-    }
+.hstat {
+  font-size: 0.6em;
+  font-family: var(--mono);
+  color: var(--muted);
+}
 
-    .s-btn:hover { color: var(--accent); border-color: var(--accent-border); background: var(--accent-dim); }
-    .s-btn.active { color: var(--accent); border-color: var(--accent-border); background: var(--accent-dim); font-weight: 700; }
+.hstat b { color: var(--text); font-weight: 600; }
+.hstat.gold b { color: var(--amber); }
 
-    /* Toggles */
-    .toggle {
-      display: flex; align-items: center; gap: 0.5em;
-      cursor: pointer; font-size: 0.72em; color: var(--muted);
-      padding: 0.28em 0; user-select: none; transition: color 0.12s;
-    }
-    .toggle:hover { color: var(--text); }
-    .toggle input { accent-color: var(--accent); width: 13px; height: 13px; cursor: pointer; flex-shrink: 0; }
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  margin-left: auto;
+}
 
-    /* Legend */
-    .legend { display: flex; flex-direction: column; gap: 0.45em; }
-    .legend-row { display: flex; align-items: center; gap: 0.55em; font-size: 0.7em; color: var(--muted); }
+.btn-icon {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  color: var(--muted);
+  font-size: 0.6em;
+  font-family: var(--mono);
+  padding: 0.35em 0.75em;
+  cursor: pointer;
+  transition: color 0.12s, border-color 0.12s, background 0.12s;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
 
-    .dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
-    .dot.person       { background: var(--person); }
-    .dot.organisation { background: var(--org); }
-    .dot.role         { background: var(--role); }
-    .dot.game         { background: var(--game); }
+.btn-icon:hover { color: var(--text); border-color: var(--muted); }
 
-    .edge-swatch {
-      width: 18px; height: 2px; flex-shrink: 0;
-      border-radius: 1px;
-    }
-    .edge-swatch.inherited { background: var(--gold); }
+.btn-icon.active {
+  color: var(--accent);
+  border-color: var(--accent-border);
+  background: var(--accent-dim);
+}
 
-    /* Info panel */
-    .info-panel { padding: 0.85em 1em; border-bottom: 1px solid var(--border); display: none; }
-    .info-panel.visible { display: block; }
+/* ── Sidebar ─────────────────────────────────────────────────────────── */
 
-    .info-name { font-size: 0.88em; font-weight: 700; color: var(--text); margin-bottom: 0.15em; }
-    .info-type {
-      font-size: 0.6em; font-family: var(--mono); color: var(--muted);
-      text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.6em;
-    }
-    .info-connections { font-size: 0.67em; color: var(--muted); line-height: 1.7; margin-bottom: 0.75em; }
-    .info-connections strong { color: var(--text); font-weight: 500; }
+.sidebar {
+  grid-area: side;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
 
-    .action-row { display: flex; flex-direction: column; gap: 0.4em; }
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-track { background: transparent; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
-    .btn {
-      border-radius: 5px; padding: 0.45em 0.7em; font-size: 0.68em;
-      cursor: pointer; text-align: left; transition: background 0.12s; font-family: inherit; border: 1px solid;
-    }
-    .btn-remove  { background: var(--red-dim);  color: var(--red);    border-color: var(--red-border); }
-    .btn-restore { background: var(--accent-dim); color: var(--accent); border-color: var(--accent-border); display: none; }
-    .btn-remove:hover  { background: rgba(248,81,73,0.22); }
-    .btn-restore:hover { background: rgba(88,166,255,0.22); }
+.sb-section {
+  padding: 0.75em 0.9em;
+  border-bottom: 1px solid var(--border-dim);
+  flex-shrink: 0;
+}
 
-    /* Succession panel */
-    .succession-panel {
-      padding: 0.85em 1em;
-      border-bottom: 1px solid var(--border);
-      display: none;
-    }
-    .succession-panel.visible { display: block; }
+.ctrl-label {
+  display: block;
+  font-size: 0.55em;
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+  margin-bottom: 0.6em;
+}
 
-    .succession-event {
-      background: var(--gold-dim);
-      border: 1px solid var(--gold-border);
-      border-radius: 6px;
-      padding: 0.55em 0.7em;
-      margin-bottom: 0.45em;
-      font-size: 0.65em;
-      color: var(--gold);
-      line-height: 1.5;
-    }
-    .succession-event:last-child { margin-bottom: 0; }
-    .succession-event .se-note { display: block; font-weight: 600; margin-bottom: 0.15em; }
-    .succession-event .se-from { color: rgba(240,180,41,0.65); font-family: var(--mono); font-size: 0.88em; }
+/* Season strip */
+.season-strip {
+  display: flex;
+  gap: 4px;
+}
 
-    /* Removed list */
-    .removed-panel { padding: 0.85em 1em; border-bottom: 1px solid var(--border); display: none; }
-    .removed-panel.visible { display: block; }
+.s-btn {
+  flex: 1;
+  background: var(--surface-2);
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 5px 0;
+  font-size: 0.62em;
+  font-family: var(--mono);
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.12s;
+  font-weight: 500;
+}
 
-    .removed-tag {
-      display: flex; align-items: center; justify-content: space-between;
-      font-size: 0.68em;
-      background: var(--red-dim);
-      border: 1px solid var(--red-border);
-      border-radius: 4px;
-      padding: 0.3em 0.5em 0.3em 0.7em;
-      color: var(--red);
-      margin-bottom: 0.4em;
-    }
-    .removed-tag:last-child { margin-bottom: 0; }
-    .removed-tag button {
-      background: none; border: none; color: var(--red); cursor: pointer;
-      font-size: 1em; opacity: 0.55; transition: opacity 0.12s; padding: 0 0.2em; font-family: inherit;
-    }
-    .removed-tag button:hover { opacity: 1; }
+.s-btn:hover { color: var(--accent); border-color: var(--accent-border); background: var(--accent-dim); }
+.s-btn.active { color: var(--accent); border-color: var(--accent-border); background: var(--accent-dim); font-weight: 700; }
 
-    /* Graph canvas */
-    #cy {
-      flex: 1;
-      background: #0a0d14;
-      background-image:
-        radial-gradient(circle at 22% 22%, rgba(88,166,255,0.04) 0%, transparent 55%),
-        radial-gradient(circle at 78% 76%, rgba(188,140,255,0.03) 0%, transparent 50%);
-    }
+/* Toggles */
+.toggle-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2em;
+}
 
-    /* Status bar */
-    .statusbar {
-      height: 30px;
-      background: var(--surface);
-      border-top: 1px solid var(--border);
-      display: flex; align-items: center;
-      padding: 0 1em; gap: 1.4em; flex-shrink: 0;
-    }
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  cursor: pointer;
+  font-size: 0.68em;
+  color: var(--muted);
+  padding: 0.22em 0;
+  user-select: none;
+  transition: color 0.12s;
+}
 
-    .st { font-size: 0.6em; font-family: var(--mono); color: var(--muted); }
-    .st b { color: var(--text); font-weight: 600; }
-    .st.gold b { color: var(--gold); }
+.toggle:hover { color: var(--text); }
 
-    .reset-btn {
-      margin-left: auto;
-      background: transparent; color: var(--muted);
-      border: 1px solid var(--border); border-radius: 4px;
-      padding: 3px 12px; font-size: 0.6em; font-family: var(--mono);
-      cursor: pointer; transition: color 0.12s, border-color 0.12s;
-    }
-    .reset-btn:hover { color: var(--text); border-color: var(--muted); }
+.toggle input {
+  accent-color: var(--accent);
+  width: 12px;
+  height: 12px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
 
-    /* Tooltip */
-    #tooltip {
-      position: fixed;
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 6px; padding: 0.4em 0.75em;
-      font-size: 0.72em; color: var(--text);
-      pointer-events: none; display: none; z-index: 999;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.45);
-    }
-    .tt-name { font-weight: 600; }
-    .tt-type { color: var(--muted); font-size: 0.85em; font-family: var(--mono); }
-  </style>
+/* Legend */
+.legend {
+  display: flex;
+  flex-direction: column;
+  gap: 0.38em;
+}
+
+.legend-row {
+  display: flex;
+  align-items: center;
+  gap: 0.55em;
+  font-size: 0.66em;
+  color: var(--muted);
+}
+
+.ldot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.ldot.person       { background: var(--person); box-shadow: 0 0 5px var(--person); }
+.ldot.organisation { background: var(--org);    box-shadow: 0 0 5px var(--org); }
+.ldot.role         { background: var(--role);   box-shadow: 0 0 5px var(--role); }
+.ldot.game         { background: var(--game);   box-shadow: 0 0 5px var(--game); }
+
+.ldash {
+  width: 18px; height: 0;
+  border-top: 2px dashed var(--amber);
+  flex-shrink: 0;
+  margin: 4px 0;
+}
+
+/* Info panel */
+.info-panel { display: none; }
+.info-panel.visible { display: block; }
+
+.info-name {
+  font-size: 0.88em;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.015em;
+  margin-bottom: 0.1em;
+}
+
+.info-type-badge {
+  display: inline-block;
+  font-size: 0.52em;
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  padding: 0.15em 0.55em;
+  border-radius: 3px;
+  margin-bottom: 0.6em;
+}
+
+.info-type-badge.Person       { background: rgba(74,158,221,0.15); color: var(--person); border: 1px solid rgba(74,158,221,0.3); }
+.info-type-badge.Organisation { background: rgba(232,164,58,0.12); color: var(--org);    border: 1px solid rgba(232,164,58,0.3); }
+.info-type-badge.Role         { background: rgba(167,139,250,0.12); color: var(--role);  border: 1px solid rgba(167,139,250,0.3); }
+.info-type-badge.Game         { background: rgba(52,211,153,0.10); color: var(--game);   border: 1px solid rgba(52,211,153,0.25); }
+
+.info-connections {
+  font-size: 0.63em;
+  color: var(--muted);
+  line-height: 1.8;
+  margin-bottom: 0.6em;
+}
+
+.info-connections strong { color: var(--text); font-weight: 500; }
+.info-connections .inh-tag { color: var(--amber); }
+
+.info-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35em;
+}
+
+.btn-sm {
+  border-radius: 5px;
+  padding: 0.38em 0.7em;
+  font-size: 0.63em;
+  font-family: var(--head);
+  cursor: pointer;
+  border: 1px solid;
+  text-align: left;
+  transition: background 0.12s;
+  font-weight: 500;
+}
+
+.btn-remove  { background: var(--red-dim);   color: var(--red);    border-color: var(--red-border); display: none; }
+.btn-restore { background: var(--accent-dim); color: var(--accent); border-color: var(--accent-border); display: none; }
+.btn-remove:hover  { background: rgba(248,113,113,0.16); }
+.btn-restore:hover { background: rgba(91,156,246,0.18); }
+
+/* Succession panel */
+.succession-panel { display: none; }
+.succession-panel.visible { display: block; }
+
+.succ-event {
+  background: var(--amber-dim);
+  border: 1px solid var(--amber-border);
+  border-radius: 6px;
+  padding: 0.5em 0.7em;
+  margin-bottom: 0.38em;
+  font-size: 0.62em;
+  line-height: 1.5;
+}
+
+.succ-event:last-child { margin-bottom: 0; }
+.succ-note { display: block; color: var(--amber); font-weight: 600; margin-bottom: 0.12em; }
+.succ-from { color: rgba(232,160,32,0.6); font-family: var(--mono); font-size: 0.88em; }
+
+/* Removed panel */
+.removed-panel { display: none; }
+.removed-panel.visible { display: block; }
+
+.removed-tag {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--red-dim);
+  border: 1px solid var(--red-border);
+  border-radius: 4px;
+  padding: 0.28em 0.45em 0.28em 0.65em;
+  font-size: 0.63em;
+  color: var(--red);
+  margin-bottom: 0.3em;
+}
+
+.removed-tag:last-child { margin-bottom: 0; }
+
+.removed-tag button {
+  background: none;
+  border: none;
+  color: var(--red);
+  cursor: pointer;
+  font-size: 1.1em;
+  opacity: 0.5;
+  transition: opacity 0.12s;
+  padding: 0 0.2em;
+  font-family: var(--head);
+  line-height: 1;
+}
+
+.removed-tag button:hover { opacity: 1; }
+
+/* ── Observation overlay ─────────────────────────────────────────────── */
+
+#observation {
+  position: absolute;
+  top: 46%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  pointer-events: none;
+  z-index: 20;
+  opacity: 0;
+  transition: opacity 0.38s ease;
+  padding: 1.2em 2em;
+  max-width: 520px;
+  width: max-content;
+}
+
+.obs-main {
+  display: block;
+  font-size: 2em;
+  font-weight: 700;
+  font-family: var(--head);
+  color: var(--amber);
+  letter-spacing: -0.025em;
+  line-height: 1.18;
+  text-shadow: 0 0 60px rgba(232,160,32,0.6), 0 2px 12px rgba(0,0,0,0.95);
+}
+
+.obs-sub {
+  display: block;
+  font-size: 0.82em;
+  font-family: var(--head);
+  color: rgba(216,228,244,0.6);
+  margin-top: 0.4em;
+  font-style: italic;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.95);
+  letter-spacing: 0.01em;
+}
+
+/* ── Canvas ──────────────────────────────────────────────────────────── */
+
+.canvas-wrap {
+  grid-area: canvas;
+  position: relative;
+  overflow: hidden;
+  background: #06080e;
+  background-image:
+    radial-gradient(ellipse at 18% 22%, rgba(74,158,221,0.05) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 75%, rgba(167,139,250,0.04) 0%, transparent 50%);
+}
+
+#cy { width: 100%; height: 100%; }
+
+#graph-tooltip {
+  position: absolute;
+  pointer-events: none;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 0.35em 0.7em;
+  font-size: 0.7em;
+  font-family: var(--mono);
+  color: var(--text);
+  opacity: 0;
+  transition: opacity 0.1s;
+  z-index: 10;
+  white-space: nowrap;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.55);
+}
+
+/* ── Cypher panel ────────────────────────────────────────────────────── */
+
+.cypher-panel {
+  grid-area: cypher;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  transition: height 0.22s ease;
+  overflow: hidden;
+}
+
+.cypher-panel.collapsed { height: 36px; }
+.cypher-panel.expanded  { height: 175px; }
+
+.cypher-header {
+  display: flex;
+  align-items: center;
+  gap: 0.7em;
+  padding: 0 0.9em;
+  height: 36px;
+  flex-shrink: 0;
+  cursor: pointer;
+  user-select: none;
+}
+
+.cypher-header:hover .cypher-label { color: var(--text); }
+
+.cypher-label {
+  font-size: 0.55em;
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+  transition: color 0.12s;
+}
+
+.cypher-badge {
+  font-size: 0.48em;
+  font-family: var(--mono);
+  background: rgba(91,156,246,0.10);
+  color: var(--accent);
+  border: 1px solid var(--accent-border);
+  border-radius: 3px;
+  padding: 0.1em 0.5em;
+  letter-spacing: 0.06em;
+}
+
+.cypher-chevron {
+  margin-left: auto;
+  font-size: 0.7em;
+  color: var(--muted);
+  transition: transform 0.22s ease;
+}
+
+.cypher-panel.collapsed .cypher-chevron { transform: rotate(0deg); }
+.cypher-panel.expanded  .cypher-chevron { transform: rotate(180deg); }
+
+.cypher-copy {
+  margin-left: 0.3em;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--muted);
+  font-size: 0.52em;
+  font-family: var(--mono);
+  padding: 0.2em 0.6em;
+  cursor: pointer;
+  transition: color 0.12s, border-color 0.12s;
+  letter-spacing: 0.04em;
+  display: none;
+}
+
+.cypher-copy:hover { color: var(--text); border-color: var(--muted); }
+.cypher-panel.expanded .cypher-copy { display: inline; }
+
+.cypher-body {
+  flex: 1;
+  overflow: auto;
+  padding: 0 0.9em 0.75em;
+  font-family: var(--mono);
+  font-size: 0.65em;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+.cypher-body::-webkit-scrollbar { height: 4px; width: 4px; }
+.cypher-body::-webkit-scrollbar-track { background: transparent; }
+.cypher-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+/* Cypher syntax colours */
+.kw  { color: #7dd3fc; }
+.fn  { color: var(--accent); }
+.str { color: #a5f3b8; }
+.num { color: var(--amber); }
+.cmt { color: var(--muted); font-style: italic; opacity: 0.75; }
+.var { color: #c4b5fd; }
+.rel { color: var(--amber); }
+.prop{ color: #94a3b8; }
+</style>
 </head>
 <body>
 
-<header>
-  <h1>Putting <em>The Wire</em> on the Graph</h1>
-  <span class="hint">Click any node to explore. Remove characters to see how the graph reorganises.</span>
-</header>
+<div class="shell">
 
-<div class="main">
-  <div class="sidebar">
+  <!-- ── Header ─────────────────────────────────────────────────────── -->
+  <header class="header">
+    <span class="header-title">Putting <em>The Wire</em> on the Graph</span>
+    <div class="header-stats">
+      <span class="hstat">Season <b id="st-season">1</b></span>
+      <span class="hstat">Nodes <b id="st-nodes">—</b></span>
+      <span class="hstat">Active edges <b id="st-edges">—</b></span>
+      <span class="hstat gold" id="st-inh-wrap" style="display:none">Inherited <b id="st-inh">0</b></span>
+    </div>
+    <div class="header-actions">
+      <button class="btn-icon" id="btn-layout" title="Re-run layout">Relayout</button>
+      <button class="btn-icon" id="btn-fit"    title="Fit to screen">Fit</button>
+      <button class="btn-icon" id="btn-reset"  title="Reset all">Reset</button>
+    </div>
+  </header>
+
+  <!-- ── Sidebar ────────────────────────────────────────────────────── -->
+  <aside class="sidebar">
 
     <div class="sb-section">
       <span class="ctrl-label">Season</span>
-      <div class="season-btns">
+      <div class="season-strip">
         <button class="s-btn active" data-season="1">S1</button>
         <button class="s-btn"        data-season="2">S2</button>
         <button class="s-btn"        data-season="3">S3</button>
@@ -260,192 +564,344 @@
     </div>
 
     <div class="sb-section">
-      <span class="ctrl-label">Show</span>
-      <label class="toggle"><input type="checkbox" id="show-roles"> Roles</label>
-      <label class="toggle"><input type="checkbox" id="show-games"> Games</label>
-      <label class="toggle"><input type="checkbox" id="fade-inactive" checked> Fade inactive edges</label>
-    </div>
-
-    <div class="sb-section">
-      <span class="ctrl-label">Legend</span>
-      <div class="legend">
-        <div class="legend-row"><span class="dot person"></span>Person</div>
-        <div class="legend-row"><span class="dot organisation"></span>Organisation</div>
-        <div class="legend-row"><span class="dot role"></span>Role</div>
-        <div class="legend-row"><span class="dot game"></span>Game</div>
-        <div class="legend-row" style="margin-top:0.3em">
-          <span class="edge-swatch inherited" style="border-top: 2px dashed var(--gold); background: none; height:0; margin-top:1px"></span>
-          Inherited edge
-        </div>
+      <span class="ctrl-label">Overlay</span>
+      <div class="toggle-row">
+        <label class="toggle"><input type="checkbox" id="show-roles"> Roles</label>
+        <label class="toggle"><input type="checkbox" id="show-games"> Games</label>
+        <label class="toggle"><input type="checkbox" id="fade-inactive" checked> Fade inactive edges</label>
+        <label class="toggle"><input type="checkbox" id="size-by-degree" checked> Size nodes by degree</label>
       </div>
     </div>
 
-    <!-- Node info panel -->
-    <div class="info-panel" id="info-panel">
+    <!-- Node info -->
+    <div class="sb-section info-panel" id="info-panel">
       <div class="info-name" id="info-name"></div>
-      <div class="info-type" id="info-type"></div>
+      <div class="info-type-badge" id="info-type-badge"></div>
       <div class="info-connections" id="info-connections"></div>
-      <div class="action-row">
-        <button class="btn btn-restore" id="restore-btn">Restore this node</button>
-        <button class="btn btn-remove"  id="remove-btn">Remove this node</button>
+      <div class="info-actions">
+        <button class="btn-sm btn-restore" id="restore-btn">↩ Restore this node</button>
+        <button class="btn-sm btn-remove"  id="remove-btn">✕ Remove this node</button>
       </div>
     </div>
 
-    <!-- Succession events panel -->
-    <div class="succession-panel" id="succession-panel">
+    <!-- Succession events -->
+    <div class="sb-section succession-panel" id="succession-panel">
       <span class="ctrl-label">Graph rewrite</span>
       <div id="succession-events"></div>
     </div>
 
-    <!-- Removed nodes list -->
-    <div class="removed-panel" id="removed-panel">
+    <!-- Removed nodes -->
+    <div class="sb-section removed-panel" id="removed-panel">
       <span class="ctrl-label">Removed</span>
       <div id="removed-tags"></div>
     </div>
 
+    <!-- Legend -->
+    <div class="sb-section" style="margin-top:auto">
+      <span class="ctrl-label">Legend</span>
+      <div class="legend">
+        <div class="legend-row"><span class="ldot person"></span>Person</div>
+        <div class="legend-row"><span class="ldot organisation"></span>Organisation</div>
+        <div class="legend-row"><span class="ldot role"></span>Role</div>
+        <div class="legend-row"><span class="ldot game"></span>The Game</div>
+        <div class="legend-row" style="margin-top:0.35em"><span class="ldash"></span>Inherited edge</div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ── Canvas ─────────────────────────────────────────────────────── -->
+  <div class="canvas-wrap">
+    <div id="cy"></div>
+    <div id="graph-tooltip"></div>
+    <div id="observation"></div>
   </div>
 
-  <div id="cy"></div>
-</div>
+  <!-- ── Cypher panel ───────────────────────────────────────────────── -->
+  <div class="cypher-panel expanded" id="cypher-panel">
+    <div class="cypher-header" id="cypher-toggle">
+      <span class="cypher-label">Neo4j · Cypher Query</span>
+      <span class="cypher-badge">live</span>
+      <button class="cypher-copy" id="cypher-copy">Copy</button>
+      <span class="cypher-chevron">▲</span>
+    </div>
+    <div class="cypher-body" id="cypher-body"></div>
+  </div>
 
-<div class="statusbar">
-  <div class="st">Season <b id="st-season">1</b></div>
-  <div class="st">Nodes <b id="st-nodes">—</b></div>
-  <div class="st">Active edges <b id="st-edges">—</b></div>
-  <div class="st gold" id="st-inherited-wrap" style="display:none">Inherited <b id="st-inherited">0</b></div>
-  <button class="reset-btn" id="reset-btn">Reset all</button>
-</div>
-
-<div id="tooltip">
-  <div class="tt-name" id="tt-name"></div>
-  <div class="tt-type" id="tt-type"></div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.29.2/cytoscape.min.js"></script>
 <script>
-let cy            = null;
-let graphData     = null;
-let currentSeason = 1;
-let removedNodes  = new Set();
-let selectedId    = null;
-let showRoles     = false;
-let showGames     = false;
-let fadeInactive  = true;
+/* ── State ──────────────────────────────────────────────────────────── */
 
-// synthetic inherited edges currently in the graph: Map<edgeId, {from_node, rule}>
-let inheritedEdges = new Map();
+let cy           = null;
+let graphData    = null;
+let season       = 1;
+let removed      = new Set();
+let selectedId   = null;
+let showRoles    = false;
+let showGames    = false;
+let fadeInactive = true;
+let sizeByDegree = true;
+let inheritedMap = new Map(); // edgeId → {from_node, note}
+let prevInhIds   = new Set();
 
-const EDGE_COLORS = {
-  LEADS:         '#f85149',
-  WORKS_FOR:     '#e3b341',
-  INVESTIGATES:  '#58a6ff',
-  TARGETS:       '#f85149',
-  MEMBER_OF:     '#8b949e',
-  OCCUPIES_ROLE: '#bc8cff',
-  PLAYS_GAME:    '#3fb950',
-  EXPOSED_TO:    '#8b949e',
-  CONTROLS:      '#e67e22',
+/* ── Observations ────────────────────────────────────────────────────── */
+
+const OBSERVATIONS = {
+  season: {
+    2: { main: "Stringer takes the wheel.",        sub: null },
+    3: { main: "Two orgs. One territory.",         sub: "The game gets crowded." },
+    4: { main: "The game moves to the schools.",   sub: null },
+    5: { main: "The game moves to the newsroom.",  sub: null },
+  },
+  remove: {
+    avon_barksdale: [
+      { seasons: [1,2,3], main: "Stringer gets the bump.",               sub: "The game carries on." },
+      { seasons: [4,5],   main: "He was already gone.",                  sub: null },
+    ],
+    stringer_bell: [
+      { seasons: [1,2,3], main: "Avon takes it back.",                   sub: "Not for long." },
+      { seasons: [4,5],   main: "Already dead by now.",                  sub: null },
+    ],
+    jimmy_mcnulty: [
+      { seasons: [1,2,3,4,5], main: "The investigation loses its engine.", sub: "The institution carries on." },
+    ],
+    omar_little: [
+      { seasons: [1,2,3,4], main: "The role sits empty.",               sub: "Briefly." },
+      { seasons: [5],       main: "The role sits empty.",               sub: null },
+    ],
+    prop_joe: [
+      { seasons: [1,2,3,4], main: "Marlo seizes the Co-Op.",            sub: "The east side consolidates." },
+      { seasons: [5],       main: "Already dead by now.",               sub: null },
+    ],
+    marlo_stanfield: [
+      { seasons: [1,2],   main: "Not in play yet.",                     sub: null },
+      { seasons: [3,4,5], main: "Someone takes the corners.",           sub: "The game carries on." },
+    ],
+    clay_davis: [
+      { seasons: [1,2,3,4,5], main: "The money still moves.",           sub: "Just differently." },
+    ],
+    namond_brice: [
+      { seasons: [1,2,3,4,5], main: "He might be one of the few.",      sub: "He stops playing it." },
+    ],
+    lester_freamon: [
+      { seasons: [1,2,3,4,5], main: "The best detective they have.",    sub: "And they keep trying to lose him." },
+    ],
+    cedric_daniels: [
+      { seasons: [1,2,3,4,5], main: "The institution eats its best.",   sub: null },
+    ],
+  },
+  restore: {
+    avon_barksdale:  "Avon's back in play.",
+    stringer_bell:   "Stringer's back.",
+    jimmy_mcnulty:   "McNulty's back.",
+    omar_little:     "Omar's back.",
+    prop_joe:        "Prop Joe's back.",
+    marlo_stanfield: "Marlo's back.",
+  },
 };
 
-// ── Style ──────────────────────────────────────────────────────────────────
+let obsTimer = null;
+
+function flashObservation(main, sub) {
+  const el = document.getElementById('observation');
+  if (!el) return;
+  if (obsTimer) clearTimeout(obsTimer);
+  el.innerHTML = `<span class="obs-main">${main}</span>${sub ? `<span class="obs-sub">${sub}</span>` : ''}`;
+  el.style.opacity = '1';
+  obsTimer = setTimeout(() => { el.style.opacity = '0'; obsTimer = null; }, 2800);
+}
+
+function getRemoveObs(id) {
+  const entries = OBSERVATIONS.remove[id];
+  if (!entries) return null;
+  return entries.find(e => e.seasons.includes(season)) || null;
+}
+
+/* ── Palette ─────────────────────────────────────────────────────────── */
+
+const NODE_COLORS = {
+  Person:       '#4a9edd',
+  Organisation: '#e8a43a',
+  Role:         '#a78bfa',
+  Game:         '#34d399',
+};
+
+const EDGE_COLORS = {
+  LEADS:         '#e74c3c',
+  WORKS_FOR:     '#f39c12',
+  INVESTIGATES:  '#3498db',
+  TARGETS:       '#c0392b',
+  MEMBER_OF:     '#5a7396',
+  OCCUPIES_ROLE: '#a78bfa',
+  PLAYS_GAME:    '#34d399',
+  EXPOSED_TO:    '#3d5268',
+  CONNECTED_TO:  '#5b9cf6',
+  CONTROLS:      '#e67e22',
+  INFORMS:       '#f1c40f',
+  ALLIED_WITH:   '#2ecc71',
+};
+
+/* ── Stylesheet ──────────────────────────────────────────────────────── */
 
 function buildStyle() {
-  const s = [
-    {
-      selector: 'node',
-      style: {
-        label: 'data(label)', color: '#fff',
-        'font-size': 11, 'font-family': "'SF Mono','Fira Code','Consolas',monospace",
-        'text-wrap': 'wrap', 'text-max-width': 80,
-        'text-valign': 'bottom', 'text-margin-y': 7,
-        width: 54, height: 54,
-        'border-width': 2, 'border-color': 'rgba(255,255,255,0.1)',
-        'background-color': '#555',
-        'transition-property': 'opacity', 'transition-duration': '0.18s',
-      }
-    },
-    { selector: 'node[type = "Person"]',       style: { 'background-color': '#58a6ff' } },
-    { selector: 'node[type = "Organisation"]', style: { 'background-color': '#e3b341' } },
-    { selector: 'node[type = "Role"]',         style: { 'background-color': '#bc8cff' } },
-    { selector: 'node[type = "Game"]',         style: { 'background-color': '#3fb950' } },
-    { selector: 'node.selected',  style: { 'border-width': 3, 'border-color': '#fff' } },
-    { selector: 'node.neighbour', style: { 'border-width': 2, 'border-color': 'rgba(255,255,255,0.45)' } },
-    { selector: 'node.dimmed',    style: { opacity: 0.15 } },
-    {
-      selector: 'edge',
-      style: {
-        label: 'data(label)', 'font-size': 8,
-        'font-family': "'SF Mono','Fira Code','Consolas',monospace",
-        color: '#8b949e', 'text-rotation': 'autorotate', 'text-margin-y': -8,
-        'curve-style': 'bezier', 'target-arrow-shape': 'triangle',
-        'line-color': '#30363d', 'target-arrow-color': '#30363d', width: 1.5,
-        'transition-property': 'opacity', 'transition-duration': '0.18s',
-      }
-    },
-  ];
+  const s = [];
 
-  Object.entries(EDGE_COLORS).forEach(([label, color]) => {
-    s.push({ selector: `edge[label = "${label}"]`, style: { 'line-color': color, 'target-arrow-color': color } });
+  s.push({
+    selector: 'node',
+    style: {
+      'label':               'data(label)',
+      'color':               '#e2e8f0',
+      'font-size':           11,
+      'font-family':         'JetBrains Mono, monospace',
+      'font-weight':         500,
+      'text-wrap':           'wrap',
+      'text-max-width':      80,
+      'text-valign':         'bottom',
+      'text-margin-y':       7,
+      'text-outline-width':  2,
+      'text-outline-color':  '#07090f',
+      'text-outline-opacity': 1,
+      'width':               46, 'height': 46,
+      'border-width':        2,
+      'border-color':        'rgba(255,255,255,0.10)',
+      'background-color':    '#2a2a3a',
+      'shadow-blur':         0,
+      'shadow-opacity':      0,
+      'shadow-color':        '#000',
+      'shadow-offset-x':     0,
+      'shadow-offset-y':     0,
+      'transition-property': 'opacity',
+      'transition-duration': '0.2s',
+    },
   });
 
-  s.push({ selector: 'edge[label = "OCCUPIES_ROLE"]', style: { 'line-style': 'dashed' } });
-  s.push({ selector: 'edge[label = "PLAYS_GAME"]',    style: { 'line-style': 'dotted' } });
-  s.push({ selector: 'edge[label = "TARGETS"]',       style: { 'line-style': 'dashed' } });
-  s.push({ selector: 'edge[label = "EXPOSED_TO"]',    style: { 'line-style': 'dashed' } });
-  s.push({ selector: 'edge.highlighted', style: { width: 2.5, opacity: 1 } });
-  s.push({ selector: 'edge.dimmed',      style: { opacity: 0.06 } });
+  Object.entries(NODE_COLORS).forEach(([type, color]) => {
+    s.push({
+      selector: `node[type="${type}"]`,
+      style: {
+        'background-color': color,
+        'border-color':     color,
+        'border-opacity':   0.35,
+        'shadow-blur':      18,
+        'shadow-opacity':   0.45,
+        'shadow-color':     color,
+      },
+    });
+  });
 
-  // Inherited / rewritten edges — gold, dashed, clearly synthetic
+  s.push({ selector: 'node[type="Organisation"]', style: { shape: 'round-rectangle', width: 72, height: 34, 'font-size': 10 } });
+  s.push({ selector: 'node[type="Role"]',         style: { shape: 'diamond',         width: 58, height: 44, 'font-size': 9 } });
+  s.push({ selector: 'node[type="Game"]',         style: { shape: 'hexagon',         width: 52, height: 52, 'font-size': 9 } });
+
+  s.push({ selector: 'node.selected',   style: { 'border-width': 4, 'border-color': '#fff', 'border-opacity': 0.95 } });
+  s.push({ selector: 'node.neighbour',  style: { 'border-width': 2, 'border-color': 'rgba(255,255,255,0.45)' } });
+  s.push({ selector: 'node.dimmed',     style: { opacity: 0.10 } });
+  s.push({ selector: 'edge.dimmed',     style: { opacity: 0.04, 'font-size': 0 } });
+  s.push({ selector: 'edge.highlighted', style: { width: 2.5, opacity: 1, 'font-size': 8 } });
+
+  s.push({
+    selector: 'edge',
+    style: {
+      'label':                   'data(label)',
+      'font-size':               7.5,
+      'font-family':             'JetBrains Mono, monospace',
+      'color':                   '#64748b',
+      'text-rotation':           'autorotate',
+      'text-margin-y':           -9,
+      'text-background-opacity': 0.7,
+      'text-background-color':   '#07090f',
+      'text-background-padding': '2px',
+      'curve-style':             'bezier',
+      'target-arrow-shape':      'triangle',
+      'line-color':              '#1e2d47',
+      'target-arrow-color':      '#1e2d47',
+      'width':                   1.5,
+      'transition-property':     'opacity',
+      'transition-duration':     '0.2s',
+    },
+  });
+
+  Object.entries(EDGE_COLORS).forEach(([label, color]) => {
+    s.push({ selector: `edge[label="${label}"]`, style: { 'line-color': color, 'target-arrow-color': color } });
+  });
+
+  s.push({ selector: 'edge[label="OCCUPIES_ROLE"]', style: { 'line-style': 'dashed', 'line-dash-pattern': [6, 3] } });
+  s.push({ selector: 'edge[label="PLAYS_GAME"]',    style: { 'line-style': 'dotted' } });
+  s.push({ selector: 'edge[label="EXPOSED_TO"]',    style: { 'line-style': 'dashed', 'line-dash-pattern': [4, 4], width: 1 } });
+  s.push({ selector: 'edge[label="TARGETS"]',       style: { 'line-style': 'dashed', 'line-dash-pattern': [8, 3] } });
+
+  // Inherited / succession edges
   s.push({
     selector: 'edge.inherited',
     style: {
-      'line-color':          '#f0b429',
-      'target-arrow-color':  '#f0b429',
+      'line-color':          '#e8a020',
+      'target-arrow-color':  '#e8a020',
       'line-style':          'dashed',
+      'line-dash-pattern':   [10, 5],
       width:                 2.5,
       opacity:               0.95,
-      color:                 '#f0b429',
-    }
+      color:                 '#e8a020',
+      'shadow-blur':         8,
+      'shadow-color':        '#e8a020',
+      'shadow-opacity':      0.4,
+      'shadow-offset-x':     0,
+      'shadow-offset-y':     0,
+    },
   });
 
   return s;
 }
 
-// ── Succession logic ───────────────────────────────────────────────────────
+/* ── Succession logic ────────────────────────────────────────────────── */
 
-function computeInheritedEdges() {
-  // Returns array of {id, source, target, label, from_node, note}
+function visibleIds() {
+  const ids = new Set();
+  graphData.nodes.forEach(n => {
+    if (removed.has(n.id))            return;
+    if (!showRoles && n.type === 'Role') return;
+    if (!showGames && n.type === 'Game') return;
+    ids.add(n.id);
+  });
+  return ids;
+}
+
+function activeEdgeIds(s) {
+  const ids = new Set();
+  graphData.edges.forEach(e => {
+    if (s >= e.season_start && s <= e.season_end) ids.add(e.id);
+  });
+  return ids;
+}
+
+function computeInherited() {
   const result = [];
-
   if (!graphData.succession) return result;
 
   graphData.succession.forEach(entry => {
-    if (!removedNodes.has(entry.when_removed)) return;
+    if (!removed.has(entry.when_removed)) return;
 
     entry.rules.forEach(rule => {
-      const newSource = rule.new_source;
+      const ns = rule.new_source;
+      if (removed.has(ns)) return;
 
-      // Skip if the successor has also been removed
-      if (removedNodes.has(newSource)) return;
+      const tgt = graphData.nodes.find(n => n.id === rule.target);
+      if (!tgt) return;
+      if (!showRoles && tgt.type === 'Role') return;
+      if (!showGames && tgt.type === 'Game') return;
 
-      // Skip if target node is hidden (type filtered)
-      const targetNode = graphData.nodes.find(n => n.id === rule.target);
-      if (!targetNode) return;
-      if (!showRoles && targetNode.type === 'Role') return;
-      if (!showGames && targetNode.type === 'Game') return;
-
-      // Skip if this exact edge already exists as a regular (non-removed) edge
-      const alreadyExists = graphData.edges.some(e =>
-        e.source === newSource && e.target === rule.target &&
-        e.label === rule.label &&
-        currentSeason >= e.season_start && currentSeason <= e.season_end
+      // Skip if a seasonal edge already satisfies the rule
+      const exists = graphData.edges.some(e =>
+        e.source === ns && e.target === rule.target &&
+        e.label  === rule.label &&
+        season >= e.season_start && season <= e.season_end
       );
-      if (alreadyExists) return;
+      if (exists) return;
 
-      const edgeId = `inherited__${entry.when_removed}__${newSource}__${rule.label}__${rule.target}`;
       result.push({
-        id:        edgeId,
-        source:    newSource,
+        id:        `inh__${entry.when_removed}__${ns}__${rule.label}__${rule.target}`,
+        source:    ns,
         target:    rule.target,
         label:     rule.label,
         from_node: entry.when_removed,
@@ -457,26 +913,20 @@ function computeInheritedEdges() {
   return result;
 }
 
-function syncInheritedEdges() {
-  const desired   = computeInheritedEdges();
+function syncInherited() {
+  const desired    = computeInherited();
   const desiredIds = new Set(desired.map(e => e.id));
+  const newIds     = new Set([...desiredIds].filter(id => !prevInhIds.has(id)));
 
-  // Remove stale inherited edges
-  for (const id of inheritedEdges.keys()) {
-    if (!desiredIds.has(id)) {
-      cy.getElementById(id).remove();
-      inheritedEdges.delete(id);
-    }
+  for (const id of inheritedMap.keys()) {
+    if (!desiredIds.has(id)) { cy.getElementById(id).remove(); inheritedMap.delete(id); }
   }
 
-  // Add new inherited edges
   desired.forEach(spec => {
-    if (inheritedEdges.has(spec.id)) return;
-    // Make sure both endpoints exist and are visible
+    if (inheritedMap.has(spec.id)) return;
     const src = cy.getElementById(spec.source);
     const tgt = cy.getElementById(spec.target);
     if (!src.length || !tgt.length) return;
-    if (src.style('display') === 'none' || tgt.style('display') === 'none') return;
 
     cy.add({
       group: 'edges',
@@ -484,69 +934,137 @@ function syncInheritedEdges() {
       classes: 'inherited',
     });
 
-    inheritedEdges.set(spec.id, { from_node: spec.from_node, note: spec.note });
+    inheritedMap.set(spec.id, { from_node: spec.from_node, note: spec.note });
+
+    // Flash new inherited edges
+    if (newIds.has(spec.id)) {
+      const edge = cy.getElementById(spec.id);
+      setTimeout(() => flashEdge(edge), 300);
+      pulseNode(cy.getElementById(spec.source));
+      pulseNode(cy.getElementById(spec.target));
+    }
   });
 
+  prevInhIds = new Set(desiredIds);
   renderSuccessionPanel();
-  updateInheritedStatus();
+  updateInheritedStat();
 }
 
-// ── Graph update ───────────────────────────────────────────────────────────
+/* ── Animations ──────────────────────────────────────────────────────── */
 
-function visibleIds() {
-  const ids = new Set();
-  graphData.nodes.forEach(n => {
-    if (removedNodes.has(n.id))          return;
-    if (!showRoles && n.type === 'Role') return;
-    if (!showGames && n.type === 'Game') return;
-    ids.add(n.id);
-  });
-  return ids;
-}
-
-function activeEdgeIds(season) {
-  const ids = new Set();
-  graphData.edges.forEach(e => {
-    if (season >= e.season_start && season <= e.season_end) ids.add(e.id);
-  });
-  return ids;
-}
-
-function updateGraph() {
-  if (!cy) return;
-  const visible = visibleIds();
-  const active  = activeEdgeIds(currentSeason);
-
-  cy.batch(() => {
-    cy.nodes().forEach(node => {
-      node.style('display', visible.has(node.id()) ? 'element' : 'none');
-    });
-    cy.edges().forEach(edge => {
-      if (edge.hasClass('inherited')) return; // handled separately
-      const sv = visible.has(edge.source().id());
-      const tv = visible.has(edge.target().id());
-      if (!sv || !tv) {
-        edge.style('display', 'none');
-      } else if (active.has(edge.id())) {
-        edge.style({ display: 'element', opacity: 0.85 });
-      } else {
-        edge.style({ display: fadeInactive ? 'element' : 'none', opacity: 0.07 });
+function pulseNode(node, color = '#e8a020') {
+  if (!node || !node.length) return;
+  node.stop(true, false);
+  node.animate(
+    { style: { 'border-width': 7, 'border-color': color, 'border-opacity': 1 } },
+    { duration: 220, easing: 'ease-out',
+      complete() {
+        node.animate(
+          { style: { 'border-width': 2, 'border-color': 'rgba(255,255,255,0.10)', 'border-opacity': 1 } },
+          { duration: 600, easing: 'ease-in-out' }
+        );
       }
-    });
+    }
+  );
+}
+
+function flashEdge(edge) {
+  if (!edge || !edge.length) return;
+  edge.stop(true, false);
+  edge.animate({ style: { width: 5 } },
+    { duration: 160, easing: 'ease-out',
+      complete() { edge.animate({ style: { width: 2.5 } }, { duration: 400 }); }
+    }
+  );
+}
+
+/* ── Degree-based node sizing ────────────────────────────────────────── */
+
+function updateNodeSizes(visible, active) {
+  if (!sizeByDegree) {
+    cy.nodes().forEach(n => n.stop(true).animate({ style: { width: 46, height: 46 } }, { duration: 200 }));
+    return;
+  }
+
+  const deg = new Map();
+  cy.nodes().forEach(n => deg.set(n.id(), 0));
+
+  cy.edges().forEach(e => {
+    if (!active.has(e.id()) && !e.hasClass('inherited')) return;
+    const sv = visible.has(e.source().id());
+    const tv = visible.has(e.target().id());
+    if (!sv || !tv) return;
+    deg.set(e.source().id(), (deg.get(e.source().id()) || 0) + 1);
+    deg.set(e.target().id(), (deg.get(e.target().id()) || 0) + 1);
   });
 
-  syncInheritedEdges();
+  const maxD = Math.max(...deg.values(), 1);
+
+  cy.nodes().forEach(n => {
+    const d    = deg.get(n.id()) || 0;
+    const t    = n.data('type');
+    const base = t === 'Organisation' ? 1 : t === 'Role' ? 0.9 : 1;
+    const size = Math.round((34 + (d / maxD) * 22) * base);
+    n.stop(true, false).animate({ style: { width: size, height: size } }, { duration: 240 });
+  });
+}
+
+/* ── Main graph update ───────────────────────────────────────────────── */
+
+function updateGraph(animated = true) {
+  if (!cy) return;
+
+  const visible = visibleIds();
+  const active  = activeEdgeIds(season);
+  const dur     = animated ? 260 : 0;
+
+  cy.nodes().forEach(node => {
+    const show = visible.has(node.id());
+    if (animated) {
+      node.stop(true, false).animate(
+        { style: { opacity: show ? 1 : 0 } },
+        { duration: dur, easing: 'ease-in-out',
+          complete() { if (!show) node.style('display', 'none'); }
+        }
+      );
+      if (show) node.style('display', 'element');
+    } else {
+      node.style({ display: show ? 'element' : 'none', opacity: show ? 1 : 0 });
+    }
+  });
+
+  cy.edges().forEach(edge => {
+    if (edge.hasClass('inherited')) return;
+    const sv = visible.has(edge.source().id());
+    const tv = visible.has(edge.target().id());
+    if (!sv || !tv) { edge.style({ display: fadeInactive ? 'element' : 'none', opacity: 0 }); return; }
+
+    const isActive = active.has(edge.id());
+    edge.style('display', fadeInactive || isActive ? 'element' : 'none');
+
+    const targetOp = isActive ? 0.88 : (fadeInactive ? 0.06 : 0);
+    if (animated) {
+      edge.stop(true, false).animate({ style: { opacity: targetOp } }, { duration: dur });
+    } else {
+      edge.style('opacity', targetOp);
+    }
+    edge.style('font-size', isActive ? 7.5 : 0);
+  });
+
+  syncInherited();
+  updateNodeSizes(visible, active);
   updateStatus(visible, active);
+  updateCypher();
   if (selectedId) refreshInfoPanel();
 }
 
-// ── Selection ──────────────────────────────────────────────────────────────
+/* ── Selection ───────────────────────────────────────────────────────── */
 
 function selectNode(id) {
   selectedId = id;
   cy.elements().removeClass('selected dimmed highlighted neighbour');
-  const node  = cy.getElementById(id);
-  const hood  = node.closedNeighborhood();
+  const node = cy.getElementById(id);
+  const hood = node.closedNeighborhood();
   cy.elements().not(hood).addClass('dimmed');
   hood.edges().addClass('highlighted');
   hood.nodes().not(node).addClass('neighbour');
@@ -565,76 +1083,76 @@ function refreshInfoPanel() {
 }
 
 function renderInfoPanel(id) {
-  const nodeData = graphData.nodes.find(n => n.id === id);
-  if (!nodeData) return;
+  const nd     = graphData.nodes.find(n => n.id === id);
+  if (!nd) return;
 
-  const active = activeEdgeIds(currentSeason);
+  const active = activeEdgeIds(season);
 
-  // Regular connections
   const connEdges = graphData.edges.filter(e =>
     (e.source === id || e.target === id) && active.has(e.id)
   );
 
-  // Plus any inherited edges touching this node
-  const inheritedConn = [...inheritedEdges.keys()].filter(eid => {
+  const inhConn = [...inheritedMap.keys()].filter(eid => {
     const el = cy.getElementById(eid);
     return el.length && (el.data('source') === id || el.data('target') === id);
   });
 
   const lines = connEdges.map(e => {
-    const otherId = e.source === id ? e.target : e.source;
-    const other   = graphData.nodes.find(n => n.id === otherId);
-    return `<strong>${other ? other.label : otherId}</strong> <span style="opacity:.6;font-size:.9em">${e.label}</span>`;
+    const oid   = e.source === id ? e.target : e.source;
+    const other = graphData.nodes.find(n => n.id === oid);
+    return `<strong>${other ? other.label : oid}</strong> <span style="opacity:.6;font-size:.9em">${e.label}</span>`;
   });
 
-  inheritedConn.forEach(eid => {
-    const el      = cy.getElementById(eid);
-    const otherId = el.data('source') === id ? el.data('target') : el.data('source');
-    const other   = graphData.nodes.find(n => n.id === otherId);
-    lines.push(`<strong>${other ? other.label : otherId}</strong> <span style="color:var(--gold);font-size:.9em">${el.data('label')} ★</span>`);
+  inhConn.forEach(eid => {
+    const el    = cy.getElementById(eid);
+    const oid   = el.data('source') === id ? el.data('target') : el.data('source');
+    const other = graphData.nodes.find(n => n.id === oid);
+    lines.push(`<strong>${other ? other.label : oid}</strong> <span class="inh-tag" style="font-size:.9em">${el.data('label')} ★ inherited</span>`);
   });
 
-  document.getElementById('info-name').textContent       = nodeData.label;
-  document.getElementById('info-type').textContent       = nodeData.type;
-  document.getElementById('info-connections').innerHTML  =
+  document.getElementById('info-name').textContent        = nd.label.replace('\n', ' ');
+  const badge = document.getElementById('info-type-badge');
+  badge.textContent  = nd.type;
+  badge.className    = `info-type-badge ${nd.type}`;
+  document.getElementById('info-connections').innerHTML    =
     lines.length ? lines.join('<br>') : 'No active connections this season.';
 
-  const isRemoved = removedNodes.has(id);
-  document.getElementById('remove-btn').style.display  = isRemoved ? 'none'  : 'block';
-  document.getElementById('restore-btn').style.display = isRemoved ? 'block' : 'none';
+  const isRem = removed.has(id);
+  document.getElementById('remove-btn').style.display   = isRem ? 'none'  : 'block';
+  document.getElementById('restore-btn').style.display  = isRem ? 'block' : 'none';
   document.getElementById('info-panel').classList.add('visible');
 }
 
-// ── Remove / restore ───────────────────────────────────────────────────────
+/* ── Remove / restore ────────────────────────────────────────────────── */
 
 function removeNode(id) {
-  removedNodes.add(id);
-  updateGraph();
+  removed.add(id);
+  updateGraph(true);
   renderRemovedPanel();
   clearSelection();
+  const obs = getRemoveObs(id);
+  if (obs) setTimeout(() => flashObservation(obs.main, obs.sub), 420);
 }
 
 function restoreNode(id) {
-  removedNodes.delete(id);
-  updateGraph();
+  removed.delete(id);
+  updateGraph(true);
   renderRemovedPanel();
   renderInfoPanel(id);
+  const msg = OBSERVATIONS.restore?.[id];
+  if (msg) setTimeout(() => flashObservation(msg, null), 320);
 }
 
-// ── Succession panel ───────────────────────────────────────────────────────
+/* ── Succession panel ────────────────────────────────────────────────── */
 
 function renderSuccessionPanel() {
   const panel  = document.getElementById('succession-panel');
   const events = document.getElementById('succession-events');
 
-  if (inheritedEdges.size === 0) {
-    panel.classList.remove('visible');
-    return;
-  }
+  if (inheritedMap.size === 0) { panel.classList.remove('visible'); return; }
 
-  // Deduplicate by note
-  const seen = new Map(); // note -> from_node label
-  inheritedEdges.forEach(({ from_node, note }) => {
+  const seen = new Map();
+  inheritedMap.forEach(({ from_node, note }) => {
     if (!seen.has(note)) {
       const n = graphData.nodes.find(x => x.id === from_node);
       seen.set(note, n ? n.label : from_node);
@@ -644,27 +1162,25 @@ function renderSuccessionPanel() {
   events.innerHTML = '';
   seen.forEach((fromLabel, note) => {
     const div = document.createElement('div');
-    div.className = 'succession-event';
-    div.innerHTML = `<span class="se-note">${note}</span><span class="se-from">← ${fromLabel} removed</span>`;
+    div.className = 'succ-event';
+    div.innerHTML = `<span class="succ-note">${note}</span><span class="succ-from">← ${fromLabel} removed</span>`;
     events.appendChild(div);
   });
 
   panel.classList.add('visible');
 }
 
-// ── Removed panel ──────────────────────────────────────────────────────────
+/* ── Removed panel ───────────────────────────────────────────────────── */
 
 function renderRemovedPanel() {
   const panel = document.getElementById('removed-panel');
   const tags  = document.getElementById('removed-tags');
-
-  if (removedNodes.size === 0) { panel.classList.remove('visible'); return; }
-
+  if (removed.size === 0) { panel.classList.remove('visible'); return; }
   panel.classList.add('visible');
   tags.innerHTML = '';
-  removedNodes.forEach(id => {
+  removed.forEach(id => {
     const n    = graphData.nodes.find(x => x.id === id);
-    const name = n ? n.label : id;
+    const name = n ? n.label.replace('\n', ' ') : id;
     const tag  = document.createElement('div');
     tag.className = 'removed-tag';
     tag.innerHTML = `<span>${name}</span><button title="Restore" onclick="restoreNode('${id}')">↩</button>`;
@@ -672,107 +1188,227 @@ function renderRemovedPanel() {
   });
 }
 
-// ── Status bar ─────────────────────────────────────────────────────────────
+/* ── Status ──────────────────────────────────────────────────────────── */
 
 function updateStatus(visible, active) {
-  document.getElementById('st-season').textContent = currentSeason;
+  document.getElementById('st-season').textContent = season;
   document.getElementById('st-nodes').textContent  = visible.size;
-  let count = 0;
+  let ec = 0;
   cy.edges().forEach(e => {
-    if (e.hasClass('inherited')) return;
-    if (e.style('display') !== 'none' && active.has(e.id())) count++;
+    if (!e.hasClass('inherited') && e.style('display') !== 'none' && active.has(e.id())) ec++;
   });
-  document.getElementById('st-edges').textContent = count;
+  document.getElementById('st-edges').textContent = ec;
 }
 
-function updateInheritedStatus() {
-  const n    = inheritedEdges.size;
-  const wrap = document.getElementById('st-inherited-wrap');
+function updateInheritedStat() {
+  const n    = inheritedMap.size;
+  const wrap = document.getElementById('st-inh-wrap');
   wrap.style.display = n > 0 ? '' : 'none';
-  document.getElementById('st-inherited').textContent = n;
+  document.getElementById('st-inh').textContent = n;
 }
 
-// ── Reset ──────────────────────────────────────────────────────────────────
+/* ── Cypher query generator ──────────────────────────────────────────── */
+
+function buildCypherText() {
+  const lines = [];
+
+  lines.push(`<span class="kw">MATCH</span> <span class="var">(n)</span>-<span class="var">[r]</span>-&gt;<span class="var">(m)</span>`);
+  lines.push(`<span class="kw">WHERE</span> <span class="var">r</span>.<span class="prop">season_start</span> &lt;= <span class="num">${season}</span>`);
+  lines.push(`  <span class="kw">AND</span>   <span class="var">r</span>.<span class="prop">season_end</span>   &gt;= <span class="num">${season}</span>`);
+
+  if (removed.size > 0) {
+    const ids = [...removed].map(id => `<span class="str">'${id}'</span>`).join(', ');
+    lines.push(`  <span class="kw">AND NOT</span> <span class="var">n</span>.<span class="prop">id</span> <span class="kw">IN</span> [${ids}]`);
+    lines.push(`  <span class="kw">AND NOT</span> <span class="var">m</span>.<span class="prop">id</span> <span class="kw">IN</span> [${ids}]`);
+  }
+
+  if (!showRoles) {
+    lines.push(`  <span class="kw">AND</span>   <span class="var">n</span>.<span class="prop">type</span> &lt;&gt; <span class="str">'Role'</span>`);
+    lines.push(`  <span class="kw">AND</span>   <span class="var">m</span>.<span class="prop">type</span> &lt;&gt; <span class="str">'Role'</span>`);
+  }
+
+  if (!showGames) {
+    lines.push(`  <span class="kw">AND</span>   <span class="var">n</span>.<span class="prop">type</span> &lt;&gt; <span class="str">'Game'</span>`);
+    lines.push(`  <span class="kw">AND</span>   <span class="var">m</span>.<span class="prop">type</span> &lt;&gt; <span class="str">'Game'</span>`);
+  }
+
+  lines.push(`<span class="kw">RETURN</span> <span class="var">n</span>, <span class="var">r</span>, <span class="var">m</span>`);
+
+  // Succession
+  const inherited = computeInherited();
+  if (inherited.length > 0) {
+    lines.push('');
+    lines.push(`<span class="cmt">// Succession — ${inherited.length} inherited edge${inherited.length > 1 ? 's' : ''}</span>`);
+    inherited.forEach(e => {
+      const src = graphData.nodes.find(n => n.id === e.source);
+      const tgt = graphData.nodes.find(n => n.id === e.target);
+      lines.push(`<span class="kw">MERGE</span> <span class="var">(${src ? src.label.replace('\n',' ') : e.source})</span>-[:<span class="rel">${e.label}</span> {<span class="prop">inherited</span>: <span class="kw">true</span>}]-&gt;<span class="var">(${tgt ? tgt.label.replace('\n',' ') : e.target})</span>`);
+    });
+    lines.push(`<span class="cmt">// Note: ${inherited[0].note}</span>`);
+  }
+
+  return lines.join('\n');
+}
+
+function buildCypherPlain() {
+  const lines = [];
+  lines.push(`MATCH (n)-[r]->(m)`);
+  lines.push(`WHERE r.season_start <= ${season}`);
+  lines.push(`  AND   r.season_end   >= ${season}`);
+  if (removed.size > 0) {
+    const ids = [...removed].map(id => `'${id}'`).join(', ');
+    lines.push(`  AND NOT n.id IN [${ids}]`);
+    lines.push(`  AND NOT m.id IN [${ids}]`);
+  }
+  if (!showRoles) { lines.push(`  AND   n.type <> 'Role'`); lines.push(`  AND   m.type <> 'Role'`); }
+  if (!showGames) { lines.push(`  AND   n.type <> 'Game'`); lines.push(`  AND   m.type <> 'Game'`); }
+  lines.push(`RETURN n, r, m`);
+  const inherited = computeInherited();
+  if (inherited.length > 0) {
+    lines.push('');
+    lines.push(`// Succession — ${inherited.length} inherited edge(s)`);
+    inherited.forEach(e => {
+      lines.push(`MERGE (${e.source})-[:${e.label} {inherited: true}]->(${e.target})`);
+    });
+    lines.push(`// Note: ${inherited[0].note}`);
+  }
+  return lines.join('\n');
+}
+
+function updateCypher() {
+  const body = document.getElementById('cypher-body');
+  if (!body) return;
+  body.innerHTML = buildCypherText();
+}
+
+/* ── Reset ───────────────────────────────────────────────────────────── */
 
 function resetAll() {
-  removedNodes.clear();
-  currentSeason = 1;
-  showRoles = showGames = false;
+  removed.clear();
+  season      = 1;
+  showRoles   = false;
+  showGames   = false;
   fadeInactive = true;
+  sizeByDegree = true;
   document.querySelectorAll('.s-btn').forEach(b => b.classList.toggle('active', b.dataset.season === '1'));
   document.getElementById('show-roles').checked    = false;
   document.getElementById('show-games').checked    = false;
   document.getElementById('fade-inactive').checked = true;
+  document.getElementById('size-by-degree').checked = true;
   clearSelection();
-  syncInheritedEdges();
   renderRemovedPanel();
   renderSuccessionPanel();
-  updateGraph();
+  updateGraph(true);
 }
 
-// ── Tooltip ────────────────────────────────────────────────────────────────
+/* ── Tooltip ─────────────────────────────────────────────────────────── */
 
-function showTooltip(node, evt) {
-  const tt  = document.getElementById('tooltip');
-  const pos = evt.originalEvent;
-  document.getElementById('tt-name').textContent = node.data('label');
-  document.getElementById('tt-type').textContent = node.data('type');
-  tt.style.display = 'block';
-  tt.style.left    = (pos.clientX + 14) + 'px';
-  tt.style.top     = (pos.clientY - 10) + 'px';
+function showTooltip(node, clientX, clientY) {
+  const tt = document.getElementById('graph-tooltip');
+  tt.textContent    = `${node.data('label').replace('\n', ' ')} [${node.data('type')}]`;
+  tt.style.left     = (clientX + 14) + 'px';
+  tt.style.top      = (clientY - 10) + 'px';
+  tt.style.opacity  = '1';
 }
 
 function hideTooltip() {
-  document.getElementById('tooltip').style.display = 'none';
+  document.getElementById('graph-tooltip').style.opacity = '0';
 }
 
-// ── Init ───────────────────────────────────────────────────────────────────
+/* ── Init ────────────────────────────────────────────────────────────── */
 
 async function init() {
-  const res = await fetch('data/wire-graph.json');
-  graphData = await res.json();
+  const res  = await fetch('data/wire-graph.json');
+  graphData  = await res.json();
 
-  const nodes = graphData.nodes.map(n => ({ data: { id: n.id, label: n.label, type: n.type } }));
+  const nodes = graphData.nodes.map(n => ({
+    data:     { id: n.id, label: n.label, type: n.type },
+    position: { x: n.x, y: n.y },
+  }));
+
   const edges = graphData.edges.map(e => ({
     data: { id: e.id, source: e.source, target: e.target, label: e.label,
-            season_start: e.season_start, season_end: e.season_end }
+            season_start: e.season_start, season_end: e.season_end },
   }));
 
   cy = cytoscape({
-    container: document.getElementById('cy'),
-    elements:  { nodes, edges },
-    style:     buildStyle(),
-    layout: {
-      name: 'cose', animate: false, randomize: false,
-      nodeRepulsion: 14000, idealEdgeLength: 150,
-      gravity: 0.55, numIter: 700, padding: 40,
-    },
-    minZoom: 0.2, maxZoom: 3.5,
+    container:           document.getElementById('cy'),
+    elements:            { nodes, edges },
+    style:               buildStyle(),
+    layout:              { name: 'preset' },
+    minZoom:             0.2,
+    maxZoom:             3.5,
+    userZoomingEnabled:  true,
+    userPanningEnabled:  true,
+    boxSelectionEnabled: false,
   });
 
-  cy.on('tap', 'node', evt => { hideTooltip(); selectNode(evt.target.id()); });
-  cy.on('tap', evt => { if (evt.target === cy) clearSelection(); });
-  cy.on('mouseover', 'node', evt => showTooltip(evt.target, evt));
-  cy.on('mouseout',  'node', ()  => hideTooltip());
-  cy.on('drag',      'node', ()  => hideTooltip());
+  cy.fit(cy.nodes(), 55);
 
+  cy.on('tap', 'node', evt => { hideTooltip(); selectNode(evt.target.id()); });
+  cy.on('tap', evt  => { if (evt.target === cy) clearSelection(); });
+  cy.on('mouseover', 'node', evt => {
+    const pos = evt.originalEvent;
+    showTooltip(evt.target, pos.clientX, pos.clientY);
+  });
+  cy.on('mouseout drag pan zoom', () => hideTooltip());
+
+  bindControls();
+  updateGraph(false);
+}
+
+function bindControls() {
   document.querySelectorAll('.s-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.s-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      currentSeason = parseInt(btn.dataset.season, 10);
-      updateGraph();
+      season = +btn.dataset.season;
+      updateGraph(true);
+      const sObs = OBSERVATIONS.season[season];
+      if (sObs) setTimeout(() => flashObservation(sObs.main, sObs.sub), 360);
     });
   });
 
-  document.getElementById('show-roles').addEventListener('change',    e => { showRoles    = e.target.checked; updateGraph(); });
-  document.getElementById('show-games').addEventListener('change',    e => { showGames    = e.target.checked; updateGraph(); });
-  document.getElementById('fade-inactive').addEventListener('change', e => { fadeInactive = e.target.checked; updateGraph(); });
+  document.getElementById('show-roles').addEventListener('change',     e => { showRoles    = e.target.checked; updateGraph(true); });
+  document.getElementById('show-games').addEventListener('change',     e => { showGames    = e.target.checked; updateGraph(true); });
+  document.getElementById('fade-inactive').addEventListener('change',  e => { fadeInactive = e.target.checked; updateGraph(true); });
+  document.getElementById('size-by-degree').addEventListener('change', e => { sizeByDegree = e.target.checked; updateGraph(true); });
+
   document.getElementById('remove-btn').addEventListener('click',  () => selectedId && removeNode(selectedId));
   document.getElementById('restore-btn').addEventListener('click', () => selectedId && restoreNode(selectedId));
-  document.getElementById('reset-btn').addEventListener('click',   resetAll);
+  document.getElementById('btn-reset').addEventListener('click',   resetAll);
 
-  updateGraph();
+  document.getElementById('btn-fit').addEventListener('click', () => cy.fit(cy.nodes(':visible'), 50));
+
+  document.getElementById('btn-layout').addEventListener('click', () => {
+    cy.layout({
+      name: 'cose',
+      animate: true, animationDuration: 800,
+      randomize: false,
+      nodeRepulsion: 14000,
+      idealEdgeLength: 140,
+      gravity: 0.55,
+      numIter: 700,
+      padding: 50,
+    }).run();
+  });
+
+  // Cypher toggle
+  const panel   = document.getElementById('cypher-panel');
+  const toggle  = document.getElementById('cypher-toggle');
+  toggle.addEventListener('click', () => {
+    panel.classList.toggle('collapsed');
+    panel.classList.toggle('expanded');
+  });
+
+  document.getElementById('cypher-copy').addEventListener('click', e => {
+    e.stopPropagation();
+    navigator.clipboard.writeText(buildCypherPlain()).then(() => {
+      const btn = document.getElementById('cypher-copy');
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy', 1600);
+    });
+  });
 }
 
 init();

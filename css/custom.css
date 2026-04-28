@@ -334,6 +334,57 @@ body,
   line-height: 1;
 }
 
+/* ── Slide observation overlay ──────────────────────────────────────────── */
+
+#slide-obs {
+  position: absolute;
+  top: 46%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  pointer-events: none;
+  z-index: 20;
+  opacity: 0;
+  transition: opacity 0.38s ease;
+  padding: 1em 1.8em;
+  max-width: 480px;
+  width: max-content;
+}
+
+.sobs-main {
+  display: block;
+  font-size: 1.55em;
+  font-weight: 700;
+  color: var(--amber);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  text-shadow: 0 0 50px rgba(232,160,32,0.6), 0 2px 10px rgba(0,0,0,0.95);
+}
+
+.sobs-sub {
+  display: block;
+  font-size: 0.78em;
+  color: rgba(220,230,245,0.6);
+  margin-top: 0.38em;
+  font-style: italic;
+  text-shadow: 0 1px 5px rgba(0,0,0,0.95);
+}
+
+/* ── Explorer link (demo slide) ─────────────────────────────────────────── */
+
+.explorer-link {
+  display: inline-block;
+  margin-top: 0.5em;
+  font-size: 0.62em;
+  font-family: var(--mono);
+  color: var(--muted);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: color 0.15s;
+}
+
+.explorer-link:hover { color: var(--amber); }
+
 /* ── Lists ──────────────────────────────────────────────────────────────── */
 
 .reveal ul.sparse-list,
@@ -1413,13 +1464,194 @@ body,
   right: 1em;
 }
 
+/* ── Graph tooltip ──────────────────────────────────────────────────────── */
+
+#graph-tooltip {
+  position: absolute;
+  pointer-events: none;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.28em 0.65em;
+  font-size: 0.28em;
+  font-family: var(--mono);
+  color: var(--text);
+  letter-spacing: 0.02em;
+  opacity: 0;
+  transition: opacity 0.12s;
+  z-index: 10;
+  white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.5);
+}
+
+/* ── Succession note ────────────────────────────────────────────────────── */
+
+#succession-note {
+  font-size: 0.28em;
+  font-family: var(--mono);
+  color: var(--amber);
+  background: var(--amber-dim);
+  border: 1px solid var(--amber-border);
+  border-radius: 6px;
+  padding: 0.55em 0.7em;
+  line-height: 1.55;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  min-height: 0;
+}
+
+/* ── Reset button ───────────────────────────────────────────────────────── */
+
+.btn-reset {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  color: var(--muted);
+  font-size: 0.28em;
+  font-family: var(--mono);
+  letter-spacing: 0.06em;
+  padding: 0.5em 1em;
+  cursor: pointer;
+  transition: color 0.12s, border-color 0.12s;
+  align-self: flex-start;
+  margin-top: auto;
+}
+
+.btn-reset:hover {
+  color: var(--text);
+  border-color: var(--muted);
+}
+
+/* ── Legend: inherited/succession dot ──────────────────────────────────── */
+
+.legend-dot.inherited {
+  background: none;
+  border-top: 2px dashed var(--amber);
+  border-radius: 0;
+  height: 0;
+  width: 14px;
+  margin-top: 4px;
+}
+
+.legend-item--inh {
+  opacity: 0.75;
+}
+
+/* ── Graph container positioning (for tooltip) ─────────────────────────── */
+
+#graph-container {
+  position: relative;
+}
+
+/* ── Slide 7: succession edge styling in before/after ──────────────────── */
+
+.edge-item--succession {
+  border-color: var(--amber-border) !important;
+  background: var(--amber-dim) !important;
+  color: var(--amber) !important;
+}
+
+.edge-type--succession {
+  background: var(--amber-dim) !important;
+  color: var(--amber) !important;
+  border-color: var(--amber-border) !important;
+}
+
+.edge-item--note {
+  font-style: italic;
+  color: var(--muted) !important;
+  background: transparent !important;
+  border-color: transparent !important;
+  font-size: 0.85em;
+  padding-left: 0.3em !important;
+}
+
+/* ── Slide 9: succession role items ────────────────────────────────────── */
+
+.role-item--succession {
+  border-left-color: var(--amber) !important;
+  background: rgba(232, 160, 32, 0.06) !important;
+}
+
+.role-item--succession .person-name {
+  color: var(--amber) !important;
+}
+
+.role-seasons {
+  font-size: 0.72em;
+  font-family: var(--mono);
+  color: var(--muted);
+  margin-left: auto;
+  opacity: 0.7;
+}
+
+/* ── Slide 10: Marlo note ───────────────────────────────────────────────── */
+
+.marlo-note {
+  margin-top: 0.5em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+  background: rgba(248, 113, 113, 0.07);
+  border: 1px solid rgba(248, 113, 113, 0.28);
+  border-left: 3px solid var(--red);
+  border-radius: 8px;
+  padding: 0.5em 0.85em;
+}
+
+.marlo-label {
+  font-size: 0.42em;
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--red);
+  font-weight: 600;
+}
+
+.marlo-body {
+  font-size: 0.48em;
+  color: var(--text);
+  font-family: var(--body);
+  line-height: 1.55;
+  opacity: 0.85;
+}
+
+/* ── Slide 13: CE nod ───────────────────────────────────────────────────── */
+
+.ce-nod {
+  margin-top: 0.65em;
+  font-size: 0.54em;
+  font-style: italic;
+  color: var(--muted);
+  font-family: var(--body);
+  line-height: 1.6;
+  border-left: 2px solid var(--accent-border);
+  padding-left: 0.85em;
+}
+
 /* ── Fragment animations ────────────────────────────────────────────────── */
 
 .reveal .fragment {
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.35s ease, transform 0.35s ease;
 }
 
 .reveal .fragment.visible {
   opacity: 1;
+}
+
+.reveal .fragment.fade-up {
+  transform: translateY(14px);
+}
+
+.reveal .fragment.fade-up.visible {
+  transform: translateY(0);
+}
+
+.reveal .fragment.fade-left {
+  transform: translateX(-14px);
+}
+
+.reveal .fragment.fade-left.visible {
+  transform: translateX(0);
 }
