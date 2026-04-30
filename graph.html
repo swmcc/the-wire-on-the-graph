@@ -183,6 +183,51 @@ html, body {
 .s-btn:hover { color: var(--accent); border-color: var(--accent-border); background: var(--accent-dim); }
 .s-btn.active { color: var(--accent); border-color: var(--accent-border); background: var(--accent-dim); font-weight: 700; }
 
+/* Play button */
+.s-play {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 0.55em;
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.18s ease;
+}
+.s-play:hover { color: var(--accent); border-color: var(--accent-border); background: var(--accent-dim); }
+.s-play-icon { font-size: 0.9em; line-height: 1; }
+.s-play--active {
+  color: #f0b145;
+  border-color: rgba(232,160,32,0.55);
+  background: rgba(232,160,32,0.10);
+  animation: s-play-pulse 1.6s ease-in-out infinite;
+}
+@keyframes s-play-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(232,160,32,0.45); }
+  50%      { box-shadow: 0 0 0 5px rgba(232,160,32,0); }
+}
+
+/* Season progress bar */
+.season-progress {
+  height: 2px;
+  background: var(--border);
+  border-radius: 2px;
+  margin-top: 5px;
+  overflow: hidden;
+}
+.season-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent), #e8a020);
+  transition: width 240ms ease-out;
+}
+
 /* Toggles */
 .toggle-row {
   display: flex;
@@ -527,6 +572,669 @@ html, body {
 .var { color: #c4b5fd; }
 .rel { color: var(--amber); }
 .prop{ color: #94a3b8; }
+
+/* ── Modernisation layer ────────────────────────────────────────────── */
+
+/* Animated canvas grid + vignette */
+.canvas-wrap::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(91,156,246,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(91,156,246,0.035) 1px, transparent 1px);
+  background-size: 48px 48px;
+  background-position: -1px -1px;
+  pointer-events: none;
+  mask-image: radial-gradient(ellipse at center, #000 38%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 38%, transparent 78%);
+  z-index: 1;
+}
+
+.canvas-wrap::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% -10%, rgba(232,160,32,0.06) 0%, transparent 45%),
+    radial-gradient(ellipse at 50% 110%, rgba(91,156,246,0.05) 0%, transparent 45%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+#cy { position: relative; z-index: 2; }
+
+/* Glass header */
+.header {
+  background: linear-gradient(180deg, rgba(15,22,35,0.85), rgba(15,22,35,0.65));
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+}
+
+.header-title::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--game);
+  margin-right: 0.55em;
+  box-shadow: 0 0 8px var(--game);
+  animation: pulseDot 2.4s ease-in-out infinite;
+  vertical-align: middle;
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 0.55; transform: scale(0.85); }
+  50%      { opacity: 1;    transform: scale(1.1); }
+}
+
+/* Density / components stat */
+.hstat.dim { color: var(--muted); }
+.hstat .delta-up   { color: var(--game); }
+.hstat .delta-down { color: var(--red); }
+
+/* Source-of-truth badge */
+.src-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+  background: rgba(91,156,246,0.05);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 0.22em 0.6em 0.22em 0.55em;
+  font-size: 0.55em;
+  font-family: var(--mono);
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  cursor: default;
+  transition: color 0.12s, border-color 0.12s;
+}
+
+.src-badge:hover { color: var(--text); border-color: var(--accent-border); }
+
+.src-badge .src-tag {
+  font-size: 0.85em;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+  padding-right: 0.5em;
+  border-right: 1px solid var(--border);
+}
+
+.src-badge .src-file   { color: var(--text); }
+.src-badge .src-counts { color: var(--muted); }
+.src-badge .src-counts b { color: var(--text); font-weight: 500; }
+.src-badge .src-origin { color: var(--amber); }
+
+/* Header search button */
+.btn-search {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  background: rgba(91,156,246,0.04);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.32em 0.55em 0.32em 0.7em;
+  color: var(--muted);
+  font-size: 0.6em;
+  font-family: var(--mono);
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  transition: color 0.12s, border-color 0.12s, background 0.12s;
+}
+
+.btn-search:hover { color: var(--text); border-color: var(--accent-border); }
+
+.btn-search .kbd-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.05em 0.4em;
+  font-size: 0.85em;
+  color: var(--muted);
+  letter-spacing: 0;
+}
+
+/* ── Sidebar refinements ─────────────────────────────────────────────── */
+
+.sb-section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 0.6em;
+}
+
+.sb-section-head .ctrl-label { margin-bottom: 0; }
+
+.sb-section-head .meta {
+  font-size: 0.5em;
+  font-family: var(--mono);
+  color: var(--muted);
+  letter-spacing: 0.05em;
+}
+
+/* Lifeline strip */
+.lifelines {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 0.5em;
+}
+
+.lifeline-row {
+  display: grid;
+  grid-template-columns: 58px 1fr;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.55em;
+  font-family: var(--mono);
+  color: var(--muted);
+}
+
+.lifeline-row.dead { opacity: 0.45; }
+
+.lifeline-bar {
+  position: relative;
+  height: 8px;
+  background: var(--surface-2);
+  border: 1px solid var(--border-dim);
+  border-radius: 3px;
+  overflow: hidden;
+  display: flex;
+}
+
+.lifeline-cell {
+  flex: 1;
+  border-right: 1px solid rgba(0,0,0,0.35);
+  position: relative;
+}
+
+.lifeline-cell:last-child { border-right: none; }
+
+.lifeline-cell.active::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(91,156,246,0.55), rgba(91,156,246,0.85));
+}
+
+.lifeline-cell.dead::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(248,113,113,0.45);
+}
+
+.lifeline-cell.cursor {
+  box-shadow: inset 0 0 0 1px var(--amber);
+}
+
+/* Preset scenarios */
+.preset-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+}
+
+.preset-btn {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 0.45em 0.55em;
+  color: var(--muted);
+  font-family: var(--head);
+  font-size: 0.58em;
+  cursor: pointer;
+  text-align: left;
+  line-height: 1.3;
+  transition: all 0.12s;
+  font-weight: 500;
+}
+
+.preset-btn:hover {
+  color: var(--text);
+  border-color: var(--accent-border);
+  background: rgba(91,156,246,0.06);
+  transform: translateY(-1px);
+}
+
+.preset-btn .preset-tag {
+  display: block;
+  font-size: 0.7em;
+  font-family: var(--mono);
+  color: var(--muted);
+  margin-top: 0.2em;
+  letter-spacing: 0.04em;
+}
+
+.preset-btn:hover .preset-tag { color: var(--accent); }
+
+/* Insights panel */
+.insights-panel {
+  background: linear-gradient(180deg, rgba(91,156,246,0.05), rgba(91,156,246,0.01));
+  border: 1px solid var(--accent-border);
+}
+
+.insights-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.32em;
+}
+
+.insight-row {
+  display: grid;
+  grid-template-columns: 14px 1fr auto;
+  gap: 0.45em;
+  align-items: center;
+  font-size: 0.6em;
+  font-family: var(--mono);
+}
+
+.insight-rank {
+  color: var(--muted);
+  font-size: 0.85em;
+  text-align: center;
+}
+
+.insight-name {
+  color: var(--text);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.insight-name .it-tag {
+  display: inline-block;
+  font-size: 0.7em;
+  margin-left: 0.4em;
+  padding: 0 0.3em;
+  border-radius: 3px;
+  background: rgba(255,255,255,0.04);
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.insight-score {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.insight-row:hover {
+  cursor: pointer;
+}
+
+.insight-row:hover .insight-name { color: var(--accent); }
+
+.insight-empty {
+  font-size: 0.6em;
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* ── Toast system ─────────────────────────────────────────────────────── */
+
+.toast-stack {
+  position: fixed;
+  bottom: 50px;
+  right: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 60;
+  pointer-events: none;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  background: rgba(15,22,35,0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 6px;
+  padding: 0.55em 0.85em 0.55em 0.7em;
+  font-size: 0.65em;
+  color: var(--text);
+  font-family: var(--head);
+  font-weight: 500;
+  min-width: 220px;
+  max-width: 320px;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.55);
+  pointer-events: auto;
+  animation: toastIn 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.toast.amber { border-left-color: var(--amber); }
+.toast.red   { border-left-color: var(--red); }
+.toast.green { border-left-color: var(--game); }
+
+.toast.fading { animation: toastOut 0.28s ease forwards; }
+
+.toast .toast-glyph {
+  width: 16px; height: 16px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.18;
+  position: relative;
+}
+
+.toast .toast-glyph::after {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.95;
+}
+
+.toast.amber .toast-glyph { color: var(--amber); }
+.toast.red   .toast-glyph { color: var(--red); }
+.toast.green .toast-glyph { color: var(--game); }
+.toast       .toast-glyph { color: var(--accent); }
+
+.toast .toast-msg { flex: 1; line-height: 1.4; }
+
+.toast .toast-sub {
+  display: block;
+  font-size: 0.85em;
+  color: var(--muted);
+  font-weight: 400;
+  margin-top: 0.1em;
+}
+
+@keyframes toastIn {
+  from { transform: translateX(20px); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+
+@keyframes toastOut {
+  to { transform: translateX(20px); opacity: 0; }
+}
+
+/* ── Command palette ──────────────────────────────────────────────────── */
+
+.cmd-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(7, 9, 15, 0.6);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 100;
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 14vh;
+}
+
+.cmd-overlay.visible { display: flex; }
+
+.cmd-palette {
+  width: 92%;
+  max-width: 540px;
+  background: linear-gradient(180deg, rgba(23,32,53,0.96), rgba(15,22,35,0.96));
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(91,156,246,0.08);
+  overflow: hidden;
+  animation: cmdIn 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes cmdIn {
+  from { transform: translateY(-8px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.cmd-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  padding: 0.85em 1em;
+  border-bottom: 1px solid var(--border-dim);
+}
+
+.cmd-icon {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.5;
+  flex-shrink: 0;
+  box-shadow: 0 0 8px var(--accent);
+}
+
+.cmd-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-family: var(--head);
+  font-size: 1em;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.cmd-input::placeholder { color: var(--muted); }
+
+.cmd-results {
+  max-height: 360px;
+  overflow-y: auto;
+}
+
+.cmd-results::-webkit-scrollbar { width: 4px; }
+.cmd-results::-webkit-scrollbar-track { background: transparent; }
+.cmd-results::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+.cmd-section-label {
+  display: block;
+  font-size: 0.6em;
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+  padding: 0.85em 1em 0.45em;
+}
+
+.cmd-row {
+  display: grid;
+  grid-template-columns: 22px 1fr auto;
+  gap: 0.7em;
+  padding: 0.55em 1em;
+  align-items: center;
+  cursor: pointer;
+  border-left: 2px solid transparent;
+  transition: background 0.1s, border-color 0.1s;
+}
+
+.cmd-row:hover, .cmd-row.cursor {
+  background: rgba(91,156,246,0.08);
+  border-left-color: var(--accent);
+}
+
+.cmd-row .cmd-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  margin-left: 5px;
+}
+
+.cmd-row .cmd-dot.Person       { background: var(--person); box-shadow: 0 0 6px var(--person); }
+.cmd-row .cmd-dot.Organisation { background: var(--org);    box-shadow: 0 0 6px var(--org); }
+.cmd-row .cmd-dot.Role         { background: var(--role);   box-shadow: 0 0 6px var(--role); }
+.cmd-row .cmd-dot.Game         { background: var(--game);   box-shadow: 0 0 6px var(--game); }
+.cmd-row .cmd-dot.Action       { background: var(--accent); box-shadow: 0 0 6px var(--accent); }
+.cmd-row .cmd-dot.Preset       { background: var(--amber);  box-shadow: 0 0 6px var(--amber); }
+
+.cmd-name {
+  font-size: 0.78em;
+  font-weight: 500;
+  color: var(--text);
+  font-family: var(--head);
+}
+
+.cmd-name .cmd-sub {
+  display: block;
+  font-size: 0.7em;
+  color: var(--muted);
+  margin-top: 0.05em;
+  font-family: var(--mono);
+}
+
+.cmd-meta {
+  font-size: 0.55em;
+  font-family: var(--mono);
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.cmd-empty {
+  padding: 1.2em 1em;
+  font-size: 0.7em;
+  color: var(--muted);
+  font-style: italic;
+  text-align: center;
+}
+
+.cmd-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5em 1em;
+  border-top: 1px solid var(--border-dim);
+  font-size: 0.55em;
+  font-family: var(--mono);
+  color: var(--muted);
+  background: rgba(7,9,15,0.4);
+}
+
+.cmd-foot .kbd {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 0.1em 0.4em;
+  margin: 0 0.2em;
+  font-size: 0.95em;
+  color: var(--text);
+}
+
+/* ── Shortcut help overlay ────────────────────────────────────────────── */
+
+.shortcut-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(7, 9, 15, 0.7);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.shortcut-overlay.visible { display: flex; }
+
+.shortcut-card {
+  width: 90%;
+  max-width: 460px;
+  background: linear-gradient(180deg, rgba(23,32,53,0.96), rgba(15,22,35,0.96));
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+  padding: 1.2em 1.4em;
+  animation: cmdIn 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.shortcut-card h3 {
+  font-size: 0.95em;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.85em;
+  letter-spacing: -0.015em;
+}
+
+.shortcut-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5em 1.2em;
+}
+
+.shortcut-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.7em;
+  color: var(--muted);
+}
+
+.shortcut-row .keys {
+  display: flex;
+  gap: 3px;
+}
+
+.shortcut-row .kbd {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.15em 0.5em;
+  font-family: var(--mono);
+  font-size: 0.85em;
+  color: var(--text);
+  min-width: 22px;
+  text-align: center;
+}
+
+.shortcut-foot {
+  margin-top: 1em;
+  padding-top: 0.7em;
+  border-top: 1px solid var(--border-dim);
+  font-size: 0.6em;
+  color: var(--muted);
+  font-style: italic;
+  text-align: center;
+}
+
+/* Subtle existing-element refinements */
+
+.s-btn {
+  transition: all 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.s-btn.active {
+  box-shadow: inset 0 0 0 1px var(--accent-border), 0 0 14px rgba(91,156,246,0.18);
+}
+
+.btn-icon { transition: all 0.18s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.btn-icon:hover { transform: translateY(-1px); }
+
+.cypher-panel {
+  background: linear-gradient(180deg, rgba(15,22,35,0.95), rgba(15,22,35,1));
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.removed-tag, .succ-event, .info-type-badge {
+  transition: transform 0.15s ease;
+}
+
+.removed-tag:hover { transform: translateX(-2px); }
+
+/* Focus rings for accessibility */
+button:focus-visible,
+input:focus-visible,
+.cmd-row:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
 </style>
 </head>
 <body>
@@ -536,15 +1244,28 @@ html, body {
   <!-- ── Header ─────────────────────────────────────────────────────── -->
   <header class="header">
     <span class="header-title">Putting <em>The Wire</em> on the Graph</span>
+    <span class="src-badge" id="src-badge" title="Static export from a Neo4j model. The Cypher panel below shows the equivalent live query.">
+      <span class="src-tag">src</span>
+      <span class="src-file">wire-graph.json</span>
+      <span class="src-counts"><b id="src-n">—</b> nodes · <b id="src-e">—</b> edges</span>
+      <span class="src-origin">Neo4j export</span>
+    </span>
     <div class="header-stats">
       <span class="hstat">Season <b id="st-season">1</b></span>
       <span class="hstat">Nodes <b id="st-nodes">—</b></span>
       <span class="hstat">Active edges <b id="st-edges">—</b></span>
+      <span class="hstat dim">Components <b id="st-components">—</b></span>
+      <span class="hstat dim">Density <b id="st-density">—</b></span>
       <span class="hstat gold" id="st-inh-wrap" style="display:none">Inherited <b id="st-inh">0</b></span>
     </div>
     <div class="header-actions">
+      <button class="btn-search" id="btn-search" title="Search · Cmd/Ctrl+K">
+        <span>Search nodes, presets…</span>
+        <span class="kbd-hint">⌘K</span>
+      </button>
       <button class="btn-icon" id="btn-layout" title="Re-run layout">Relayout</button>
       <button class="btn-icon" id="btn-fit"    title="Fit to screen">Fit</button>
+      <button class="btn-icon" id="btn-help"   title="Keyboard shortcuts (?)">?</button>
       <button class="btn-icon" id="btn-reset"  title="Reset all">Reset</button>
     </div>
   </header>
@@ -553,7 +1274,12 @@ html, body {
   <aside class="sidebar">
 
     <div class="sb-section">
-      <span class="ctrl-label">Season</span>
+      <div class="sb-section-head">
+        <span class="ctrl-label">Season</span>
+        <button id="play-btn" class="s-play" aria-label="Play seasons" title="Walk through S1 → S5 (space)">
+          <span class="s-play-icon" id="play-icon">▶</span><span class="s-play-label" id="play-label">Play</span>
+        </button>
+      </div>
       <div class="season-strip">
         <button class="s-btn active" data-season="1">S1</button>
         <button class="s-btn"        data-season="2">S2</button>
@@ -561,16 +1287,35 @@ html, body {
         <button class="s-btn"        data-season="4">S4</button>
         <button class="s-btn"        data-season="5">S5</button>
       </div>
+      <div class="season-progress"><div class="season-progress-fill" id="season-progress-fill"></div></div>
+      <div class="lifelines" id="lifelines"></div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-section-head">
+        <span class="ctrl-label">Scenarios</span>
+        <span class="meta">one click</span>
+      </div>
+      <div class="preset-grid" id="preset-grid"></div>
     </div>
 
     <div class="sb-section">
       <span class="ctrl-label">Overlay</span>
       <div class="toggle-row">
-        <label class="toggle"><input type="checkbox" id="show-roles"> Roles</label>
-        <label class="toggle"><input type="checkbox" id="show-games"> Games</label>
+        <label class="toggle"><input type="checkbox" id="show-roles"> Roles <span style="margin-left:auto;font-family:var(--mono);font-size:.85em;color:var(--muted)">R</span></label>
+        <label class="toggle"><input type="checkbox" id="show-games"> The Game <span style="margin-left:auto;font-family:var(--mono);font-size:.85em;color:var(--muted)">G</span></label>
         <label class="toggle"><input type="checkbox" id="fade-inactive" checked> Fade inactive edges</label>
         <label class="toggle"><input type="checkbox" id="size-by-degree" checked> Size nodes by degree</label>
       </div>
+    </div>
+
+    <!-- Live insights: top centrality this season -->
+    <div class="sb-section insights-panel" id="insights-panel">
+      <div class="sb-section-head">
+        <span class="ctrl-label">Top central this season</span>
+        <span class="meta">live</span>
+      </div>
+      <div class="insights-list" id="insights-list"></div>
     </div>
 
     <!-- Node info -->
@@ -604,7 +1349,7 @@ html, body {
         <div class="legend-row"><span class="ldot organisation"></span>Organisation</div>
         <div class="legend-row"><span class="ldot role"></span>Role</div>
         <div class="legend-row"><span class="ldot game"></span>The Game</div>
-        <div class="legend-row" style="margin-top:0.35em"><span class="ldash"></span>Inherited edge</div>
+        <div class="legend-row" style="margin-top:0.35em"><span class="ldash"></span>Succession edge</div>
       </div>
     </div>
 
@@ -616,6 +1361,45 @@ html, body {
     <div id="graph-tooltip"></div>
     <div id="observation"></div>
   </div>
+
+  <!-- ── Command palette ────────────────────────────────────────────── -->
+  <div class="cmd-overlay" id="cmd-overlay">
+    <div class="cmd-palette" role="dialog" aria-label="Command palette">
+      <div class="cmd-input-wrap">
+        <span class="cmd-icon"></span>
+        <input class="cmd-input" id="cmd-input" type="text" placeholder="Search nodes, presets, actions…" autocomplete="off" spellcheck="false">
+      </div>
+      <div class="cmd-results" id="cmd-results"></div>
+      <div class="cmd-foot">
+        <span><span class="kbd">↑</span><span class="kbd">↓</span> navigate</span>
+        <span><span class="kbd">↵</span> select · <span class="kbd">esc</span> close</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Shortcut help overlay ──────────────────────────────────────── -->
+  <div class="shortcut-overlay" id="shortcut-overlay">
+    <div class="shortcut-card" role="dialog" aria-label="Keyboard shortcuts">
+      <h3>Keyboard shortcuts</h3>
+      <div class="shortcut-list">
+        <div class="shortcut-row"><span>Season 1–5</span><span class="keys"><span class="kbd">1</span>–<span class="kbd">5</span></span></div>
+        <div class="shortcut-row"><span>Play / Stop seasons</span><span class="keys"><span class="kbd">space</span></span></div>
+        <div class="shortcut-row"><span>Search</span><span class="keys"><span class="kbd">⌘</span><span class="kbd">K</span></span></div>
+        <div class="shortcut-row"><span>Toggle Roles</span><span class="keys"><span class="kbd">R</span></span></div>
+        <div class="shortcut-row"><span>Toggle The Game</span><span class="keys"><span class="kbd">G</span></span></div>
+        <div class="shortcut-row"><span>Fit to screen</span><span class="keys"><span class="kbd">F</span></span></div>
+        <div class="shortcut-row"><span>Relayout</span><span class="keys"><span class="kbd">L</span></span></div>
+        <div class="shortcut-row"><span>Remove selected</span><span class="keys"><span class="kbd">⌫</span></span></div>
+        <div class="shortcut-row"><span>Reset</span><span class="keys"><span class="kbd">⌘</span><span class="kbd">.</span></span></div>
+        <div class="shortcut-row"><span>This menu</span><span class="keys"><span class="kbd">?</span></span></div>
+        <div class="shortcut-row"><span>Close any overlay</span><span class="keys"><span class="kbd">esc</span></span></div>
+      </div>
+      <div class="shortcut-foot">Click anywhere outside to dismiss.</div>
+    </div>
+  </div>
+
+  <!-- ── Toasts ────────────────────────────────────────────────────── -->
+  <div class="toast-stack" id="toast-stack"></div>
 
   <!-- ── Cypher panel ───────────────────────────────────────────────── -->
   <div class="cypher-panel expanded" id="cypher-panel">
@@ -857,11 +1641,23 @@ function buildStyle() {
 /* ── Succession logic ────────────────────────────────────────────────── */
 
 function visibleIds() {
+  // A node is visible only if it has at least one active or inherited edge
+  // touching it in the current season (and isn't removed or filtered).
+  const active = graphData.edges.filter(e =>
+    season >= e.season_start && season <= e.season_end &&
+    !removed.has(e.source) && !removed.has(e.target));
+  const inherited = computeInherited();
+
+  const touched = new Set();
+  for (const e of active)    { touched.add(e.source); touched.add(e.target); }
+  for (const e of inherited) { touched.add(e.source); touched.add(e.target); }
+
   const ids = new Set();
   graphData.nodes.forEach(n => {
-    if (removed.has(n.id))            return;
-    if (!showRoles && n.type === 'Role') return;
-    if (!showGames && n.type === 'Game') return;
+    if (removed.has(n.id))                return;
+    if (!showRoles && n.type === 'Role')  return;
+    if (!showGames && n.type === 'Game')  return;
+    if (!touched.has(n.id))               return;
     ids.add(n.id);
   });
   return ids;
@@ -1198,6 +1994,9 @@ function updateStatus(visible, active) {
     if (!e.hasClass('inherited') && e.style('display') !== 'none' && active.has(e.id())) ec++;
   });
   document.getElementById('st-edges').textContent = ec;
+
+  updateHeaderMetrics(visible, active);
+  renderLifelines();
 }
 
 function updateInheritedStat() {
@@ -1284,6 +2083,7 @@ function updateCypher() {
 /* ── Reset ───────────────────────────────────────────────────────────── */
 
 function resetAll() {
+  if (playTimer) stopPlay();
   removed.clear();
   season      = 1;
   showRoles   = false;
@@ -1321,6 +2121,11 @@ async function init() {
   const res  = await fetch('data/wire-graph.json');
   graphData  = await res.json();
 
+  const srcN = document.getElementById('src-n');
+  const srcE = document.getElementById('src-e');
+  if (srcN) srcN.textContent = graphData.nodes.length;
+  if (srcE) srcE.textContent = graphData.edges.length;
+
   const nodes = graphData.nodes.map(n => ({
     data:     { id: n.id, label: n.label, type: n.type },
     position: { x: n.x, y: n.y },
@@ -1353,13 +2158,477 @@ async function init() {
   });
   cy.on('mouseout drag pan zoom', () => hideTooltip());
 
+  renderPresets();
   bindControls();
   updateGraph(false);
+}
+
+/* ── Toast notifications ─────────────────────────────────────────────── */
+
+function toast(msg, sub = null, variant = 'accent', duration = 2400) {
+  const stack = document.getElementById('toast-stack');
+  if (!stack) return;
+  const el = document.createElement('div');
+  el.className = `toast ${variant}`;
+  el.innerHTML = `<span class="toast-glyph"></span><span class="toast-msg">${msg}${sub ? `<span class="toast-sub">${sub}</span>` : ''}</span>`;
+  stack.appendChild(el);
+  setTimeout(() => {
+    el.classList.add('fading');
+    setTimeout(() => el.remove(), 260);
+  }, duration);
+}
+
+/* ── Header network metrics (components, density) ────────────────────── */
+
+function networkMetrics(visible, active) {
+  const nodes = [...visible];
+  const adj   = new Map();
+  nodes.forEach(id => adj.set(id, new Set()));
+
+  cy.edges().forEach(e => {
+    const isInh = e.hasClass('inherited');
+    if (!isInh && !active.has(e.id())) return;
+    const s = e.source().id(), t = e.target().id();
+    if (!visible.has(s) || !visible.has(t)) return;
+    adj.get(s)?.add(t);
+    adj.get(t)?.add(s);
+  });
+
+  // Connected components via BFS
+  const seen = new Set();
+  let components = 0;
+  nodes.forEach(id => {
+    if (seen.has(id)) return;
+    components++;
+    const q = [id];
+    while (q.length) {
+      const cur = q.shift();
+      if (seen.has(cur)) continue;
+      seen.add(cur);
+      adj.get(cur)?.forEach(n => { if (!seen.has(n)) q.push(n); });
+    }
+  });
+
+  const n = nodes.length;
+  let edgeCount = 0;
+  adj.forEach(set => edgeCount += set.size);
+  edgeCount = edgeCount / 2;
+  const density = n > 1 ? (2 * edgeCount) / (n * (n - 1)) : 0;
+
+  // Degree centrality
+  const degree = new Map();
+  adj.forEach((set, id) => degree.set(id, set.size));
+
+  return { components, density, degree, adj };
+}
+
+let _lastMetrics = null;
+
+function updateHeaderMetrics(visible, active) {
+  const m = networkMetrics(visible, active);
+  _lastMetrics = m;
+
+  const compEl = document.getElementById('st-components');
+  const denEl  = document.getElementById('st-density');
+  if (compEl) compEl.textContent = m.components;
+  if (denEl)  denEl.textContent  = m.density.toFixed(2);
+
+  renderInsights(m.degree);
+}
+
+/* ── Live insights (top centrality) ──────────────────────────────────── */
+
+function renderInsights(degree) {
+  const list = document.getElementById('insights-list');
+  if (!list) return;
+
+  const ranked = [...degree.entries()]
+    .map(([id, deg]) => {
+      const n = graphData.nodes.find(x => x.id === id);
+      return n ? { id, label: n.label.replace('\n', ' '), type: n.type, deg } : null;
+    })
+    .filter(x => x && x.type === 'Person' && x.deg > 0)
+    .sort((a, b) => b.deg - a.deg)
+    .slice(0, 5);
+
+  if (ranked.length === 0) {
+    list.innerHTML = '<span class="insight-empty">No people active in this view.</span>';
+    return;
+  }
+
+  const max = ranked[0].deg;
+  list.innerHTML = ranked.map((r, i) => `
+    <div class="insight-row" data-id="${r.id}" title="Click to focus">
+      <span class="insight-rank">${i + 1}</span>
+      <span class="insight-name">${r.label}<span class="it-tag">${r.type}</span></span>
+      <span class="insight-score">${r.deg}</span>
+    </div>
+  `).join('');
+
+  list.querySelectorAll('.insight-row').forEach(row => {
+    row.addEventListener('click', () => {
+      const id = row.dataset.id;
+      selectNode(id);
+      cy.animate({ center: { eles: cy.getElementById(id) }, zoom: 1.3 }, { duration: 360 });
+    });
+  });
+}
+
+/* ── Lifeline strip ──────────────────────────────────────────────────── */
+
+const LIFELINE_PEOPLE = [
+  { id: 'avon_barksdale',  alive: [1,1,3,3] },
+  { id: 'stringer_bell',   alive: [1,3]     },
+  { id: 'marlo_stanfield', alive: [3,5]     },
+  { id: 'prop_joe',        alive: [1,4]     },
+  { id: 'omar_little',     alive: [1,5]     },
+  { id: 'jimmy_mcnulty',   alive: [1,5]     },
+  { id: 'michael_lee',     alive: [4,5]     },
+  { id: 'namond_brice',    alive: [4,5]     },
+  { id: 'wee_bey',         alive: [1,5]     },
+  { id: 'bunny_colvin',    alive: [1,5]     },
+  { id: 'tommy_carcetti',  alive: [3,5]     },
+  { id: 'clarence_royce',  alive: [1,3]     },
+  { id: 'frank_sobotka',   alive: [2,2]     },
+  { id: 'kima_greggs',     alive: [1,5]     },
+  { id: 'cheese',          alive: [2,5]     },
+  { id: 'gus_haynes',      alive: [5,5]     },
+  { id: 'scott_templeton', alive: [5,5]     },
+];
+
+function renderLifelines() {
+  const wrap = document.getElementById('lifelines');
+  if (!wrap) return;
+
+  wrap.innerHTML = LIFELINE_PEOPLE.map(p => {
+    const node = graphData.nodes.find(n => n.id === p.id);
+    if (!node) return '';
+    const isRemoved = removed.has(p.id);
+
+    // Determine which seasons the character is "active" by edges (not just alive ranges)
+    const activeBySeason = [1,2,3,4,5].map(s => {
+      return graphData.edges.some(e =>
+        (e.source === p.id || e.target === p.id) && s >= e.season_start && s <= e.season_end
+      );
+    });
+
+    const cells = [1,2,3,4,5].map(s => {
+      const idx = s - 1;
+      const ranges = [];
+      for (let i = 0; i < p.alive.length; i += 2) {
+        ranges.push([p.alive[i], p.alive[i + 1]]);
+      }
+      const aliveInS = ranges.some(([a, b]) => s >= a && s <= b);
+      const cls = [];
+      if (aliveInS && activeBySeason[idx] && !isRemoved) cls.push('active');
+      else if (!aliveInS) cls.push('dead');
+      if (s === season) cls.push('cursor');
+      return `<div class="lifeline-cell ${cls.join(' ')}"></div>`;
+    }).join('');
+
+    return `
+      <div class="lifeline-row${isRemoved ? ' dead' : ''}" data-id="${p.id}" title="${node.label}">
+        <span>${node.label.replace('\n',' ')}</span>
+        <div class="lifeline-bar">${cells}</div>
+      </div>
+    `;
+  }).join('');
+
+  wrap.querySelectorAll('.lifeline-row').forEach(row => {
+    row.addEventListener('click', () => selectNode(row.dataset.id));
+  });
+}
+
+/* ── Preset scenarios ────────────────────────────────────────────────── */
+
+const PRESETS = [
+  { label: 'S1 · Origin',          tag: 'Avon era',           season: 1, removed: [],                showRoles: false, showGames: false, msg: 'Season 1. The Barksdale crew at full strength.' },
+  { label: 'S3 · Two orgs',        tag: 'Territory war',      season: 3, removed: [],                showRoles: false, showGames: true,  msg: 'Season 3. Barksdale and Stanfield share the trade. The Co-Op forms.' },
+  { label: 'S3 · Pull Avon',       tag: 'Stringer steps up',  season: 3, removed: ['avon_barksdale'],showRoles: true,  showGames: false, msg: 'Avon removed. Stringer inherits leadership.', sub: 'The graph reorganises locally.' },
+  { label: 'S3 · Pull Prop Joe',   tag: 'Co-Op fragments',    season: 3, removed: ['prop_joe'],      showRoles: false, showGames: true,  msg: 'Prop Joe removed. The Co-Op disbands.', sub: 'The broker mattered more than the kingpin.', variant: 'amber' },
+  { label: 'S5 · Endgame',         tag: 'New roles',          season: 5, removed: [],                showRoles: true,  showGames: false, msg: 'Season 5. Roles reoccupied. The game carries on.' },
+  { label: 'S5 · Pull McNulty',    tag: 'Sydnor inherits',    season: 5, removed: ['jimmy_mcnulty'], showRoles: true,  showGames: false, msg: 'McNulty removed. Sydnor becomes the rule-bender.' },
+];
+
+function renderPresets() {
+  const wrap = document.getElementById('preset-grid');
+  if (!wrap) return;
+  wrap.innerHTML = PRESETS.map((p, i) => `
+    <button class="preset-btn" data-preset="${i}">
+      ${p.label}
+      <span class="preset-tag">${p.tag}</span>
+    </button>
+  `).join('');
+  wrap.querySelectorAll('.preset-btn').forEach(b => {
+    b.addEventListener('click', () => applyPreset(+b.dataset.preset));
+  });
+}
+
+function applyPreset(i) {
+  const p = PRESETS[i];
+  if (!p) return;
+  if (playTimer) stopPlay();
+
+  removed = new Set(p.removed);
+  season  = p.season;
+  showRoles = p.showRoles;
+  showGames = p.showGames;
+
+  document.querySelectorAll('.s-btn').forEach(b => b.classList.toggle('active', +b.dataset.season === season));
+  document.getElementById('show-roles').checked = showRoles;
+  document.getElementById('show-games').checked = showGames;
+
+  clearSelection();
+  renderRemovedPanel();
+  updateGraph(true);
+
+  toast(p.msg, p.sub || null, p.variant || 'accent', 3200);
+}
+
+/* ── Command palette ─────────────────────────────────────────────────── */
+
+const cmdState = { open: false, items: [], cursor: 0, query: '' };
+
+function commandItems() {
+  const items = [];
+
+  // Presets
+  PRESETS.forEach((p, i) => {
+    items.push({
+      kind: 'Preset',
+      name: p.label,
+      sub:  p.tag,
+      meta: 'preset',
+      action: () => applyPreset(i),
+    });
+  });
+
+  // Actions
+  const actions = [
+    { name: 'Play seasons',      sub: 'Walk S1 → S5 with toasts', meta: '␣',  action: () => togglePlay() },
+    { name: 'Reset all',         sub: 'Clear removals, season 1', meta: '⌘.', action: () => { resetAll(); toast('Reset.', null, 'accent', 1400); } },
+    { name: 'Fit to screen',     sub: 'Re-frame the graph',       meta: 'F',  action: () => cy.fit(cy.nodes(':visible'), 50) },
+    { name: 'Re-run layout',     sub: 'Force-directed pass',      meta: 'L',  action: () => relayout() },
+    { name: 'Toggle Roles',      sub: 'Show structural roles',    meta: 'R',  action: () => { const cb = document.getElementById('show-roles'); cb.checked = !cb.checked; cb.dispatchEvent(new Event('change')); } },
+    { name: 'Toggle The Game',   sub: 'Show The Game nodes',      meta: 'G',  action: () => { const cb = document.getElementById('show-games'); cb.checked = !cb.checked; cb.dispatchEvent(new Event('change')); } },
+  ];
+  actions.forEach(a => items.push({ kind: 'Action', ...a }));
+
+  // Nodes
+  graphData.nodes.forEach(n => {
+    items.push({
+      kind: n.type,
+      name: n.label.replace('\n', ' '),
+      sub:  n.type,
+      meta: 'focus',
+      action: () => {
+        selectNode(n.id);
+        cy.animate({ center: { eles: cy.getElementById(n.id) }, zoom: 1.4 }, { duration: 360 });
+      },
+    });
+  });
+
+  return items;
+}
+
+function fuzzyMatch(query, str) {
+  if (!query) return { score: 0, hit: true };
+  const q = query.toLowerCase();
+  const s = str.toLowerCase();
+  if (s.includes(q)) {
+    const i = s.indexOf(q);
+    return { score: 1000 - i, hit: true };
+  }
+  // simple subsequence
+  let qi = 0;
+  for (let i = 0; i < s.length && qi < q.length; i++) {
+    if (s[i] === q[qi]) qi++;
+  }
+  return qi === q.length ? { score: 100, hit: true } : { score: 0, hit: false };
+}
+
+function renderCmdResults() {
+  const out = document.getElementById('cmd-results');
+  if (!out) return;
+  const items = cmdState.items;
+  if (items.length === 0) {
+    out.innerHTML = '<div class="cmd-empty">No matches.</div>';
+    return;
+  }
+
+  // Group by kind for nicer display
+  const groups = {};
+  items.forEach(it => { (groups[it.kind] ||= []).push(it); });
+
+  const order = ['Action', 'Preset', 'Person', 'Organisation', 'Role', 'Game'];
+  const sectionTitles = {
+    Action:       'Actions',
+    Preset:       'Presets',
+    Person:       'People',
+    Organisation: 'Organisations',
+    Role:         'Roles',
+    Game:         'The Game',
+  };
+  let html = '';
+  let globalIdx = 0;
+  order.forEach(kind => {
+    if (!groups[kind] || groups[kind].length === 0) return;
+    html += `<span class="cmd-section-label">${sectionTitles[kind]}</span>`;
+    groups[kind].forEach(it => {
+      const cursor = globalIdx === cmdState.cursor ? ' cursor' : '';
+      html += `
+        <div class="cmd-row${cursor}" data-idx="${globalIdx}">
+          <span class="cmd-dot ${it.kind}"></span>
+          <span class="cmd-name">${it.name}<span class="cmd-sub">${it.sub || ''}</span></span>
+          <span class="cmd-meta">${it.meta || ''}</span>
+        </div>
+      `;
+      // Reorder: keep visual order in step with cmdState.items index by appending in display order
+      globalIdx++;
+    });
+  });
+
+  out.innerHTML = html;
+
+  // Rebuild items in the display order so cursor matches
+  const reorderedItems = [];
+  order.forEach(kind => { if (groups[kind]) reorderedItems.push(...groups[kind]); });
+  cmdState.items = reorderedItems;
+
+  out.querySelectorAll('.cmd-row').forEach(row => {
+    row.addEventListener('mouseenter', () => {
+      cmdState.cursor = +row.dataset.idx;
+      out.querySelectorAll('.cmd-row').forEach(r => r.classList.toggle('cursor', +r.dataset.idx === cmdState.cursor));
+    });
+    row.addEventListener('click', () => {
+      const idx = +row.dataset.idx;
+      cmdState.items[idx]?.action();
+      closeCmd();
+    });
+  });
+
+  // Scroll cursor into view
+  const cur = out.querySelector('.cmd-row.cursor');
+  if (cur) cur.scrollIntoView({ block: 'nearest' });
+}
+
+function filterCmd(query) {
+  cmdState.query = query;
+  const all = commandItems();
+  if (!query) {
+    cmdState.items = all;
+  } else {
+    const matched = all
+      .map(it => ({ it, m: fuzzyMatch(query, it.name + ' ' + (it.sub || '')) }))
+      .filter(x => x.m.hit)
+      .sort((a, b) => b.m.score - a.m.score)
+      .map(x => x.it);
+    cmdState.items = matched;
+  }
+  cmdState.cursor = 0;
+  renderCmdResults();
+}
+
+function openCmd() {
+  cmdState.open = true;
+  cmdState.cursor = 0;
+  document.getElementById('cmd-overlay').classList.add('visible');
+  const inp = document.getElementById('cmd-input');
+  inp.value = '';
+  inp.focus();
+  filterCmd('');
+}
+
+function closeCmd() {
+  cmdState.open = false;
+  document.getElementById('cmd-overlay').classList.remove('visible');
+}
+
+/* ── Shortcut help ───────────────────────────────────────────────────── */
+
+function toggleShortcuts(force) {
+  const el = document.getElementById('shortcut-overlay');
+  if (force === false) { el.classList.remove('visible'); return; }
+  if (force === true)  { el.classList.add('visible');    return; }
+  el.classList.toggle('visible');
+}
+
+/* ── Play seasons walkthrough ────────────────────────────────────────── */
+
+let playTimer    = null;
+let playStep     = 1;
+let _playInternal = false;
+const PLAY_INTERVAL_MS = 2400;
+
+function setSeasonByButton(n) {
+  const btn = document.querySelector(`.s-btn[data-season="${n}"]`);
+  if (!btn) return;
+  _playInternal = true;
+  btn.click();
+  _playInternal = false;
+}
+
+function setProgress(step) {
+  const fill = document.getElementById('season-progress-fill');
+  if (fill) fill.style.width = (step * 20) + '%';
+}
+
+function startPlay() {
+  const btn   = document.getElementById('play-btn');
+  const icon  = document.getElementById('play-icon');
+  const label = document.getElementById('play-label');
+  if (!btn) return;
+  btn.classList.add('s-play--active');
+  if (icon)  icon.textContent  = '■';
+  if (label) label.textContent = 'Stop';
+  removed = new Set();
+  renderRemovedPanel();
+  setSeasonByButton(1);
+  playStep = 1;
+  setProgress(1);
+  playTimer = setInterval(() => {
+    playStep += 1;
+    if (playStep > 5) { stopPlay(); return; }
+    setSeasonByButton(playStep);
+    setProgress(playStep);
+  }, PLAY_INTERVAL_MS);
+}
+
+function stopPlay() {
+  const btn   = document.getElementById('play-btn');
+  const icon  = document.getElementById('play-icon');
+  const label = document.getElementById('play-label');
+  if (playTimer) { clearInterval(playTimer); playTimer = null; }
+  if (btn) btn.classList.remove('s-play--active');
+  if (icon)  icon.textContent  = '▶';
+  if (label) label.textContent = 'Play';
+  setProgress(0);
+}
+
+function togglePlay() {
+  if (playTimer) stopPlay(); else startPlay();
+}
+
+/* ── Layout helper ───────────────────────────────────────────────────── */
+
+function relayout() {
+  cy.layout({
+    name: 'cose',
+    animate: true, animationDuration: 800,
+    randomize: false,
+    nodeRepulsion: 14000,
+    idealEdgeLength: 140,
+    gravity: 0.55,
+    numIter: 700,
+    padding: 50,
+  }).run();
+  toast('Layout re-flowed.', null, 'accent', 1400);
 }
 
 function bindControls() {
   document.querySelectorAll('.s-btn').forEach(btn => {
     btn.addEventListener('click', () => {
+      if (!_playInternal && playTimer) stopPlay();
       document.querySelectorAll('.s-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       season = +btn.dataset.season;
@@ -1380,18 +2649,15 @@ function bindControls() {
 
   document.getElementById('btn-fit').addEventListener('click', () => cy.fit(cy.nodes(':visible'), 50));
 
-  document.getElementById('btn-layout').addEventListener('click', () => {
-    cy.layout({
-      name: 'cose',
-      animate: true, animationDuration: 800,
-      randomize: false,
-      nodeRepulsion: 14000,
-      idealEdgeLength: 140,
-      gravity: 0.55,
-      numIter: 700,
-      padding: 50,
-    }).run();
-  });
+  document.getElementById('btn-layout').addEventListener('click', relayout);
+
+  document.getElementById('btn-help').addEventListener('click', () => toggleShortcuts(true));
+
+  document.getElementById('btn-search').addEventListener('click', openCmd);
+
+  // Play button
+  const playBtn = document.getElementById('play-btn');
+  if (playBtn) playBtn.addEventListener('click', togglePlay);
 
   // Cypher toggle
   const panel   = document.getElementById('cypher-panel');
@@ -1407,7 +2673,84 @@ function bindControls() {
       const btn = document.getElementById('cypher-copy');
       btn.textContent = 'Copied!';
       setTimeout(() => btn.textContent = 'Copy', 1600);
+      toast('Cypher copied to clipboard.', null, 'green', 1600);
     });
+  });
+
+  // Command palette wiring
+  const cmdInput   = document.getElementById('cmd-input');
+  const cmdOverlay = document.getElementById('cmd-overlay');
+  cmdInput.addEventListener('input', e => filterCmd(e.target.value));
+  cmdInput.addEventListener('keydown', e => {
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      cmdState.cursor = Math.min(cmdState.cursor + 1, cmdState.items.length - 1);
+      renderCmdResults();
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      cmdState.cursor = Math.max(cmdState.cursor - 1, 0);
+      renderCmdResults();
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      const item = cmdState.items[cmdState.cursor];
+      if (item) { item.action(); closeCmd(); }
+    } else if (e.key === 'Escape') {
+      e.preventDefault();
+      closeCmd();
+    }
+  });
+  cmdOverlay.addEventListener('click', e => { if (e.target === cmdOverlay) closeCmd(); });
+
+  // Shortcut overlay click-out
+  document.getElementById('shortcut-overlay').addEventListener('click', e => {
+    if (e.target.id === 'shortcut-overlay') toggleShortcuts(false);
+  });
+
+  // Global keyboard shortcuts
+  document.addEventListener('keydown', e => {
+    // Cmd/Ctrl+K
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      cmdState.open ? closeCmd() : openCmd();
+      return;
+    }
+
+    // Cmd/Ctrl+. → reset
+    if ((e.metaKey || e.ctrlKey) && e.key === '.') {
+      e.preventDefault();
+      resetAll();
+      toast('Reset.', null, 'accent', 1400);
+      return;
+    }
+
+    // Skip if typing in an input or any overlay open
+    const tag = (e.target.tagName || '').toLowerCase();
+    if (tag === 'input' || tag === 'textarea') return;
+    if (cmdState.open) return;
+
+    if (e.key === 'Escape') {
+      toggleShortcuts(false);
+      return;
+    }
+
+    if (['1','2','3','4','5'].includes(e.key)) {
+      const btn = document.querySelector(`.s-btn[data-season="${e.key}"]`);
+      if (btn) btn.click();
+      return;
+    }
+
+    const k = e.key.toLowerCase();
+    if (k === 'r') { const cb = document.getElementById('show-roles'); cb.checked = !cb.checked; cb.dispatchEvent(new Event('change')); }
+    if (k === 'g') { const cb = document.getElementById('show-games'); cb.checked = !cb.checked; cb.dispatchEvent(new Event('change')); }
+    if (k === 'f') cy.fit(cy.nodes(':visible'), 50);
+    if (k === 'l') relayout();
+    if (e.key === ' ') { e.preventDefault(); togglePlay(); }
+    if (e.key === '?' || (e.shiftKey && e.key === '/')) toggleShortcuts();
+
+    if ((e.key === 'Backspace' || e.key === 'Delete') && selectedId && !removed.has(selectedId)) {
+      e.preventDefault();
+      removeNode(selectedId);
+    }
   });
 }
 

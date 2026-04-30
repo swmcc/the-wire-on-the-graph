@@ -510,3 +510,118 @@ document.addEventListener('DOMContentLoaded', () => {
   Reveal.on('slidechanged', evt => tryInit(evt.currentSlide));
   Reveal.on('ready',        evt => tryInit(evt.currentSlide));
 });
+
+/* ── Live-computed slide metrics ──────────────────────────────────────────
+   Builds headless Cytoscape graphs from the same wire-graph.json the
+   explorer uses, then computes the centrality and component numbers shown
+   on slides 7 and 9b. The HTML carries baked-in fallbacks so the deck still
+   works if this fails. */
+
+const WireMetrics = (() => {
+  const PERSON_ORG = n => n.type === 'Person' || n.type === 'Organisation';
+
+  function buildHeadless(graphData, season, removed, nodeFilter) {
+    const visible = new Set();
+    graphData.nodes.forEach(n => {
+      if (removed.has(n.id))   return;
+      if (!nodeFilter(n))      return;
+      visible.add(n.id);
+    });
+
+    const nodes = [...visible].map(id => {
+      const n = graphData.nodes.find(x => x.id === id);
+      return { data: { id: n.id, type: n.type } };
+    });
+
+    const edges = graphData.edges
+      .filter(e =>
+        visible.has(e.source) && visible.has(e.target) &&
+        season >= e.season_start && season <= e.season_end
+      )
+      .map(e => ({ data: { id: e.id, source: e.source, target: e.target, label: e.label } }));
+
+    return cytoscape({ headless: true, styleEnabled: false, elements: { nodes, edges } });
+  }
+
+  function largestComponent(headless) {
+    const comps = headless.elements().components();
+    let max = 0;
+    comps.forEach(c => { max = Math.max(max, c.nodes().length); });
+    return max;
+  }
+
+  function normalizedBetweenness(headless, nodeId) {
+    const node = headless.getElementById(nodeId);
+    if (!node || !node.length) return null;
+    const bc = headless.elements().betweennessCentrality({ directed: false, weight: () => 1 });
+    const v = bc.betweennessNormalized(node);
+    return Number.isFinite(v) ? v : null;
+  }
+
+  function degreeOf(headless, nodeId) {
+    const node = headless.getElementById(nodeId);
+    if (!node || !node.length) return null;
+    return node.connectedEdges().length;
+  }
+
+  function setSpan(name, value) {
+    document.querySelectorAll(`[data-metric="${name}"]`).forEach(el => { el.textContent = value; });
+  }
+
+  function fmt(v, digits = 2) {
+    if (v === null || v === undefined || Number.isNaN(v)) return '—';
+    return v.toFixed(digits);
+  }
+
+  async function compute() {
+    if (typeof cytoscape === 'undefined') return;
+    let graphData;
+    try {
+      const res = await fetch('data/wire-graph.json');
+      graphData = await res.json();
+    } catch { return; }
+
+    const noRemoved = new Set();
+
+    /* Season 2 — Avon experiment */
+    const s2Full = buildHeadless(graphData, 2, noRemoved, PERSON_ORG);
+    const s2NoAvon = buildHeadless(graphData, 2, new Set(['avon_barksdale']), PERSON_ORG);
+
+    const s2CompBefore   = largestComponent(s2Full);
+    const s2CompAfterAvn = largestComponent(s2NoAvon);
+    const bksdBefore     = normalizedBetweenness(s2Full,   'barksdale_org');
+    const bksdAfter      = normalizedBetweenness(s2NoAvon, 'barksdale_org');
+    const avonDeg        = degreeOf(s2Full, 'avon_barksdale');
+    const avonBtw        = normalizedBetweenness(s2Full, 'avon_barksdale');
+
+    setSpan('s2-comp-before',        s2CompBefore);
+    setSpan('s2-comp-after-avon',    s2CompAfterAvn);
+    setSpan('s2-comp-before-2',      s2CompBefore);
+    setSpan('s2-comp-after-avon-2',  s2CompAfterAvn);
+    setSpan('s2-bksd-before',        fmt(bksdBefore));
+    setSpan('s2-bksd-after',         fmt(bksdAfter));
+    if (bksdBefore && bksdAfter !== null && bksdBefore > 0) {
+      const pct = Math.round(((bksdAfter - bksdBefore) / bksdBefore) * 100);
+      setSpan('s2-bksd-delta', `${pct >= 0 ? '+' : ''}${pct}%`);
+    }
+    setSpan('avon-degree',  avonDeg ?? '—');
+    setSpan('avon-between', fmt(avonBtw));
+
+    /* Season 3 — Prop Joe experiment */
+    const s3Full   = buildHeadless(graphData, 3, noRemoved, PERSON_ORG);
+    const s3NoPJ   = buildHeadless(graphData, 3, new Set(['prop_joe']), PERSON_ORG);
+    const s3CompBefore = largestComponent(s3Full);
+    const s3CompAfterPJ = largestComponent(s3NoPJ);
+    const pjDeg = degreeOf(s3Full, 'prop_joe');
+    const pjBtw = normalizedBetweenness(s3Full, 'prop_joe');
+
+    setSpan('s3-comp-before',    s3CompBefore);
+    setSpan('s3-comp-after-pj',  s3CompAfterPJ);
+    setSpan('pj-degree',         pjDeg ?? '—');
+    setSpan('pj-between',        fmt(pjBtw));
+  }
+
+  return { compute };
+})();
+
+document.addEventListener('DOMContentLoaded', () => { WireMetrics.compute(); });

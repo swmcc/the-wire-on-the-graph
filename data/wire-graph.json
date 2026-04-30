@@ -1,182 +1,1474 @@
 {
   "nodes": [
-    { "id": "avon_barksdale",        "label": "Avon",           "type": "Person",       "x": 170,  "y": 250 },
-    { "id": "stringer_bell",         "label": "Stringer",       "type": "Person",       "x": 295,  "y": 325 },
-    { "id": "dAngelo_barksdale",     "label": "D'Angelo",       "type": "Person",       "x": 230,  "y": 390 },
-    { "id": "bodie_broadus",         "label": "Bodie",          "type": "Person",       "x": 310,  "y": 460 },
-    { "id": "slim_charles",          "label": "Slim Charles",   "type": "Person",       "x": 150,  "y": 375 },
-    { "id": "cutty",                 "label": "Cutty",          "type": "Person",       "x": 80,   "y": 315 },
-    { "id": "bubbles",               "label": "Bubbles",        "type": "Person",       "x": 155,  "y": 470 },
-    { "id": "prop_joe",              "label": "Prop Joe",       "type": "Person",       "x": 380,  "y": 215 },
-    { "id": "marlo_stanfield",       "label": "Marlo",          "type": "Person",       "x": 555,  "y": 250 },
-    { "id": "chris_partlow",         "label": "Chris",          "type": "Person",       "x": 570,  "y": 355 },
-    { "id": "snoop",                 "label": "Snoop",          "type": "Person",       "x": 640,  "y": 360 },
-    { "id": "omar_little",           "label": "Omar",           "type": "Person",       "x": 110,  "y": 420 },
-    { "id": "michael_lee",           "label": "Michael",        "type": "Person",       "x": 440,  "y": 415 },
-    { "id": "namond_brice",          "label": "Namond",         "type": "Person",       "x": 620,  "y": 420 },
-    { "id": "maury_levy",            "label": "Levy",           "type": "Person",       "x": 470,  "y": 195 },
-    { "id": "lester_freamon",        "label": "Lester",         "type": "Person",       "x": 680,  "y": 215 },
-    { "id": "cedric_daniels",        "label": "Daniels",        "type": "Person",       "x": 665,  "y": 285 },
-    { "id": "jimmy_mcnulty",         "label": "McNulty",        "type": "Person",       "x": 760,  "y": 305 },
-    { "id": "bunk_moreland",         "label": "Bunk",           "type": "Person",       "x": 845,  "y": 290 },
-    { "id": "herc",                  "label": "Herc",           "type": "Person",       "x": 845,  "y": 215 },
-    { "id": "sydnor",                "label": "Sydnor",         "type": "Person",       "x": 860,  "y": 375 },
-    { "id": "clay_davis",            "label": "Clay Davis",     "type": "Person",       "x": 950,  "y": 260 },
-
-    { "id": "barksdale_org",         "label": "Barksdale Org",  "type": "Organisation", "x": 200,  "y": 130 },
-    { "id": "eastern_org",           "label": "Eastern Org",    "type": "Organisation", "x": 380,  "y": 120 },
-    { "id": "new_day_coop",          "label": "New Day Co-Op",  "type": "Organisation", "x": 380,  "y": 65  },
-    { "id": "stanfield_org",         "label": "Stanfield Org",  "type": "Organisation", "x": 545,  "y": 130 },
-    { "id": "baltimore_police",      "label": "Baltimore PD",   "type": "Organisation", "x": 755,  "y": 150 },
-    { "id": "city_hall",             "label": "City Hall",      "type": "Organisation", "x": 940,  "y": 150 },
-    { "id": "school_system",         "label": "School System",  "type": "Organisation", "x": 665,  "y": 200 },
-
-    { "id": "drug_trade_game",       "label": "Drug Trade",     "type": "Game",         "x": 360,  "y": 30  },
-    { "id": "police_stats_game",     "label": "Stats Game",     "type": "Game",         "x": 755,  "y": 35  },
-    { "id": "political_game",        "label": "Political Game", "type": "Game",         "x": 945,  "y": 35  },
-    { "id": "school_game",           "label": "School Game",    "type": "Game",         "x": 645,  "y": 40  },
-
-    { "id": "kingpin_role",          "label": "Kingpin",        "type": "Role",         "x": 350,  "y": 520 },
-    { "id": "operator_role",         "label": "Operator",       "type": "Role",         "x": 215,  "y": 520 },
-    { "id": "outside_predator_role", "label": "Outside\nPredator", "type": "Role",      "x": 110,  "y": 520 },
-    { "id": "rule_bending_det_role", "label": "Rule-Bending\nDet.", "type": "Role",     "x": 760,  "y": 520 }
+    {
+      "id": "avon_barksdale",
+      "label": "Avon",
+      "type": "Person",
+      "x": 170,
+      "y": 250
+    },
+    {
+      "id": "stringer_bell",
+      "label": "Stringer",
+      "type": "Person",
+      "x": 295,
+      "y": 325
+    },
+    {
+      "id": "dAngelo_barksdale",
+      "label": "D'Angelo",
+      "type": "Person",
+      "x": 230,
+      "y": 390
+    },
+    {
+      "id": "bodie_broadus",
+      "label": "Bodie",
+      "type": "Person",
+      "x": 310,
+      "y": 460
+    },
+    {
+      "id": "slim_charles",
+      "label": "Slim Charles",
+      "type": "Person",
+      "x": 150,
+      "y": 375
+    },
+    {
+      "id": "cutty",
+      "label": "Cutty",
+      "type": "Person",
+      "x": 80,
+      "y": 315
+    },
+    {
+      "id": "bubbles",
+      "label": "Bubbles",
+      "type": "Person",
+      "x": 155,
+      "y": 470
+    },
+    {
+      "id": "prop_joe",
+      "label": "Prop Joe",
+      "type": "Person",
+      "x": 380,
+      "y": 215
+    },
+    {
+      "id": "marlo_stanfield",
+      "label": "Marlo",
+      "type": "Person",
+      "x": 555,
+      "y": 250
+    },
+    {
+      "id": "chris_partlow",
+      "label": "Chris",
+      "type": "Person",
+      "x": 570,
+      "y": 355
+    },
+    {
+      "id": "snoop",
+      "label": "Snoop",
+      "type": "Person",
+      "x": 640,
+      "y": 360
+    },
+    {
+      "id": "omar_little",
+      "label": "Omar",
+      "type": "Person",
+      "x": 110,
+      "y": 420
+    },
+    {
+      "id": "michael_lee",
+      "label": "Michael",
+      "type": "Person",
+      "x": 440,
+      "y": 415
+    },
+    {
+      "id": "namond_brice",
+      "label": "Namond",
+      "type": "Person",
+      "x": 620,
+      "y": 420
+    },
+    {
+      "id": "maury_levy",
+      "label": "Levy",
+      "type": "Person",
+      "x": 470,
+      "y": 195
+    },
+    {
+      "id": "lester_freamon",
+      "label": "Lester",
+      "type": "Person",
+      "x": 680,
+      "y": 215
+    },
+    {
+      "id": "cedric_daniels",
+      "label": "Daniels",
+      "type": "Person",
+      "x": 665,
+      "y": 285
+    },
+    {
+      "id": "jimmy_mcnulty",
+      "label": "McNulty",
+      "type": "Person",
+      "x": 760,
+      "y": 305
+    },
+    {
+      "id": "bunk_moreland",
+      "label": "Bunk",
+      "type": "Person",
+      "x": 845,
+      "y": 290
+    },
+    {
+      "id": "herc",
+      "label": "Herc",
+      "type": "Person",
+      "x": 845,
+      "y": 215
+    },
+    {
+      "id": "sydnor",
+      "label": "Sydnor",
+      "type": "Person",
+      "x": 860,
+      "y": 375
+    },
+    {
+      "id": "clay_davis",
+      "label": "Clay Davis",
+      "type": "Person",
+      "x": 950,
+      "y": 260
+    },
+    {
+      "id": "barksdale_org",
+      "label": "Barksdale Org",
+      "type": "Organisation",
+      "x": 200,
+      "y": 130
+    },
+    {
+      "id": "eastern_org",
+      "label": "Eastern Org",
+      "type": "Organisation",
+      "x": 380,
+      "y": 120
+    },
+    {
+      "id": "new_day_coop",
+      "label": "New Day Co-Op",
+      "type": "Organisation",
+      "x": 380,
+      "y": 65
+    },
+    {
+      "id": "stanfield_org",
+      "label": "Stanfield Org",
+      "type": "Organisation",
+      "x": 545,
+      "y": 130
+    },
+    {
+      "id": "baltimore_police",
+      "label": "Baltimore PD",
+      "type": "Organisation",
+      "x": 755,
+      "y": 150
+    },
+    {
+      "id": "city_hall",
+      "label": "City Hall",
+      "type": "Organisation",
+      "x": 940,
+      "y": 150
+    },
+    {
+      "id": "school_system",
+      "label": "School System",
+      "type": "Organisation",
+      "x": 665,
+      "y": 200
+    },
+    {
+      "id": "drug_trade_game",
+      "label": "Drug Trade",
+      "type": "Game",
+      "x": 360,
+      "y": 30
+    },
+    {
+      "id": "police_stats_game",
+      "label": "Stats Game",
+      "type": "Game",
+      "x": 755,
+      "y": 35
+    },
+    {
+      "id": "political_game",
+      "label": "Political Game",
+      "type": "Game",
+      "x": 945,
+      "y": 35
+    },
+    {
+      "id": "school_game",
+      "label": "School Game",
+      "type": "Game",
+      "x": 645,
+      "y": 40
+    },
+    {
+      "id": "kingpin_role",
+      "label": "Kingpin",
+      "type": "Role",
+      "x": 350,
+      "y": 520
+    },
+    {
+      "id": "operator_role",
+      "label": "Operator",
+      "type": "Role",
+      "x": 215,
+      "y": 520
+    },
+    {
+      "id": "outside_predator_role",
+      "label": "Outside\nPredator",
+      "type": "Role",
+      "x": 110,
+      "y": 520
+    },
+    {
+      "id": "rule_bending_det_role",
+      "label": "Rule-Bending\nDet.",
+      "type": "Role",
+      "x": 760,
+      "y": 520
+    },
+    {
+      "id": "enforcer_role",
+      "label": "Enforcer",
+      "type": "Role"
+    },
+    {
+      "id": "wee_bey",
+      "label": "Wee-Bey",
+      "type": "Person",
+      "x": 75,
+      "y": 185
+    },
+    {
+      "id": "brianna_barksdale",
+      "label": "Brianna",
+      "type": "Person",
+      "x": 100,
+      "y": 130
+    },
+    {
+      "id": "bunny_colvin",
+      "label": "Colvin",
+      "type": "Person",
+      "x": 815,
+      "y": 165
+    },
+    {
+      "id": "tommy_carcetti",
+      "label": "Carcetti",
+      "type": "Person",
+      "x": 870,
+      "y": 100
+    },
+    {
+      "id": "clarence_royce",
+      "label": "Royce",
+      "type": "Person",
+      "x": 1010,
+      "y": 95
+    },
+    {
+      "id": "rawls",
+      "label": "Rawls",
+      "type": "Person",
+      "x": 850,
+      "y": 90
+    },
+    {
+      "id": "burrell",
+      "label": "Burrell",
+      "type": "Person",
+      "x": 700,
+      "y": 90
+    },
+    {
+      "id": "frank_sobotka",
+      "label": "Sobotka",
+      "type": "Person",
+      "x": 25,
+      "y": 95
+    },
+    {
+      "id": "nick_sobotka",
+      "label": "Nick",
+      "type": "Person",
+      "x": 25,
+      "y": 175
+    },
+    {
+      "id": "beadie_russell",
+      "label": "Beadie",
+      "type": "Person",
+      "x": 25,
+      "y": 245
+    },
+    {
+      "id": "kima_greggs",
+      "label": "Kima",
+      "type": "Person",
+      "x": 730,
+      "y": 380
+    },
+    {
+      "id": "ellis_carver",
+      "label": "Carver",
+      "type": "Person",
+      "x": 800,
+      "y": 470
+    },
+    {
+      "id": "cheese",
+      "label": "Cheese",
+      "type": "Person",
+      "x": 430,
+      "y": 150
+    },
+    {
+      "id": "gus_haynes",
+      "label": "Gus",
+      "type": "Person",
+      "x": 1015,
+      "y": 350
+    },
+    {
+      "id": "scott_templeton",
+      "label": "Templeton",
+      "type": "Person",
+      "x": 1015,
+      "y": 420
+    },
+    {
+      "id": "baltimore_sun",
+      "label": "Baltimore Sun",
+      "type": "Organisation",
+      "x": 1050,
+      "y": 285
+    },
+    {
+      "id": "stevedores_union",
+      "label": "Stevedores",
+      "type": "Organisation",
+      "x": 25,
+      "y": 30
+    },
+    {
+      "id": "politician_role",
+      "label": "Politician",
+      "type": "Role",
+      "x": 940,
+      "y": 585
+    },
+    {
+      "id": "reporter_role",
+      "label": "Reporter",
+      "type": "Role",
+      "x": 1015,
+      "y": 585
+    },
+    {
+      "id": "loyal_soldier_role",
+      "label": "Loyal\nSoldier",
+      "type": "Role",
+      "x": 470,
+      "y": 585
+    },
+    {
+      "id": "dock_survival_game",
+      "label": "Dock Game",
+      "type": "Game",
+      "x": 35,
+      "y": -15
+    },
+    {
+      "id": "narrative_game",
+      "label": "Narrative\nGame",
+      "type": "Game",
+      "x": 1050,
+      "y": 35
+    }
   ],
-
   "edges": [
-    { "id": "avon_leads_barksdale_s1",        "source": "avon_barksdale",   "target": "barksdale_org",          "label": "LEADS",         "season_start": 1, "season_end": 1 },
-    { "id": "avon_leads_barksdale_s3",        "source": "avon_barksdale",   "target": "barksdale_org",          "label": "LEADS",         "season_start": 3, "season_end": 3 },
-    { "id": "stringer_works_for_avon_s1",     "source": "stringer_bell",    "target": "avon_barksdale",         "label": "WORKS_FOR",     "season_start": 1, "season_end": 1 },
-    { "id": "stringer_leads_barksdale_s2",    "source": "stringer_bell",    "target": "barksdale_org",          "label": "LEADS",         "season_start": 2, "season_end": 3 },
-    { "id": "stringer_occupies_operator",     "source": "stringer_bell",    "target": "operator_role",          "label": "OCCUPIES_ROLE", "season_start": 1, "season_end": 3 },
-
-    { "id": "dAngelo_member_barksdale",       "source": "dAngelo_barksdale","target": "barksdale_org",          "label": "MEMBER_OF",     "season_start": 1, "season_end": 2 },
-    { "id": "dAngelo_works_avon",             "source": "dAngelo_barksdale","target": "avon_barksdale",         "label": "WORKS_FOR",     "season_start": 1, "season_end": 1 },
-
-    { "id": "bodie_member_barksdale",         "source": "bodie_broadus",    "target": "barksdale_org",          "label": "MEMBER_OF",     "season_start": 1, "season_end": 3 },
-    { "id": "bodie_member_stanfield",         "source": "bodie_broadus",    "target": "stanfield_org",          "label": "MEMBER_OF",     "season_start": 4, "season_end": 4 },
-
-    { "id": "slim_member_barksdale",          "source": "slim_charles",     "target": "barksdale_org",          "label": "MEMBER_OF",     "season_start": 1, "season_end": 3 },
-    { "id": "slim_member_eastern",            "source": "slim_charles",     "target": "eastern_org",            "label": "MEMBER_OF",     "season_start": 4, "season_end": 5 },
-
-    { "id": "cutty_member_barksdale",         "source": "cutty",            "target": "barksdale_org",          "label": "MEMBER_OF",     "season_start": 1, "season_end": 1 },
-
-    { "id": "bubbles_informs_police",         "source": "bubbles",          "target": "baltimore_police",       "label": "INFORMS",       "season_start": 1, "season_end": 4 },
-
-    { "id": "prop_leads_eastern",             "source": "prop_joe",         "target": "eastern_org",            "label": "LEADS",         "season_start": 1, "season_end": 5 },
-    { "id": "prop_occupies_kingpin_east",     "source": "prop_joe",         "target": "kingpin_role",           "label": "OCCUPIES_ROLE", "season_start": 1, "season_end": 4 },
-    { "id": "prop_leads_coop",                "source": "prop_joe",         "target": "new_day_coop",           "label": "LEADS",         "season_start": 3, "season_end": 4 },
-    { "id": "eastern_plays_drug",             "source": "eastern_org",      "target": "drug_trade_game",        "label": "PLAYS_GAME",    "season_start": 1, "season_end": 5 },
-    { "id": "coop_plays_drug",                "source": "new_day_coop",     "target": "drug_trade_game",        "label": "PLAYS_GAME",    "season_start": 3, "season_end": 5 },
-    { "id": "prop_connected_barksdale",       "source": "prop_joe",         "target": "barksdale_org",          "label": "CONNECTED_TO",  "season_start": 2, "season_end": 3 },
-    { "id": "prop_connected_stanfield",       "source": "prop_joe",         "target": "stanfield_org",          "label": "CONNECTED_TO",  "season_start": 3, "season_end": 5 },
-    { "id": "marlo_member_coop",              "source": "marlo_stanfield",  "target": "new_day_coop",           "label": "MEMBER_OF",     "season_start": 3, "season_end": 4 },
-
-    { "id": "marlo_leads_stanfield_s3",       "source": "marlo_stanfield",  "target": "stanfield_org",          "label": "LEADS",         "season_start": 3, "season_end": 5 },
-    { "id": "marlo_occupies_kingpin",         "source": "marlo_stanfield",  "target": "kingpin_role",           "label": "OCCUPIES_ROLE", "season_start": 3, "season_end": 5 },
-
-    { "id": "chris_member_stanfield",         "source": "chris_partlow",    "target": "stanfield_org",          "label": "MEMBER_OF",     "season_start": 3, "season_end": 5 },
-    { "id": "chris_works_marlo",              "source": "chris_partlow",    "target": "marlo_stanfield",        "label": "WORKS_FOR",     "season_start": 3, "season_end": 5 },
-    { "id": "snoop_member_stanfield",         "source": "snoop",            "target": "stanfield_org",          "label": "MEMBER_OF",     "season_start": 3, "season_end": 5 },
-    { "id": "snoop_works_marlo",              "source": "snoop",            "target": "marlo_stanfield",        "label": "WORKS_FOR",     "season_start": 3, "season_end": 5 },
-
-    { "id": "barksdale_plays_drug_game",      "source": "barksdale_org",    "target": "drug_trade_game",        "label": "PLAYS_GAME",    "season_start": 1, "season_end": 3 },
-    { "id": "stanfield_plays_drug_game",      "source": "stanfield_org",    "target": "drug_trade_game",        "label": "PLAYS_GAME",    "season_start": 3, "season_end": 5 },
-    { "id": "police_plays_stats_game",        "source": "baltimore_police", "target": "police_stats_game",      "label": "PLAYS_GAME",    "season_start": 1, "season_end": 5 },
-    { "id": "city_hall_plays_political",      "source": "city_hall",        "target": "political_game",         "label": "PLAYS_GAME",    "season_start": 1, "season_end": 5 },
-    { "id": "school_plays_school_game",       "source": "school_system",    "target": "school_game",            "label": "PLAYS_GAME",    "season_start": 4, "season_end": 5 },
-    { "id": "clay_davis_plays_political",     "source": "clay_davis",       "target": "political_game",         "label": "PLAYS_GAME",    "season_start": 2, "season_end": 5 },
-
-    { "id": "avon_occupies_kingpin_s1",       "source": "avon_barksdale",   "target": "kingpin_role",           "label": "OCCUPIES_ROLE", "season_start": 1, "season_end": 1 },
-    { "id": "avon_occupies_kingpin_s3",       "source": "avon_barksdale",   "target": "kingpin_role",           "label": "OCCUPIES_ROLE", "season_start": 3, "season_end": 3 },
-    { "id": "omar_occupies_predator",         "source": "omar_little",      "target": "outside_predator_role",  "label": "OCCUPIES_ROLE", "season_start": 1, "season_end": 5 },
-    { "id": "michael_occupies_predator",      "source": "michael_lee",      "target": "outside_predator_role",  "label": "OCCUPIES_ROLE", "season_start": 5, "season_end": 5 },
-    { "id": "mcnulty_occupies_rebel",         "source": "jimmy_mcnulty",    "target": "rule_bending_det_role",  "label": "OCCUPIES_ROLE", "season_start": 1, "season_end": 5 },
-    { "id": "lester_occupies_rebel_s5",       "source": "lester_freamon",   "target": "rule_bending_det_role",  "label": "OCCUPIES_ROLE", "season_start": 5, "season_end": 5 },
-    { "id": "sydnor_occupies_rebel",          "source": "sydnor",           "target": "rule_bending_det_role",  "label": "OCCUPIES_ROLE", "season_start": 5, "season_end": 5 },
-
-    { "id": "maury_works_barksdale",          "source": "maury_levy",       "target": "barksdale_org",          "label": "WORKS_FOR",     "season_start": 1, "season_end": 3 },
-    { "id": "maury_works_stanfield",          "source": "maury_levy",       "target": "stanfield_org",          "label": "WORKS_FOR",     "season_start": 3, "season_end": 5 },
-    { "id": "maury_connected_city_hall",      "source": "maury_levy",       "target": "city_hall",              "label": "CONNECTED_TO",  "season_start": 2, "season_end": 5 },
-    { "id": "herc_informs_stanfield_s4",      "source": "herc",             "target": "stanfield_org",          "label": "INFORMS",       "season_start": 4, "season_end": 5 },
-
-    { "id": "lester_member_police",           "source": "lester_freamon",   "target": "baltimore_police",       "label": "MEMBER_OF",     "season_start": 1, "season_end": 5 },
-    { "id": "lester_inv_barksdale",           "source": "lester_freamon",   "target": "barksdale_org",          "label": "INVESTIGATES",  "season_start": 1, "season_end": 3 },
-    { "id": "lester_inv_stanfield",           "source": "lester_freamon",   "target": "stanfield_org",          "label": "INVESTIGATES",  "season_start": 3, "season_end": 5 },
-
-    { "id": "daniels_member_police",          "source": "cedric_daniels",   "target": "baltimore_police",       "label": "MEMBER_OF",     "season_start": 1, "season_end": 5 },
-    { "id": "daniels_inv_barksdale",          "source": "cedric_daniels",   "target": "barksdale_org",          "label": "INVESTIGATES",  "season_start": 1, "season_end": 3 },
-    { "id": "daniels_inv_stanfield",          "source": "cedric_daniels",   "target": "stanfield_org",          "label": "INVESTIGATES",  "season_start": 3, "season_end": 5 },
-
-    { "id": "mcnulty_investigates_barksdale", "source": "jimmy_mcnulty",    "target": "barksdale_org",          "label": "INVESTIGATES",  "season_start": 1, "season_end": 3 },
-    { "id": "mcnulty_investigates_stanfield", "source": "jimmy_mcnulty",    "target": "stanfield_org",          "label": "INVESTIGATES",  "season_start": 5, "season_end": 5 },
-    { "id": "mcnulty_member_police",          "source": "jimmy_mcnulty",    "target": "baltimore_police",       "label": "MEMBER_OF",     "season_start": 1, "season_end": 5 },
-
-    { "id": "bunk_member_police",             "source": "bunk_moreland",    "target": "baltimore_police",       "label": "MEMBER_OF",     "season_start": 1, "season_end": 5 },
-    { "id": "bunk_inv_barksdale",             "source": "bunk_moreland",    "target": "barksdale_org",          "label": "INVESTIGATES",  "season_start": 1, "season_end": 3 },
-    { "id": "bunk_inv_stanfield",             "source": "bunk_moreland",    "target": "stanfield_org",          "label": "INVESTIGATES",  "season_start": 4, "season_end": 5 },
-
-    { "id": "herc_member_police",             "source": "herc",             "target": "baltimore_police",       "label": "MEMBER_OF",     "season_start": 1, "season_end": 4 },
-    { "id": "sydnor_member_police",           "source": "sydnor",           "target": "baltimore_police",       "label": "MEMBER_OF",     "season_start": 1, "season_end": 5 },
-    { "id": "sydnor_investigates_stanfield",  "source": "sydnor",           "target": "stanfield_org",          "label": "INVESTIGATES",  "season_start": 4, "season_end": 5 },
-
-    { "id": "police_investigates_barksdale",  "source": "baltimore_police", "target": "barksdale_org",          "label": "INVESTIGATES",  "season_start": 1, "season_end": 3 },
-    { "id": "police_investigates_stanfield",  "source": "baltimore_police", "target": "stanfield_org",          "label": "INVESTIGATES",  "season_start": 4, "season_end": 5 },
-
-    { "id": "omar_targets_barksdale",         "source": "omar_little",      "target": "barksdale_org",          "label": "TARGETS",       "season_start": 1, "season_end": 3 },
-    { "id": "omar_targets_stanfield",         "source": "omar_little",      "target": "stanfield_org",          "label": "TARGETS",       "season_start": 4, "season_end": 5 },
-    { "id": "michael_member_stanfield",       "source": "michael_lee",      "target": "stanfield_org",          "label": "MEMBER_OF",     "season_start": 4, "season_end": 5 },
-    { "id": "namond_member_barksdale",        "source": "namond_brice",     "target": "barksdale_org",          "label": "MEMBER_OF",     "season_start": 4, "season_end": 4 },
-    { "id": "namond_school_game",             "source": "namond_brice",     "target": "school_game",            "label": "EXPOSED_TO",    "season_start": 4, "season_end": 4 },
-    { "id": "clay_davis_member_city_hall",    "source": "clay_davis",       "target": "city_hall",              "label": "MEMBER_OF",     "season_start": 1, "season_end": 5 }
+    {
+      "id": "avon_leads_barksdale_s1",
+      "source": "avon_barksdale",
+      "target": "barksdale_org",
+      "label": "LEADS",
+      "season_start": 1,
+      "season_end": 1
+    },
+    {
+      "id": "avon_leads_barksdale_s3",
+      "source": "avon_barksdale",
+      "target": "barksdale_org",
+      "label": "LEADS",
+      "season_start": 3,
+      "season_end": 3
+    },
+    {
+      "id": "stringer_works_for_avon_s1",
+      "source": "stringer_bell",
+      "target": "avon_barksdale",
+      "label": "WORKS_FOR",
+      "season_start": 1,
+      "season_end": 1
+    },
+    {
+      "id": "stringer_leads_barksdale_s2",
+      "source": "stringer_bell",
+      "target": "barksdale_org",
+      "label": "LEADS",
+      "season_start": 2,
+      "season_end": 3
+    },
+    {
+      "id": "stringer_occupies_operator",
+      "source": "stringer_bell",
+      "target": "operator_role",
+      "label": "OCCUPIES_ROLE",
+      "season_start": 1,
+      "season_end": 3
+    },
+    {
+      "id": "dAngelo_member_barksdale",
+      "source": "dAngelo_barksdale",
+      "target": "barksdale_org",
+      "label": "MEMBER_OF",
+      "season_start": 1,
+      "season_end": 2
+    },
+    {
+      "id": "dAngelo_works_avon",
+      "source": "dAngelo_barksdale",
+      "target": "avon_barksdale",
+      "label": "WORKS_FOR",
+      "season_start": 1,
+      "season_end": 1
+    },
+    {
+      "id": "bodie_member_barksdale",
+      "source": "bodie_broadus",
+      "target": "barksdale_org",
+      "label": "MEMBER_OF",
+      "season_start": 1,
+      "season_end": 3
+    },
+    {
+      "id": "bodie_member_stanfield",
+      "source": "bodie_broadus",
+      "target": "stanfield_org",
+      "label": "MEMBER_OF",
+      "season_start": 4,
+      "season_end": 4
+    },
+    {
+      "id": "slim_member_barksdale",
+      "source": "slim_charles",
+      "target": "barksdale_org",
+      "label": "MEMBER_OF",
+      "season_start": 1,
+      "season_end": 3
+    },
+    {
+      "id": "slim_member_eastern",
+      "source": "slim_charles",
+      "target": "eastern_org",
+      "label": "MEMBER_OF",
+      "season_start": 4,
+      "season_end": 5
+    },
+    {
+      "id": "cutty_member_barksdale",
+      "source": "cutty",
+      "target": "barksdale_org",
+      "label": "MEMBER_OF",
+      "season_start": 1,
+      "season_end": 1
+    },
+    {
+      "id": "bubbles_informs_police",
+      "source": "bubbles",
+      "target": "baltimore_police",
+      "label": "INFORMS",
+      "season_start": 1,
+      "season_end": 4
+    },
+    {
+      "id": "prop_leads_eastern",
+      "source": "prop_joe",
+      "target": "eastern_org",
+      "label": "LEADS",
+      "season_start": 1,
+      "season_end": 5
+    },
+    {
+      "id": "prop_occupies_kingpin_east",
+      "source": "prop_joe",
+      "target": "kingpin_role",
+      "label": "OCCUPIES_ROLE",
+      "season_start": 1,
+      "season_end": 4
+    },
+    {
+      "id": "prop_leads_coop",
+      "source": "prop_joe",
+      "target": "new_day_coop",
+      "label": "LEADS",
+      "season_start": 3,
+      "season_end": 4
+    },
+    {
+      "id": "eastern_plays_drug",
+      "source": "eastern_org",
+      "target": "drug_trade_game",
+      "label": "PLAYS_GAME",
+      "season_start": 1,
+      "season_end": 5
+    },
+    {
+      "id": "coop_plays_drug",
+      "source": "new_day_coop",
+      "target": "drug_trade_game",
+      "label": "PLAYS_GAME",
+      "season_start": 3,
+      "season_end": 5
+    },
+    {
+      "id": "prop_connected_barksdale",
+      "source": "prop_joe",
+      "target": "barksdale_org",
+      "label": "CONNECTED_TO",
+      "season_start": 2,
+      "season_end": 3
+    },
+    {
+      "id": "prop_connected_stanfield",
+      "source": "prop_joe",
+      "target": "stanfield_org",
+      "label": "CONNECTED_TO",
+      "season_start": 3,
+      "season_end": 5
+    },
+    {
+      "id": "marlo_member_coop",
+      "source": "marlo_stanfield",
+      "target": "new_day_coop",
+      "label": "MEMBER_OF",
+      "season_start": 3,
+      "season_end": 4
+    },
+    {
+      "id": "marlo_leads_stanfield_s3",
+      "source": "marlo_stanfield",
+      "target": "stanfield_org",
+      "label": "LEADS",
+      "season_start": 3,
+      "season_end": 5
+    },
+    {
+      "id": "marlo_occupies_kingpin",
+      "source": "marlo_stanfield",
+      "target": "kingpin_role",
+      "label": "OCCUPIES_ROLE",
+      "season_start": 3,
+      "season_end": 5
+    },
+    {
+      "id": "chris_member_stanfield",
+      "source": "chris_partlow",
+      "target": "stanfield_org",
+      "label": "MEMBER_OF",
+      "season_start": 3,
+      "season_end": 5
+    },
+    {
+      "id": "chris_works_marlo",
+      "source": "chris_partlow",
+      "target": "marlo_stanfield",
+      "label": "WORKS_FOR",
+      "season_start": 3,
+      "season_end": 5
+    },
+    {
+      "id": "snoop_member_stanfield",
+      "source": "snoop",
+      "target": "stanfield_org",
+      "label": "MEMBER_OF",
+      "season_start": 3,
+      "season_end": 5
+    },
+    {
+      "id": "snoop_works_marlo",
+      "source": "snoop",
+      "target": "marlo_stanfield",
+      "label": "WORKS_FOR",
+      "season_start": 3,
+      "season_end": 5
+    },
+    {
+      "id": "barksdale_plays_drug_game",
+      "source": "barksdale_org",
+      "target": "drug_trade_game",
+      "label": "PLAYS_GAME",
+      "season_start": 1,
+      "season_end": 3
+    },
+    {
+      "id": "stanfield_plays_drug_game",
+      "source": "stanfield_org",
+      "target": "drug_trade_game",
+      "label": "PLAYS_GAME",
+      "season_start": 3,
+      "season_end": 5
+    },
+    {
+      "id": "police_plays_stats_game",
+      "source": "baltimore_police",
+      "target": "police_stats_game",
+      "label": "PLAYS_GAME",
+      "season_start": 1,
+      "season_end": 5
+    },
+    {
+      "id": "city_hall_plays_political",
+      "source": "city_hall",
+      "target": "political_game",
+      "label": "PLAYS_GAME",
+      "season_start": 1,
+      "season_end": 5
+    },
+    {
+      "id": "school_plays_school_game",
+      "source": "school_system",
+      "target": "school_game",
+      "label": "PLAYS_GAME",
+      "season_start": 4,
+      "season_end": 5
+    },
+    {
+      "id": "clay_davis_plays_political",
+      "source": "clay_davis",
+      "target": "political_game",
+      "label": "PLAYS_GAME",
+      "season_start": 2,
+      "season_end": 5
+    },
+    {
+      "id": "avon_occupies_kingpin_s1",
+      "source": "avon_barksdale",
+      "target": "kingpin_role",
+      "label": "OCCUPIES_ROLE",
+      "season_start": 1,
+      "season_end": 1
+    },
+    {
+      "id": "avon_occupies_kingpin_s3",
+      "source": "avon_barksdale",
+      "target": "kingpin_role",
+      "label": "OCCUPIES_ROLE",
+      "season_start": 3,
+      "season_end": 3
+    },
+    {
+      "id": "omar_occupies_predator",
+      "source": "omar_little",
+      "target": "outside_predator_role",
+      "label": "OCCUPIES_ROLE",
+      "season_start": 1,
+      "season_end": 5
+    },
+    {
+      "id": "michael_occupies_predator",
+      "source": "michael_lee",
+      "target": "outside_predator_role",
+      "label": "OCCUPIES_ROLE",
+      "season_start": 5,
+      "season_end": 5
+    },
+    {
+      "id": "mcnulty_occupies_rebel",
+      "source": "jimmy_mcnulty",
+      "target": "rule_bending_det_role",
+      "label": "OCCUPIES_ROLE",
+      "season_start": 1,
+      "season_end": 5
+    },
+    {
+      "id": "lester_occupies_rebel_s5",
+      "source": "lester_freamon",
+      "target": "rule_bending_det_role",
+      "label": "OCCUPIES_ROLE",
+      "season_start": 5,
+      "season_end": 5
+    },
+    {
+      "id": "sydnor_occupies_rebel",
+      "source": "sydnor",
+      "target": "rule_bending_det_role",
+      "label": "OCCUPIES_ROLE",
+      "season_start": 5,
+      "season_end": 5
+    },
+    {
+      "id": "maury_works_barksdale",
+      "source": "maury_levy",
+      "target": "barksdale_org",
+      "label": "WORKS_FOR",
+      "season_start": 1,
+      "season_end": 3
+    },
+    {
+      "id": "maury_works_stanfield",
+      "source": "maury_levy",
+      "target": "stanfield_org",
+      "label": "WORKS_FOR",
+      "season_start": 3,
+      "season_end": 5
+    },
+    {
+      "id": "maury_connected_city_hall",
+      "source": "maury_levy",
+      "target": "city_hall",
+      "label": "CONNECTED_TO",
+      "season_start": 2,
+      "season_end": 5
+    },
+    {
+      "id": "herc_informs_stanfield_s4",
+      "source": "herc",
+      "target": "stanfield_org",
+      "label": "INFORMS",
+      "season_start": 4,
+      "season_end": 5
+    },
+    {
+      "id": "lester_member_police",
+      "source": "lester_freamon",
+      "target": "baltimore_police",
+      "label": "MEMBER_OF",
+      "season_start": 1,
+      "season_end": 5
+    },
+    {
+      "id": "lester_inv_barksdale",
+      "source": "lester_freamon",
+      "target": "barksdale_org",
+      "label": "INVESTIGATES",
+      "season_start": 1,
+      "season_end": 3
+    },
+    {
+      "id": "lester_inv_stanfield",
+      "source": "lester_freamon",
+      "target": "stanfield_org",
+      "label": "INVESTIGATES",
+      "season_start": 3,
+      "season_end": 5
+    },
+    {
+      "id": "daniels_member_police",
+      "source": "cedric_daniels",
+      "target": "baltimore_police",
+      "label": "MEMBER_OF",
+      "season_start": 1,
+      "season_end": 5
+    },
+    {
+      "id": "daniels_inv_barksdale",
+      "source": "cedric_daniels",
+      "target": "barksdale_org",
+      "label": "INVESTIGATES",
+      "season_start": 1,
+      "season_end": 3
+    },
+    {
+      "id": "daniels_inv_stanfield",
+      "source": "cedric_daniels",
+      "target": "stanfield_org",
+      "label": "INVESTIGATES",
+      "season_start": 3,
+      "season_end": 5
+    },
+    {
+      "id": "mcnulty_investigates_barksdale",
+      "source": "jimmy_mcnulty",
+      "target": "barksdale_org",
+      "label": "INVESTIGATES",
+      "season_start": 1,
+      "season_end": 3
+    },
+    {
+      "id": "mcnulty_investigates_stanfield",
+      "source": "jimmy_mcnulty",
+      "target": "stanfield_org",
+      "label": "INVESTIGATES",
+      "season_start": 5,
+      "season_end": 5
+    },
+    {
+      "id": "mcnulty_member_police",
+      "source": "jimmy_mcnulty",
+      "target": "baltimore_police",
+      "label": "MEMBER_OF",
+      "season_start": 1,
+      "season_end": 5
+    },
+    {
+      "id": "bunk_member_police",
+      "source": "bunk_moreland",
+      "target": "baltimore_police",
+      "label": "MEMBER_OF",
+      "season_start": 1,
+      "season_end": 5
+    },
+    {
+      "id": "bunk_inv_barksdale",
+      "source": "bunk_moreland",
+      "target": "barksdale_org",
+      "label": "INVESTIGATES",
+      "season_start": 1,
+      "season_end": 3
+    },
+    {
+      "id": "bunk_inv_stanfield",
+      "source": "bunk_moreland",
+      "target": "stanfield_org",
+      "label": "INVESTIGATES",
+      "season_start": 4,
+      "season_end": 5
+    },
+    {
+      "id": "herc_member_police",
+      "source": "herc",
+      "target": "baltimore_police",
+      "label": "MEMBER_OF",
+      "season_start": 1,
+      "season_end": 4
+    },
+    {
+      "id": "sydnor_member_police",
+      "source": "sydnor",
+      "target": "baltimore_police",
+      "label": "MEMBER_OF",
+      "season_start": 1,
+      "season_end": 5
+    },
+    {
+      "id": "sydnor_investigates_stanfield",
+      "source": "sydnor",
+      "target": "stanfield_org",
+      "label": "INVESTIGATES",
+      "season_start": 4,
+      "season_end": 5
+    },
+    {
+      "id": "police_investigates_barksdale",
+      "source": "baltimore_police",
+      "target": "barksdale_org",
+      "label": "INVESTIGATES",
+      "season_start": 1,
+      "season_end": 3
+    },
+    {
+      "id": "police_investigates_stanfield",
+      "source": "baltimore_police",
+      "target": "stanfield_org",
+      "label": "INVESTIGATES",
+      "season_start": 4,
+      "season_end": 5
+    },
+    {
+      "id": "omar_targets_barksdale",
+      "source": "omar_little",
+      "target": "barksdale_org",
+      "label": "TARGETS",
+      "season_start": 1,
+      "season_end": 3
+    },
+    {
+      "id": "omar_targets_stanfield",
+      "source": "omar_little",
+      "target": "stanfield_org",
+      "label": "TARGETS",
+      "season_start": 4,
+      "season_end": 5
+    },
+    {
+      "id": "michael_member_stanfield",
+      "source": "michael_lee",
+      "target": "stanfield_org",
+      "label": "MEMBER_OF",
+      "season_start": 4,
+      "season_end": 5
+    },
+    {
+      "id": "namond_member_barksdale",
+      "source": "namond_brice",
+      "target": "barksdale_org",
+      "label": "MEMBER_OF",
+      "season_start": 4,
+      "season_end": 4
+    },
+    {
+      "id": "namond_school_game",
+      "source": "namond_brice",
+      "target": "school_game",
+      "label": "EXPOSED_TO",
+      "season_start": 4,
+      "season_end": 4
+    },
+    {
+      "id": "clay_davis_member_city_hall",
+      "source": "clay_davis",
+      "target": "city_hall",
+      "label": "MEMBER_OF",
+      "season_start": 1,
+      "season_end": 5
+    },
+    {
+      "id": "slim_occupies_enforcer_s2_3",
+      "source": "slim_charles",
+      "target": "enforcer_role",
+      "label": "OCCUPIES_ROLE",
+      "season_start": 2,
+      "season_end": 3
+    },
+    {
+      "id": "slim_occupies_operator_s4_5",
+      "source": "slim_charles",
+      "target": "operator_role",
+      "label": "OCCUPIES_ROLE",
+      "season_start": 4,
+      "season_end": 5
+    },
+    {
+      "id": "slim_occupies_kingpin_s5",
+      "source": "slim_charles",
+      "target": "kingpin_role",
+      "label": "OCCUPIES_ROLE",
+      "season_start": 5,
+      "season_end": 5
+    },
+    {
+      "id": "wee_bey_member_barksdale",
+      "source": "wee_bey",
+      "target": "barksdale_org",
+      "label": "MEMBER_OF",
+      "season_start": 1,
+      "season_end": 2
+    },
+    {
+      "id": "wee_bey_works_avon",
+      "source": "wee_bey",
+      "target": "avon_barksdale",
+      "label": "WORKS_FOR",
+      "season_start": 1,
+      "season_end": 1
+    },
+    {
+      "id": "wee_bey_occupies_loyal",
+      "source": "wee_bey",
+      "target": "loyal_soldier_role",
+      "label": "OCCUPIES_ROLE",
+      "season_start": 1,
+      "season_end": 5
+    },
+    {
+      "id": "wee_bey_connected_namond",
+      "source": "wee_bey",
+      "target": "namond_brice",
+      "label": "CONNECTED_TO",
+      "season_start": 4,
+      "season_end": 4
+    },
+    {
+      "id": "bodie_occupies_loyal",
+      "source": "bodie_broadus",
+      "target": "loyal_soldier_role",
+      "label": "OCCUPIES_ROLE",
+      "season_start": 1,
+      "season_end": 4
+    },
+    {
+      "id": "brianna_member_barksdale",
+      "source": "brianna_barksdale",
+      "target": "barksdale_org",
+      "label": "MEMBER_OF",
+      "season_start": 1,
+      "season_end": 3
+    },
+    {
+      "id": "brianna_connected_avon",
+      "source": "brianna_barksdale",
+      "target": "avon_barksdale",
+      "label": "CONNECTED_TO",
+      "season_start": 1,
+      "season_end": 3
+    },
+    {
+      "id": "brianna_connected_dangelo",
+      "source": "brianna_barksdale",
+      "target": "dAngelo_barksdale",
+      "label": "CONNECTED_TO",
+      "season_start": 1,
+      "season_end": 2
+    },
+    {
+      "id": "colvin_member_police",
+      "source": "bunny_colvin",
+      "target": "baltimore_police",
+      "label": "MEMBER_OF",
+      "season_start": 1,
+      "season_end": 3
+    },
+    {
+      "id": "colvin_member_school",
+      "source": "bunny_colvin",
+      "target": "school_system",
+      "label": "MEMBER_OF",
+      "season_start": 4,
+      "season_end": 4
+    },
+    {
+      "id": "colvin_connected_namond",
+      "source": "bunny_colvin",
+      "target": "namond_brice",
+      "label": "CONNECTED_TO",
+      "season_start": 4,
+      "season_end": 5
+    },
+    {
+      "id": "carcetti_member_city_hall",
+      "source": "tommy_carcetti",
+      "target": "city_hall",
+      "label": "MEMBER_OF",
+      "season_start": 3,
+      "season_end": 5
+    },
+    {
+      "id": "carcetti_leads_city_hall",
+      "source": "tommy_carcetti",
+      "target": "city_hall",
+      "label": "LEADS",
+      "season_start": 4,
+      "season_end": 5
+    },
+    {
+      "id": "carcetti_occupies_politician",
+      "source": "tommy_carcetti",
+      "target": "politician_role",
+      "label": "OCCUPIES_ROLE",
+      "season_start": 3,
+      "season_end": 5
+    },
+    {
+      "id": "carcetti_controls_police",
+      "source": "tommy_carcetti",
+      "target": "baltimore_police",
+      "label": "CONTROLS",
+      "season_start": 4,
+      "season_end": 5
+    },
+    {
+      "id": "carcetti_opposes_royce",
+      "source": "tommy_carcetti",
+      "target": "clarence_royce",
+      "label": "OPPOSES",
+      "season_start": 3,
+      "season_end": 4
+    },
+    {
+      "id": "royce_leads_city_hall",
+      "source": "clarence_royce",
+      "target": "city_hall",
+      "label": "LEADS",
+      "season_start": 1,
+      "season_end": 3
+    },
+    {
+      "id": "royce_occupies_politician",
+      "source": "clarence_royce",
+      "target": "politician_role",
+      "label": "OCCUPIES_ROLE",
+      "season_start": 1,
+      "season_end": 3
+    },
+    {
+      "id": "rawls_member_police",
+      "source": "rawls",
+      "target": "baltimore_police",
+      "label": "MEMBER_OF",
+      "season_start": 1,
+      "season_end": 5
+    },
+    {
+      "id": "rawls_opposes_mcnulty",
+      "source": "rawls",
+      "target": "jimmy_mcnulty",
+      "label": "OPPOSES",
+      "season_start": 1,
+      "season_end": 5
+    },
+    {
+      "id": "burrell_leads_police",
+      "source": "burrell",
+      "target": "baltimore_police",
+      "label": "LEADS",
+      "season_start": 1,
+      "season_end": 4
+    },
+    {
+      "id": "frank_leads_union",
+      "source": "frank_sobotka",
+      "target": "stevedores_union",
+      "label": "LEADS",
+      "season_start": 2,
+      "season_end": 2
+    },
+    {
+      "id": "frank_member_union",
+      "source": "frank_sobotka",
+      "target": "stevedores_union",
+      "label": "MEMBER_OF",
+      "season_start": 2,
+      "season_end": 2
+    },
+    {
+      "id": "nick_member_union",
+      "source": "nick_sobotka",
+      "target": "stevedores_union",
+      "label": "MEMBER_OF",
+      "season_start": 2,
+      "season_end": 2
+    },
+    {
+      "id": "nick_works_frank",
+      "source": "nick_sobotka",
+      "target": "frank_sobotka",
+      "label": "WORKS_FOR",
+      "season_start": 2,
+      "season_end": 2
+    },
+    {
+      "id": "union_plays_dock_game",
+      "source": "stevedores_union",
+      "target": "dock_survival_game",
+      "label": "PLAYS_GAME",
+      "season_start": 2,
+      "season_end": 2
+    },
+    {
+      "id": "beadie_member_police",
+      "source": "beadie_russell",
+      "target": "baltimore_police",
+      "label": "MEMBER_OF",
+      "season_start": 2,
+      "season_end": 5
+    },
+    {
+      "id": "beadie_inv_union",
+      "source": "beadie_russell",
+      "target": "stevedores_union",
+      "label": "INVESTIGATES",
+      "season_start": 2,
+      "season_end": 2
+    },
+    {
+      "id": "kima_member_police",
+      "source": "kima_greggs",
+      "target": "baltimore_police",
+      "label": "MEMBER_OF",
+      "season_start": 1,
+      "season_end": 5
+    },
+    {
+      "id": "kima_inv_barksdale",
+      "source": "kima_greggs",
+      "target": "barksdale_org",
+      "label": "INVESTIGATES",
+      "season_start": 1,
+      "season_end": 3
+    },
+    {
+      "id": "kima_inv_stanfield",
+      "source": "kima_greggs",
+      "target": "stanfield_org",
+      "label": "INVESTIGATES",
+      "season_start": 4,
+      "season_end": 5
+    },
+    {
+      "id": "carver_member_police",
+      "source": "ellis_carver",
+      "target": "baltimore_police",
+      "label": "MEMBER_OF",
+      "season_start": 1,
+      "season_end": 5
+    },
+    {
+      "id": "carver_works_colvin",
+      "source": "ellis_carver",
+      "target": "bunny_colvin",
+      "label": "WORKS_FOR",
+      "season_start": 3,
+      "season_end": 3
+    },
+    {
+      "id": "cheese_member_eastern",
+      "source": "cheese",
+      "target": "eastern_org",
+      "label": "MEMBER_OF",
+      "season_start": 2,
+      "season_end": 5
+    },
+    {
+      "id": "cheese_works_prop",
+      "source": "cheese",
+      "target": "prop_joe",
+      "label": "WORKS_FOR",
+      "season_start": 2,
+      "season_end": 5
+    },
+    {
+      "id": "cheese_informs_police",
+      "source": "cheese",
+      "target": "baltimore_police",
+      "label": "INFORMS",
+      "season_start": 5,
+      "season_end": 5
+    },
+    {
+      "id": "gus_member_sun",
+      "source": "gus_haynes",
+      "target": "baltimore_sun",
+      "label": "MEMBER_OF",
+      "season_start": 5,
+      "season_end": 5
+    },
+    {
+      "id": "gus_leads_sun",
+      "source": "gus_haynes",
+      "target": "baltimore_sun",
+      "label": "LEADS",
+      "season_start": 5,
+      "season_end": 5
+    },
+    {
+      "id": "gus_occupies_reporter",
+      "source": "gus_haynes",
+      "target": "reporter_role",
+      "label": "OCCUPIES_ROLE",
+      "season_start": 5,
+      "season_end": 5
+    },
+    {
+      "id": "gus_opposes_templeton",
+      "source": "gus_haynes",
+      "target": "scott_templeton",
+      "label": "OPPOSES",
+      "season_start": 5,
+      "season_end": 5
+    },
+    {
+      "id": "templeton_member_sun",
+      "source": "scott_templeton",
+      "target": "baltimore_sun",
+      "label": "MEMBER_OF",
+      "season_start": 5,
+      "season_end": 5
+    },
+    {
+      "id": "templeton_occupies_reporter",
+      "source": "scott_templeton",
+      "target": "reporter_role",
+      "label": "OCCUPIES_ROLE",
+      "season_start": 5,
+      "season_end": 5
+    },
+    {
+      "id": "sun_plays_narrative",
+      "source": "baltimore_sun",
+      "target": "narrative_game",
+      "label": "PLAYS_GAME",
+      "season_start": 5,
+      "season_end": 5
+    },
+    {
+      "id": "police_plays_narrative",
+      "source": "baltimore_police",
+      "target": "narrative_game",
+      "label": "PLAYS_GAME",
+      "season_start": 5,
+      "season_end": 5
+    },
+    {
+      "id": "city_hall_plays_narrative",
+      "source": "city_hall",
+      "target": "narrative_game",
+      "label": "PLAYS_GAME",
+      "season_start": 5,
+      "season_end": 5
+    }
   ],
-
   "succession": [
     {
       "when_removed": "avon_barksdale",
       "note": "Stringer steps up to lead the Barksdale organisation",
       "rules": [
-        { "label": "LEADS",         "target": "barksdale_org", "new_source": "stringer_bell" },
-        { "label": "OCCUPIES_ROLE", "target": "kingpin_role",  "new_source": "stringer_bell" }
+        {
+          "label": "LEADS",
+          "target": "barksdale_org",
+          "new_source": "stringer_bell"
+        },
+        {
+          "label": "OCCUPIES_ROLE",
+          "target": "kingpin_role",
+          "new_source": "stringer_bell"
+        }
       ]
     },
     {
       "when_removed": "stringer_bell",
       "note": "Avon reasserts direct control",
       "rules": [
-        { "label": "LEADS",         "target": "barksdale_org", "new_source": "avon_barksdale" }
+        {
+          "label": "LEADS",
+          "target": "barksdale_org",
+          "new_source": "avon_barksdale"
+        }
       ]
     },
     {
       "when_removed": "prop_joe",
       "note": "Marlo seizes the Co-Op and consolidates the drug trade",
       "rules": [
-        { "label": "LEADS",         "target": "new_day_coop",  "new_source": "marlo_stanfield" },
-        { "label": "LEADS",         "target": "eastern_org",   "new_source": "marlo_stanfield" }
+        {
+          "label": "LEADS",
+          "target": "new_day_coop",
+          "new_source": "marlo_stanfield"
+        },
+        {
+          "label": "LEADS",
+          "target": "eastern_org",
+          "new_source": "marlo_stanfield"
+        }
       ]
     },
     {
       "when_removed": "marlo_stanfield",
       "note": "Michael inherits street leadership of the Stanfield organisation",
       "rules": [
-        { "label": "LEADS",         "target": "stanfield_org",         "new_source": "michael_lee" },
-        { "label": "OCCUPIES_ROLE", "target": "kingpin_role",           "new_source": "michael_lee" }
+        {
+          "label": "LEADS",
+          "target": "stanfield_org",
+          "new_source": "michael_lee"
+        },
+        {
+          "label": "OCCUPIES_ROLE",
+          "target": "kingpin_role",
+          "new_source": "michael_lee"
+        }
       ]
     },
     {
       "when_removed": "omar_little",
       "note": "Michael inherits the outside predator role",
       "rules": [
-        { "label": "TARGETS",       "target": "stanfield_org",         "new_source": "michael_lee" },
-        { "label": "OCCUPIES_ROLE", "target": "outside_predator_role", "new_source": "michael_lee" }
+        {
+          "label": "TARGETS",
+          "target": "stanfield_org",
+          "new_source": "michael_lee"
+        },
+        {
+          "label": "OCCUPIES_ROLE",
+          "target": "outside_predator_role",
+          "new_source": "michael_lee"
+        }
       ]
     },
     {
       "when_removed": "jimmy_mcnulty",
       "note": "Sydnor takes on the lead investigator role",
       "rules": [
-        { "label": "INVESTIGATES",  "target": "barksdale_org",         "new_source": "sydnor" },
-        { "label": "INVESTIGATES",  "target": "stanfield_org",         "new_source": "sydnor" },
-        { "label": "OCCUPIES_ROLE", "target": "rule_bending_det_role", "new_source": "sydnor" }
+        {
+          "label": "INVESTIGATES",
+          "target": "barksdale_org",
+          "new_source": "sydnor"
+        },
+        {
+          "label": "INVESTIGATES",
+          "target": "stanfield_org",
+          "new_source": "sydnor"
+        },
+        {
+          "label": "OCCUPIES_ROLE",
+          "target": "rule_bending_det_role",
+          "new_source": "sydnor"
+        }
+      ]
+    },
+    {
+      "when_removed": "wee_bey",
+      "note": "Slim Charles steps into the loyal soldier slot earlier",
+      "rules": [
+        {
+          "label": "OCCUPIES_ROLE",
+          "target": "loyal_soldier_role",
+          "new_source": "slim_charles"
+        }
+      ]
+    },
+    {
+      "when_removed": "clarence_royce",
+      "note": "Carcetti takes City Hall a season earlier",
+      "rules": [
+        {
+          "label": "LEADS",
+          "target": "city_hall",
+          "new_source": "tommy_carcetti"
+        }
+      ]
+    },
+    {
+      "when_removed": "burrell",
+      "note": "Rawls steps up to lead the police",
+      "rules": [
+        {
+          "label": "LEADS",
+          "target": "baltimore_police",
+          "new_source": "rawls"
+        }
       ]
     }
   ]
