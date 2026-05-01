@@ -392,6 +392,7 @@ const WireGraph = (() => {
 
   async function init() {
     if (initialized) return;
+    if (!document.getElementById('cy')) return;
     initialized = true;
 
     const res = await fetch('data/wire-graph.json');
@@ -506,9 +507,19 @@ const WireGraph = (() => {
 
 document.addEventListener('DOMContentLoaded', () => {
   if (typeof Reveal === 'undefined') return;
-  const tryInit = slide => { if (slide?.id === 'demo-slide') WireGraph.init(); };
+
+  const tryInit = slide => {
+    if (document.getElementById('cy')) WireGraph.init();
+  };
+
   Reveal.on('slidechanged', evt => tryInit(evt.currentSlide));
-  Reveal.on('ready',        evt => tryInit(evt.currentSlide));
+  Reveal.on('ready', evt => {
+    tryInit(evt.currentSlide);
+    /* Defer metrics computation until Reveal is settled and the browser is
+       idle — betweennessCentrality is synchronous and would otherwise block
+       during the initial hash-navigation and first slide transition. */
+    setTimeout(() => WireMetrics.compute(), 500);
+  });
 });
 
 /* ── Live-computed slide metrics ──────────────────────────────────────────
@@ -624,4 +635,4 @@ const WireMetrics = (() => {
   return { compute };
 })();
 
-document.addEventListener('DOMContentLoaded', () => { WireMetrics.compute(); });
+/* WireMetrics.compute() is now triggered via Reveal's ready event above. */

@@ -18,6 +18,212 @@
 <div class="reveal">
 <div class="slides">
 
+<!-- ── 0: I made a thing ─────────────────────────────────────────────────── -->
+<section class="slide-made-thing">
+  <img src="assets/i-made-a-thing.png" alt="I made a thing" class="made-thing-img">
+
+  <aside class="notes">
+    Opening slide. Let it sit. No explanation needed.
+
+    The image does the work. Move on when the room has seen it.
+
+    Transition: right, so — what is the thing?
+  </aside>
+</section>
+
+<!-- ── 0b: AI side projects intro ─────────────────────────────────────────── -->
+<section class="slide-side-intro">
+  <h2>I use AI to help me build things</h2>
+  <p class="side-lede">Not at work. On the side. Personal projects and small hustles where I am the only engineer.</p>
+
+  <div class="side-project-cards">
+    <div class="side-pcard">
+      <div class="side-pcard-img">
+        <img src="assets/mcculloughs-1.png" alt="the-mcculloughs.org">
+      </div>
+      <div class="side-pcard-body">
+        <span class="side-pcard-name">the-mcculloughs.org</span>
+        <span class="side-pcard-desc">Family photo archive. 1910 to now. On my own infrastructure.</span>
+      </div>
+    </div>
+    <div class="side-pcard">
+      <div class="side-pcard-img">
+        <img src="assets/whatisonthe-1.png" alt="whatisonthe.tv">
+      </div>
+      <div class="side-pcard-body">
+        <span class="side-pcard-name">whatisonthe.tv</span>
+        <span class="side-pcard-desc">Track what you watch. No algorithm, no platform. On my own infrastructure.</span>
+      </div>
+    </div>
+  </div>
+
+  <p class="side-kicker">AI does not write my code for me. It lets me move at a pace I could not manage alone.</p>
+
+  <aside class="notes">
+    Quick framing. Before getting into The Wire: this talk came out of a habit of building things on the side.
+
+    These are three personal projects where AI has been a genuine force multiplier. Not autocomplete. A collaborator.
+
+    The honest version: I have 26 years of experience but I am one person with limited time. AI closes the gap between what I want to build and what I can ship alone.
+
+    Walk through the three briefly — each gets its own slide.
+
+    Transition: start with the-mcculloughs.org.
+  </aside>
+</section>
+
+<!-- ── 0c: the-mcculloughs.org ───────────────────────────────────────────── -->
+<section class="slide-mcculloughs">
+  <h2>the-mcculloughs.org</h2>
+  <p class="mcc-lede">A private family photo gallery. 1910 to 2026. On infrastructure I control.</p>
+
+  <div class="mcc-screenshots">
+    <div class="mcc-shot">
+      <img src="assets/mcculloughs-2.png" alt="Dashboard — 763 photos, 25 galleries">
+      <span class="mcc-shot-label">Dashboard</span>
+    </div>
+    <div class="mcc-shot">
+      <img src="assets/mcculloughs-3.png" alt="Timeline view by decade">
+      <span class="mcc-shot-label">Timeline by decade</span>
+    </div>
+  </div>
+
+  <aside class="notes">
+    This started from a specific frustration: I do not want to trust family photos to platforms I do not control.
+
+    Twitpic shut down in 2014. Photobucket moved to paid access and deleted photos without warning. Instagram is owned by Meta. iCloud is Apple. None of that is a guarantee.
+
+    So I built my own. The McCulloughs is a private family photo gallery covering 1910 to 2026. Photos organised into galleries. Timeline view by decade. Selective sharing via unique links. Ad-free. No algorithm. Runs on my own infrastructure.
+
+    763 photos right now. 25 galleries. 3 slideshows. The oldest image is from the 1910s.
+
+    The interesting bit: AI helped me ship features I would not have prioritised alone — the timeline view, the shareable link system, the dashboard. Things I knew how to build but would have deprioritised for months.
+
+    "I'm tired of trusting other people's servers with our family history." — from the about page. That is the honest reason.
+
+    Full details at the-mcculloughs.org/about.
+
+    Transition: the third project on that list. Indexatron.
+  </aside>
+</section>
+
+<!-- ── 0d: indexatron ────────────────────────────────────────────────────── -->
+<section class="slide-indexatron">
+  <h2>indexatron</h2>
+  <p class="idx-lede">Can a local model organise thousands of family photos without touching the cloud?</p>
+
+  <div class="idx-layout">
+    <div class="idx-main-img">
+      <img src="assets/indexatron-main.png" alt="Indexatron — turning family photos into searchable memories">
+      <img src="assets/indexatron-test-photo.png" alt="Test photo" class="idx-test-overlay">
+    </div>
+
+    <div class="idx-detail">
+      <div class="idx-stat-block">
+        <span class="idx-stat-label">Hypothesis</span>
+        <span class="idx-stat-value">Confirmed</span>
+      </div>
+      <div class="idx-models">
+        <span class="idx-models-label">Models running locally</span>
+        <div class="idx-model-pills">
+          <span class="idx-pill">Ollama</span>
+          <span class="idx-pill">LLaVA 7b</span>
+          <span class="idx-pill idx-pill--dim">nomic-embed-text</span>
+        </div>
+      </div>
+      <div class="idx-findings">
+        <div class="idx-finding">Context injected into the prompt beats blind inference.</div>
+        <div class="idx-finding">LLaVA 7b outperforms Llama 3.2 Vision for structured JSON.</div>
+        <div class="idx-finding">No cloud. No API. Runs on my machine.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <aside class="notes">
+    Indexatron started as a simple question: can I use a local vision model to automatically organise thousands of family photos without sending a single image to the cloud?
+
+    The answer is yes. The hypothesis is confirmed and it is now integrated into the-mcculloughs.org.
+
+    How it works: Ollama runtime running locally. LLaVA 7b as the vision model — about 4.7 gigabytes. nomic-embed-text for 768-dimensional semantic embeddings at 274 megabytes. Python 3.11 gluing it together.
+
+    Each photo goes through the pipeline and comes out with: subject identification, scene categorisation, a date estimate or an override if we have the actual date, family nickname resolution, and a semantic embedding for search.
+
+    Key learnings from building it:
+
+    Context matters more than the model. Injecting existing metadata into the prompt — date, location, album name — significantly improves what the model produces. The model is not guessing blind.
+
+    LLaVA 7b is more reliable than Llama 3.2 Vision for structured JSON extraction. Smaller model, more predictable output. That was a surprise.
+
+    Vision models need defensive JSON parsing. They will go off-format. Build for it.
+
+    The privacy angle is not a gimmick. The whole point of the-mcculloughs.org is that family history stays on infrastructure I control. Running the analysis locally is consistent with that.
+
+    Development ran from February to April 2026. Six milestones from setup to full API integration.
+
+    Transition: second one. whatisonthe.tv.
+  </aside>
+</section>
+
+<!-- ── 0e: whatisonthe.tv ─────────────────────────────────────────────────── -->
+<section class="slide-watv">
+  <h2>whatisonthe.tv</h2>
+  <p class="watv-lede">Track what you watch. Browse by actor. On my own infrastructure.</p>
+
+  <div class="watv-single">
+    <img src="assets/whatisonthe-1.png" alt="whatisonthe.tv — show detail page">
+  </div>
+
+  <aside class="notes">
+    whatisonthe.tv is a personal TV and film tracker. No algorithm, no platform, no third party holding your watch history.
+
+    The core loop: find a show, check in, add to your watchlist, track your history. The show detail page pulls in cast, crew, seasons, synopsis, genres.
+
+    Built on my own infrastructure. Same principle as the-mcculloughs.org — I want to own the data.
+
+    The next slide shows two more screens: actor filmography and the AI recommendation layer.
+
+    Transition: here is what else it does.
+  </aside>
+</section>
+
+<!-- ── 0f: whatisonthe.tv — detail screens ───────────────────────────────── -->
+<section class="slide-watv-detail">
+  <h2>whatisonthe.tv</h2>
+  <p class="watv-lede">Actor filmography. AI recommendations. Ask it anything.</p>
+
+  <div class="watv-pair">
+    <div class="watv-shot">
+      <img src="assets/whatisonthe-2.png" alt="Browse by actor, genre, and more">
+      <span class="watv-shot-label">Browse by actor, genre, and more</span>
+    </div>
+    <div class="watv-shot">
+      <img src="assets/whatisonthe-3.png" alt="AI recommendations chat">
+      <span class="watv-shot-label">AI recommendations</span>
+    </div>
+  </div>
+
+  <aside class="notes">
+    Two things worth calling out here.
+
+    Left: browse mode. Actor pages, genre filtering, and other discovery routes. Click any cast member and you get their filmography. Filter by genre and find things you actually want to watch. It is the kind of rabbit hole feature that makes the app useful day to day rather than just a logging tool.
+
+    Right: the AI layer. You can ask it anything — "something like Breaking Bad but funnier" — and it gives you reasoned recommendations with brief explanations for each. Better Call Saul, Barry, Ozark, Weeds, Fargo. It knows your taste because it has your watch history.
+
+    This is the part where AI is doing real work, not just generating boilerplate. It has context. It knows what you have already seen. It can explain its reasoning.
+
+    Transition: right — that is what I build on the side. This talk is about a different kind of experiment. One that started with a TV show.
+  </aside>
+</section>
+
+<!-- ── 5b: I.F.F ──────────────────────────────────────────────────────────── -->
+<section class="slide-iff">
+  <div class="iff-text">I.F.F</div>
+  <aside class="notes">
+    Let this land. No explanation yet.
+  </aside>
+</section>
+
 <!-- ── 1: Title ─────────────────────────────────────────────────────────── -->
 <section class="slide-title"
   data-background-image="assets/bg-title.png"
@@ -33,7 +239,11 @@
   </div>
 
   <aside class="notes">
-    Opening line if you want one: "I've been watching The Wire again. And this time I started thinking about it differently — as a graph problem."
+    The pivot. From the side projects into the talk proper.
+
+    Optional line to bridge from the indexatron slide: "The experiment I want to show you tonight is a different one. It starts with a TV show."
+
+    Or just let the title do the work and move on. "I've been watching The Wire again. And this time I started thinking about it differently — as a graph problem."
 
     The question is genuine. Not who you root for. Who actually wins the game?
 
@@ -585,77 +795,16 @@
 </section>
 
 <!-- ── 6: Interactive graph demo ────────────────────────────────────────── -->
-<section id="demo-slide" class="demo-slide">
-  <h2 class="demo-heading">The Graph</h2>
-  <div id="graph-container">
-    <div id="cy"></div>
-    <div id="graph-tooltip"></div>
-    <div id="slide-obs"></div>
-    <div id="controls">
-
-      <div class="control-section">
-        <span class="ctrl-label">Season</span>
-        <div class="season-controls">
-          <button class="season-btn active" data-season="1">S1</button>
-          <button class="season-btn"        data-season="2">S2</button>
-          <button class="season-btn"        data-season="3">S3</button>
-          <button class="season-btn"        data-season="4">S4</button>
-          <button class="season-btn"        data-season="5">S5</button>
-        </div>
-      </div>
-
-      <div class="control-section">
-        <span class="ctrl-label">What changes?</span>
-        <label class="toggle">
-          <input type="checkbox" id="toggle-avon">
-          <span>Remove Avon</span>
-        </label>
-        <label class="toggle">
-          <input type="checkbox" id="toggle-mcnulty">
-          <span>Remove McNulty</span>
-        </label>
-        <label class="toggle">
-          <input type="checkbox" id="toggle-prop-joe">
-          <span>Remove Prop Joe</span>
-        </label>
-        <label class="toggle">
-          <input type="checkbox" id="toggle-omar">
-          <span>Remove Omar</span>
-        </label>
-      </div>
-
-      <div class="control-section">
-        <span class="ctrl-label">Show</span>
-        <label class="toggle">
-          <input type="checkbox" id="toggle-roles">
-          <span>Roles</span>
-        </label>
-        <label class="toggle">
-          <input type="checkbox" id="toggle-games">
-          <span>Games</span>
-        </label>
-      </div>
-
-      <div id="status-text"></div>
-      <div id="succession-note"></div>
-
-      <div class="legend">
-        <div class="legend-item"><span class="legend-dot person"></span>Person</div>
-        <div class="legend-item"><span class="legend-dot organisation"></span>Organisation</div>
-        <div class="legend-item"><span class="legend-dot role"></span>Role</div>
-        <div class="legend-item"><span class="legend-dot game"></span>Game</div>
-        <div class="legend-item legend-item--inh"><span class="legend-dot inherited"></span>Succession</div>
-      </div>
-
-      <button id="btn-reset" class="btn-reset">Reset</button>
-
-      <a class="explorer-link" href="graph.html" target="_blank">Full explorer ↗</a>
-
-    </div>
-  </div>
+<section id="demo-slide">
+  <h2>The Graph</h2>
+  <a class="demo-launch" href="graph.html" target="_blank">
+    <span class="demo-launch-label">Open graph explorer</span>
+    <span class="demo-launch-url">graph.html</span>
+    <span class="demo-launch-arrow">↗</span>
+  </a>
 
   <aside class="notes">
-    [Graph initialises automatically when you land on this slide]
+    This is the live graph explorer — graph.html running full screen.
 
     Start with Season 1. People and organisations only — Roles and Games hidden to keep it readable.
 
@@ -673,6 +822,8 @@
     [Click S5, then toggle Remove Avon] The Barksdale org reorganises. The investigation edges stay. The games continue.
 
     Key observation: removing Avon changes the local graph. It does not collapse the system.
+
+    To advance to the next slide: click outside the graph area first, or press Escape to release focus, then use arrow keys.
 
     Transition: Let me be more specific about what that experiment actually shows.
   </aside>
@@ -1266,8 +1417,17 @@
   </aside>
 </section>
 
-</div>
-</div>
+<!-- ── End: I.F.F ────────────────────────────────────────────────────────── -->
+<section class="slide-iff slide-iff--end">
+  <p class="iff-remember">Remember...</p>
+  <div class="iff-text">I.F.F</div>
+  <aside class="notes">
+    Close on this. Let it sit.
+  </aside>
+</section>
+
+</div>  <!-- /.slides -->
+</div>  <!-- /.reveal -->
 
 <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/reveal.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/plugin/notes/notes.js"></script>
