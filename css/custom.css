@@ -3101,3 +3101,180 @@ body,
   color: var(--amber);
   text-shadow: 0 0 22px rgba(232, 160, 32, 0.35);
 }
+
+/* ── Reworked slides: "I wanted to test it" + "How it actually works" ──── */
+
+.map-desc {
+  margin-top: 0.6em;
+}
+.map-desc p {
+  font-size: 0.46em;
+  font-family: var(--head);
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.6;
+  margin: 0.2em 0;
+}
+.map-desc p + p {
+  color: var(--muted);
+}
+
+.map-how {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45em;
+  margin: 0.5em 0;
+}
+.map-how-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75em;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.55em 0.85em;
+}
+.map-how-item--accent {
+  border-color: var(--accent-border);
+  background: var(--accent-dim);
+}
+.map-how-num {
+  font-size: 0.38em;
+  font-family: var(--mono);
+  font-weight: 700;
+  color: var(--accent);
+  background: var(--accent-dim);
+  border: 1px solid var(--accent-border);
+  border-radius: 50%;
+  width: 2em;
+  height: 2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 0.15em;
+}
+.map-how-item--accent .map-how-num {
+  background: var(--accent);
+  color: #000;
+  border-color: var(--accent);
+}
+.map-how-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1em;
+  min-width: 0;
+}
+.map-how-title {
+  font-size: 0.46em;
+  font-family: var(--head);
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.3;
+}
+.map-how-sub {
+  font-size: 0.36em;
+  font-family: var(--head);
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+/* ── Story-beat lines (plain-English before/after) ──────────────────────── */
+
+.story-line {
+  font-size: 0.46em;
+  font-family: var(--head);
+  font-weight: 500;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 2.5px solid var(--border);
+  border-radius: 8px;
+  padding: 0.55em 0.95em;
+  color: var(--text);
+  line-height: 1.4;
+}
+.story-line--ok {
+  border-left-color: var(--game);
+  background: rgba(52, 211, 153, 0.04);
+}
+.story-line--note {
+  background: transparent;
+  border: none;
+  border-left: none;
+  color: var(--muted);
+  font-size: 0.38em;
+  padding-left: 0;
+  font-style: italic;
+}
+
+.avon-kicker {
+  margin-top: 0.6em;
+  font-size: 0.5em;
+  font-family: var(--head);
+  font-weight: 600;
+  color: var(--accent);
+  font-style: italic;
+}
+
+/* ── Vs-grid: kingpin vs broker comparison ──────────────────────────────── */
+
+.vs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8em;
+  margin: 0.4em 0;
+}
+.vs-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.75em 0.95em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4em;
+}
+.vs-card--alert {
+  border-color: var(--amber-border);
+  background: linear-gradient(180deg, rgba(232, 160, 32, 0.07), rgba(232, 160, 32, 0.02));
+  box-shadow: 0 0 28px rgba(232, 160, 32, 0.1);
+}
+.vs-who {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  padding-bottom: 0.4em;
+  border-bottom: 1px solid var(--border-dim);
+  margin-bottom: 0.1em;
+}
+.vs-name {
+  display: block;
+  font-size: 0.56em;
+  font-family: var(--head);
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.01em;
+}
+.vs-card--alert .vs-name { color: var(--amber); }
+.vs-tag {
+  display: block;
+  font-size: 0.32em;
+  font-family: var(--mono);
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-top: 0.1em;
+}
+.vs-remove {
+  font-size: 0.38em;
+  font-family: var(--mono);
+  color: var(--muted);
+  margin: 0;
+}
+.vs-result {
+  font-size: 0.43em;
+  font-family: var(--head);
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.45;
+  margin: 0;
+}

@@ -23,11 +23,11 @@
   <img src="assets/i-made-a-thing.png" alt="I made a thing" class="made-thing-img">
 
   <aside class="notes">
-    Opening slide. Let it sit. No explanation needed.
+    Just let it sit. Don't say anything yet. The image does the work.
 
-    The image does the work. Move on when the room has seen it.
+    Wait for a beat. Wait for someone to smile or nod. Then move on.
 
-    Transition: right, so — what is the thing?
+    Transition: "Right. So, what is the thing?"
   </aside>
 </section>
 
@@ -60,15 +60,13 @@
   <p class="side-kicker">AI does not write my code for me. It lets me move at a pace I could not manage alone.</p>
 
   <aside class="notes">
-    Quick framing. Before getting into The Wire: this talk came out of a habit of building things on the side.
+    Quick framing before the actual talk. I build things on the side. Personal projects. Just me, no team.
 
-    These are three personal projects where AI has been a genuine force multiplier. Not autocomplete. A collaborator.
+    Say something like: "I've got 26 years in the industry, but I'm one person with limited time. AI has genuinely changed what I can ship on my own. Not as autocomplete. More like a collaborator who doesn't need sleep."
 
-    The honest version: I have 26 years of experience but I am one person with limited time. AI closes the gap between what I want to build and what I can ship alone.
+    Two projects on this slide. Both get their own screens. Walk through them briefly.
 
-    Walk through the three briefly — each gets its own slide.
-
-    Transition: start with the-mcculloughs.org.
+    Transition: "Let's start with the family archive."
   </aside>
 </section>
 
@@ -89,21 +87,15 @@
   </div>
 
   <aside class="notes">
-    This started from a specific frustration: I do not want to trust family photos to platforms I do not control.
+    This one started from pure frustration. Twitpic shut down. Photobucket deleted photos without warning. Instagram is Meta's. iCloud is Apple's. None of that is yours.
 
-    Twitpic shut down in 2014. Photobucket moved to paid access and deleted photos without warning. Instagram is owned by Meta. iCloud is Apple. None of that is a guarantee.
+    So I built my own. Private family gallery. 1910 to 2026. 763 photos, 25 galleries. The oldest image is from the 1910s. Timeline by decade. Shareable links. No algorithm. On infrastructure I control.
 
-    So I built my own. The McCulloughs is a private family photo gallery covering 1910 to 2026. Photos organised into galleries. Timeline view by decade. Selective sharing via unique links. Ad-free. No algorithm. Runs on my own infrastructure.
+    Say something like: "The honest reason is on the about page: I got tired of trusting other people's servers with our family history."
 
-    763 photos right now. 25 galleries. 3 slideshows. The oldest image is from the 1910s.
+    AI helped me ship things I'd have deprioritised for months: the timeline view, the dashboard, the link sharing. I knew how to build all of it. I just didn't have the time alone.
 
-    The interesting bit: AI helped me ship features I would not have prioritised alone — the timeline view, the shareable link system, the dashboard. Things I knew how to build but would have deprioritised for months.
-
-    "I'm tired of trusting other people's servers with our family history." — from the about page. That is the honest reason.
-
-    Full details at the-mcculloughs.org/about.
-
-    Transition: the third project on that list. Indexatron.
+    Transition: "There's a piece of this I want to show you separately. It's called Indexatron."
   </aside>
 </section>
 
@@ -141,27 +133,21 @@
   </div>
 
   <aside class="notes">
-    Indexatron started as a simple question: can I use a local vision model to automatically organise thousands of family photos without sending a single image to the cloud?
+    The question was simple: can a local vision model organise thousands of family photos without a single image leaving my machine?
 
-    The answer is yes. The hypothesis is confirmed and it is now integrated into the-mcculloughs.org.
+    Confirmed. It works. It's now integrated into the-mcculloughs.org.
 
-    How it works: Ollama runtime running locally. LLaVA 7b as the vision model — about 4.7 gigabytes. nomic-embed-text for 768-dimensional semantic embeddings at 274 megabytes. Python 3.11 gluing it together.
+    Stack: Ollama locally, LLaVA 7b for vision, nomic-embed-text for semantic search. Python holding it together. No cloud. No API calls. Runs on my laptop.
 
-    Each photo goes through the pipeline and comes out with: subject identification, scene categorisation, a date estimate or an override if we have the actual date, family nickname resolution, and a semantic embedding for search.
+    Three things worth saying out loud:
 
-    Key learnings from building it:
+    - Context injected into the prompt beats blind inference. If you tell it the album name and the decade, it gives you far better output.
+    - LLaVA 7b beat Llama 3.2 Vision for structured JSON. Smaller model, more predictable. That was a genuine surprise.
+    - Vision models go off-format. Build defensive JSON parsing from the start or you'll hate yourself later.
 
-    Context matters more than the model. Injecting existing metadata into the prompt — date, location, album name — significantly improves what the model produces. The model is not guessing blind.
+    The privacy point is not just branding. The whole philosophy of the site is that family history stays on infrastructure I control. The local model is consistent with that.
 
-    LLaVA 7b is more reliable than Llama 3.2 Vision for structured JSON extraction. Smaller model, more predictable output. That was a surprise.
-
-    Vision models need defensive JSON parsing. They will go off-format. Build for it.
-
-    The privacy angle is not a gimmick. The whole point of the-mcculloughs.org is that family history stays on infrastructure I control. Running the analysis locally is consistent with that.
-
-    Development ran from February to April 2026. Six milestones from setup to full API integration.
-
-    Transition: second one. whatisonthe.tv.
+    Transition: "Right. Second side project. whatisonthe.tv."
   </aside>
 </section>
 
@@ -175,15 +161,13 @@
   </div>
 
   <aside class="notes">
-    whatisonthe.tv is a personal TV and film tracker. No algorithm, no platform, no third party holding your watch history.
+    Personal TV and film tracker. No algorithm. No platform. Nobody else holding your watch history.
 
-    The core loop: find a show, check in, add to your watchlist, track your history. The show detail page pulls in cast, crew, seasons, synopsis, genres.
+    Core loop: find a show, check in, track your history. Show pages pull in cast, seasons, synopsis. All on my own infrastructure.
 
-    Built on my own infrastructure. Same principle as the-mcculloughs.org — I want to own the data.
+    Same principle as the-mcculloughs.org. I want to own the data.
 
-    The next slide shows two more screens: actor filmography and the AI recommendation layer.
-
-    Transition: here is what else it does.
+    Transition: "There's more to it than that. Let me show you the other screens."
   </aside>
 </section>
 
@@ -204,15 +188,15 @@
   </div>
 
   <aside class="notes">
-    Two things worth calling out here.
+    Two screens here.
 
-    Left: browse mode. Actor pages, genre filtering, and other discovery routes. Click any cast member and you get their filmography. Filter by genre and find things you actually want to watch. It is the kind of rabbit hole feature that makes the app useful day to day rather than just a logging tool.
+    Left: browse mode. Click any cast member and you get their full filmography. Filter by genre. It becomes the kind of rabbit hole that makes the app actually useful day to day, not just a logging tool.
 
-    Right: the AI layer. You can ask it anything — "something like Breaking Bad but funnier" — and it gives you reasoned recommendations with brief explanations for each. Better Call Saul, Barry, Ozark, Weeds, Fargo. It knows your taste because it has your watch history.
+    Right: the AI layer. Ask it anything. "Something like Breaking Bad but funnier." It gives you recommendations with reasoning. Better Call Saul, Barry, Ozark. It knows your taste because it has your history. It's not guessing blind.
 
-    This is the part where AI is doing real work, not just generating boilerplate. It has context. It knows what you have already seen. It can explain its reasoning.
+    Say something like: "This is where AI is doing real work. It has context. It knows what you've already seen. The recommendations are grounded."
 
-    Transition: right — that is what I build on the side. This talk is about a different kind of experiment. One that started with a TV show.
+    Transition: "Right. That's what I build on the side. This talk is a different kind of experiment. It started with a TV show and a graph database."
   </aside>
 </section>
 
@@ -220,7 +204,9 @@
 <section class="slide-iff">
   <div class="iff-text">I.F.F</div>
   <aside class="notes">
-    Let this land. No explanation yet.
+    Just let it land. Don't explain it yet.
+
+    If anyone asks: "You'll find out."
   </aside>
 </section>
 
@@ -239,17 +225,15 @@
   </div>
 
   <aside class="notes">
-    The pivot. From the side projects into the talk proper.
+    The pivot. Side projects are done. Now the actual talk.
 
-    Optional line to bridge from the indexatron slide: "The experiment I want to show you tonight is a different one. It starts with a TV show."
+    Say something like: "I've been watching The Wire again. And this time I started thinking about it as a graph problem."
 
-    Or just let the title do the work and move on. "I've been watching The Wire again. And this time I started thinking about it differently — as a graph problem."
+    Or: "I wanted to test whether 'the game is the game' is actually true. Not argue about it. Test it. So I modelled the whole thing."
 
-    The question is genuine. Not who you root for. Who actually wins the game?
+    Let the title breathe. Don't rush.
 
-    Instead of arguing about it, I modelled it. This talk is what I found.
-
-    Keep it brief. Let the title slide breathe. Transition: let's start with the question itself.
+    Transition: "Let's start with the question."
   </aside>
 </section>
 
@@ -348,23 +332,23 @@
   <p class="wire-hook">Five seasons. Five institutions. One graph.</p>
 
   <aside class="notes">
-    Quick context for anyone who hasn't seen it. Walk through the seasons one click at a time.
+    Quick context slide. If anyone hasn't seen it, this is the shape of the show.
 
-    [Click 1 — S1] The Street and The Police. Season 1 sets up both sides at once. The Barksdale crew on the west side. The detail trying to bring a wire-tap case against them. The phrase "the game is the game" lands here.
+    Click through the seasons as you talk.
 
-    [Click 2 — S2] The Docks. The series goes sideways instead of upwards — stevedores at the port, a dying industry, smuggling on the side. The first sign that this show is about institutions, not just the drug trade.
+    [Click S1] Street and police. Barksdale crew on the west side, McNulty's detail trying to bring a wiretap case. "The game is the game" lands here, in the first few episodes.
 
-    [Click 3 — S3] Politics. Carcetti runs for mayor. Hamsterdam happens. The political game starts running parallel to the street game.
+    [Click S2] The docks. This is when you realise the show isn't about the drug trade specifically. It's about institutions. The stevedores are trying to survive a dying industry. Same shape, different arena.
 
-    [Click 4 — S4] The Schools. Four kids. Bunny Colvin running an experiment. The system processing them through.
+    [Click S3] Politics. Carcetti runs for mayor. Hamsterdam. The political game running alongside the street game.
 
-    [Click 5 — S5] The Press. The Baltimore Sun newsroom. McNulty's serial-killer fabrication. How institutions tell stories about themselves.
+    [Click S4] The schools. Four kids. Bunny Colvin running an experiment. The system processing them through regardless.
 
-    Key point: each season widens the lens to a new institution. By the end you have five interlocking systems with the same shape.
+    [Click S5] The press. The Sun newsroom. McNulty's serial killer fabrication. How institutions tell stories about themselves and start believing them.
 
-    The phrase "the game is the game" starts on the street and shows up in every one of these arenas.
+    Key point: each season doesn't replace the last, it widens the lens. By the end you've got five interlocking systems with the same basic shape.
 
-    Transition: So — in a show this complicated — who actually wins?
+    Transition: "So in a show this complicated, who actually wins?"
   </aside>
 </section>
 
@@ -445,168 +429,88 @@
   <p class="suspect-kicker">Who wins on screen, and who wins in the structure.</p>
 
   <aside class="notes">
-    Hold the answer. Let the room sit with it for a beat.
+    Don't answer yet. Let the room sit with it.
 
-    Two audiences in this room. Some are here for the storytelling, some are here for the model. This slide works for both.
+    Walk through the candidates briefly.
 
-    For the storytelling crowd: each candidate is a real person. Walk it lightly.
+    Avon ran the West Side. Obvious answer until he goes inside again by Season 3.
 
-    Avon ran the West Side for three seasons. He is the obvious answer until he is inside again by Season 3.
+    Stringer is the brain. Nearly legitimises the money. Killed in Season 3, before he gets there.
 
-    Stringer is the brain behind the operation. He nearly legitimises the money. He is killed in Season 3.
+    Marlo takes the whole city. Ends up forced into a suit and a boardroom, which he hates more than prison.
 
-    Marlo takes the whole city by the end. The catch is that he ends up forced into respectability, which he hates more than prison.
+    McNulty closes cases nobody wants closed. Gets pushed out twice.
 
-    McNulty closes the cases nobody wants closed. The institution pushes him out, twice.
+    Carcetti wins the mayor's race on reform, then trades it away to get to the governor's race.
 
-    Carcetti wins the mayor's race on a reform platform, then trades it all away to run for governor.
+    "Nobody" is the easy bleak answer. Feels right. The graph says it's not quite right, which is more interesting.
 
-    "Nobody" is the easy bleak answer. It feels right at first. The graph shows it is not quite right.
+    Say something like: "There are two ways to read that question. Who wins on screen, and who wins in the structure. Those are different answers."
 
-    For the technical crowd: notice the structure of each line. There is a "case" and there is a "verdict". The deck is about to argue that the verdict and the case are the wrong frame. The right question is not who wins. It is what survives.
-
-    Read the kicker line at the bottom out loud: "Same question, two ways to read it. Who wins on screen, and who wins in the structure." That sets up the whole rest of the deck.
-
-    Transition: Before the answer, here is how I built the model.
+    Transition: "Before we get there, here's how I actually built the model."
   </aside>
 </section>
 
 <!-- ── 3: The setup ─────────────────────────────────────────────────────── -->
 <section>
-  <h2>I modelled it as a graph</h2>
+  <h2>I wanted to test it</h2>
 
-  <p class="model-lede">Four node types. Ten relationship types. One graph that moves through five seasons.</p>
+  <p class="model-lede">Not argue about who wins. Actually map the whole thing and see what the data says.</p>
 
-  <div class="model-nodes">
-    <div class="model-node model-node--person">
-      <div class="mn-head">
-        <span class="model-dot"></span>
-        <span class="mn-count">22</span>
-      </div>
-      <span class="mn-label">People</span>
-      <span class="mn-eg">Avon · Stringer · Omar · McNulty</span>
-    </div>
-    <div class="model-node model-node--org">
-      <div class="mn-head">
-        <span class="model-dot"></span>
-        <span class="mn-count">7</span>
-      </div>
-      <span class="mn-label">Organisations</span>
-      <span class="mn-eg">Barksdale · BPD · City Hall</span>
-    </div>
-    <div class="model-node model-node--role">
-      <div class="mn-head">
-        <span class="model-dot"></span>
-        <span class="mn-count">4</span>
-      </div>
-      <span class="mn-label">Roles</span>
-      <span class="mn-eg">Kingpin · Predator · Detective</span>
-    </div>
-    <div class="model-node model-node--game">
-      <div class="mn-head">
-        <span class="model-dot"></span>
-        <span class="mn-count">4</span>
-      </div>
-      <span class="mn-label">Games</span>
-      <span class="mn-eg">Drug · Police · Political · School</span>
-    </div>
+  <div class="experiment-stats">
+    <div class="estat"><span class="estat-num">60</span><span class="estat-label">Episodes</span></div>
+    <div class="estat"><span class="estat-num">22</span><span class="estat-label">Characters</span></div>
+    <div class="estat"><span class="estat-num">7</span><span class="estat-label">Organisations</span></div>
+    <div class="estat"><span class="estat-num">86</span><span class="estat-label">Connections</span></div>
+    <div class="estat"><span class="estat-num">5</span><span class="estat-label">Seasons</span></div>
   </div>
 
-  <div class="model-rels">
-    <div class="mr-head">
-      <span class="mr-title">Relationships</span>
-      <span class="mr-count">10 types · 67 edges</span>
-    </div>
-    <div class="mr-pills">
-      <span class="mr-pill">LEADS</span>
-      <span class="mr-pill">WORKS_FOR</span>
-      <span class="mr-pill">MEMBER_OF</span>
-      <span class="mr-pill">INVESTIGATES</span>
-      <span class="mr-pill">TARGETS</span>
-      <span class="mr-pill">INFORMS</span>
-      <span class="mr-pill">OCCUPIES_ROLE</span>
-      <span class="mr-pill">PLAYS_GAME</span>
-      <span class="mr-pill">EXPOSED_TO</span>
-      <span class="mr-pill">CONNECTED_TO</span>
-    </div>
-  </div>
-
-  <div class="model-time">
-    <div class="mt-head">
-      <span class="mt-title">Time</span>
-      <span class="mt-sub">every edge carries <code>season_start</code> and <code>season_end</code></span>
-    </div>
-    <div class="mt-seasons">
-      <span class="mt-s">S1</span>
-      <span class="mt-s">S2</span>
-      <span class="mt-s">S3</span>
-      <span class="mt-s">S4</span>
-      <span class="mt-s">S5</span>
-    </div>
+  <div class="map-desc">
+    <p>Who controls what. Who reports to whom. Who's investigating who. Who's targeting who.</p>
+    <p>The map updates each season. Then I started removing people to see what actually changes.</p>
   </div>
 
   <aside class="notes">
-    Four node types. Ten relationship types. Sixty seven edges across five seasons. Keep it brief. No graph theory lecture.
+    Keep this short. Nobody needs the schema right now.
 
-    People: 22 of them. The ones the talk leans on are Avon, Stringer, Marlo, Omar, Michael, McNulty, Sydnor, Namond, Clay Davis, Carcetti.
+    The important framing: this is not a thought experiment. I actually mapped it. 60 episodes, 22 characters, 86 connections across five seasons, each one with a start and end date.
 
-    Organisations: 7. Barksdale org, Stanfield org, Baltimore Police, City Hall, School System, Stevedores Union, Greek crew.
+    Say something like: "I wanted to test it rather than just talk about it. So I ran the data."
 
-    Roles: 4 structural positions that outlast individuals. Kingpin, Operator, Outside Predator, Rule-Bending Detective. The person changes. The role stays.
+    The last line on the slide does the work: "Then I started removing people to see what actually changes." That's the setup for everything that follows.
 
-    Games: 4. Drug game, police stats game, political game, school game. This is where "the game is the game" stops being a street phrase and starts being structural.
-
-    Relationships: 10 types. The verbs of the model. LEADS, WORKS_FOR, MEMBER_OF, INVESTIGATES, TARGETS, INFORMS, OCCUPIES_ROLE, PLAYS_GAME, EXPOSED_TO, CONNECTED_TO. Each one carries a season range.
-
-    Time: not a snapshot. The same graph evolves across all five seasons by switching edges on and off.
-
-    Transition: But before the model. Where did the data actually come from?
+    Transition: "Here's how the model actually works."
   </aside>
 </section>
 
 <!-- ── 3b: How the data got in ──────────────────────────────────────────── -->
 <section>
-  <h2>Before this talk: the actual experiment</h2>
+  <h2>How it actually works</h2>
 
-  <p class="experiment-lede">Five seasons of dialogue, parsed, attributed, and modelled before any of these slides existed.</p>
+  <p class="model-lede">One map. The connections update as the seasons change.</p>
 
-  <div class="pipeline">
-    <div class="pipeline-step">
-      <span class="step-num">1</span>
-      <div class="step-body">
-        <span class="step-title">Raw transcripts</span>
-        <span class="step-sub">All 5 seasons, scene by scene, line by line</span>
+  <div class="map-how">
+    <div class="map-how-item">
+      <span class="map-how-num">1</span>
+      <div class="map-how-body">
+        <span class="map-how-title">Every character and organisation goes in</span>
+        <span class="map-how-sub">Avon, Stringer, Omar, McNulty: all 22 of them, plus every org they belong to</span>
       </div>
     </div>
-    <div class="pipeline-step">
-      <span class="step-num">2</span>
-      <div class="step-body">
-        <span class="step-title">AI speaker ID</span>
-        <span class="step-sub">Attribute every line, infer relationships, normalise names</span>
+    <div class="map-how-item">
+      <span class="map-how-num">2</span>
+      <div class="map-how-body">
+        <span class="map-how-title">Every connection gets a start and end date</span>
+        <span class="map-how-sub">Avon leads the org from S1. Stringer takes over in S2. The map tracks that shift.</span>
       </div>
     </div>
-    <div class="pipeline-step">
-      <span class="step-num">3</span>
-      <div class="step-body">
-        <span class="step-title">Neo4j</span>
-        <span class="step-sub">Cypher queries, centrality, community detection</span>
+    <div class="map-how-item map-how-item--accent">
+      <span class="map-how-num">3</span>
+      <div class="map-how-body">
+        <span class="map-how-title">Then I start removing people</span>
+        <span class="map-how-sub">Remove a node, see what breaks. The answer is not always who you'd expect.</span>
       </div>
     </div>
-    <div class="pipeline-step pipeline-step--accent">
-      <span class="step-num">4</span>
-      <div class="step-body">
-        <span class="step-title">Static export</span>
-        <span class="step-sub">wire-graph.json drives this talk and the explorer</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="experiment-stats">
-    <div class="estat"><span class="estat-num">5</span><span class="estat-label">Seasons</span></div>
-    <div class="estat"><span class="estat-num">60</span><span class="estat-label">Episodes</span></div>
-    <div class="estat"><span class="estat-num">38</span><span class="estat-label">Nodes</span></div>
-    <div class="estat"><span class="estat-num">86</span><span class="estat-label">Edges</span></div>
-    <div class="estat"><span class="estat-num">6</span><span class="estat-label">Succession rules</span></div>
   </div>
 
   <div class="experiment-links">
@@ -615,89 +519,73 @@
         <span class="cta-label">Graph explorer</span>
         <span class="cta-url">graph.html</span>
       </div>
-      <span class="cta-desc">Season filters · Remove nodes · Live Cypher · Succession</span>
+      <span class="cta-desc">Season filters · Remove characters · See what changes</span>
       <span class="cta-icon">↗</span>
     </a>
     <a class="experiment-cta experiment-cta--alt" href="https://experiments.swm.cc" target="_blank">
       <div class="cta-body">
-        <span class="cta-label">Experiments archive</span>
+        <span class="cta-label">Full working</span>
         <span class="cta-url">experiments.swm.cc</span>
       </div>
-      <span class="cta-desc">Pipeline · transcripts · queries · the working</span>
+      <span class="cta-desc">Transcripts · AI pipeline · graph queries</span>
       <span class="cta-icon">↗</span>
     </a>
   </div>
 
   <aside class="notes">
-    This talk came out of a real experiment, not a thought experiment.
+    Keep it brief. Three steps on the slide, say a sentence for each.
 
-    Step 1: raw transcripts for all five seasons, sixty episodes, every line of dialogue.
+    Step 1: every character and organisation goes in. 22 of them.
 
-    Step 2: speaker attribution. The problem with raw transcripts is they give you the dialogue but not always who said what. AI worked through the attribution, normalised character names, and pulled out who was talking to whom and about whom. That gives you the relational layer.
+    Step 2: every connection gets a start and end season. Not one big static map. A living one that changes as the timeline moves. Avon leads the org from S1. Stringer takes over in S2. The model tracks that shift as a change in active edges, not a change in nodes.
 
-    Step 3: Neo4j. Characters as nodes. Relationships as edges. Cypher queries for shortest paths between characters, centrality metrics to find the connectors, community detection to see which clusters formed. That analysis is what shaped the model on the next few slides.
+    Step 3: remove a node, see what breaks. That's the experiment.
 
-    Step 4: static export. The deck and the explorer both run from wire-graph.json, a snapshot of the Neo4j model. The Cypher panel in the explorer shows the equivalent live query. The demo is reproducible offline, and the numbers on the next few slides come straight out of the same export.
+    One design decision worth saying out loud: it's one graph, not five separate season graphs. The nodes stay. The edges switch on and off. That's what makes the timeline work.
 
-    Key point: "I wanted to test this rather than just talk about it. So I ran the data first."
+    The full pipeline, transcripts, and graph queries are at experiments.swm.cc if anyone wants to dig in after.
 
-    The full working, including the pipeline, the transcripts, and the queries, is up at experiments.swm.cc if anyone wants to dig into it after.
-
-    Transition: Now here is the design decision that makes the graph useful across all five seasons.
+    Transition: "Now. Let me show you the map."
   </aside>
 </section>
 
 <!-- ── 4: One graph, changing timeline ──────────────────────────────────── -->
 <section>
-  <h2>Same graph, different active relationships</h2>
+  <h2>The map updates each season</h2>
 
-  <p class="tl-lede">Every edge carries its own season range. The seasons just ask which edges are live right now.</p>
+  <p class="tl-lede">Same characters, same organisations. Different connections active depending on where you are in the timeline.</p>
 
-  <div class="tl-split">
-    <div class="edge-timeline">
-      <div class="et-header">
-        <span class="et-label-col">Edge</span>
-        <div class="et-seasons">
-          <span>S1</span><span>S2</span><span>S3</span><span>S4</span><span>S5</span>
-        </div>
-      </div>
-
-      <div class="et-row">
-        <span class="et-edge"><span class="et-from">Avon</span><span class="et-rel">LEADS</span><span class="et-to">Barksdale</span></span>
-        <div class="et-track"><span class="et-bar" style="--start:1;--end:3"></span></div>
-      </div>
-      <div class="et-row">
-        <span class="et-edge"><span class="et-from">Stringer</span><span class="et-rel">WORKS_FOR</span><span class="et-to">Avon</span></span>
-        <div class="et-track"><span class="et-bar" style="--start:1;--end:1"></span></div>
-      </div>
-      <div class="et-row">
-        <span class="et-edge"><span class="et-from">Stringer</span><span class="et-rel">LEADS</span><span class="et-to">Barksdale</span></span>
-        <div class="et-track"><span class="et-bar et-bar--succession" style="--start:2;--end:3"></span></div>
-      </div>
-      <div class="et-row">
-        <span class="et-edge"><span class="et-from">Marlo</span><span class="et-rel">LEADS</span><span class="et-to">Stanfield</span></span>
-        <div class="et-track"><span class="et-bar et-bar--alt" style="--start:3;--end:5"></span></div>
-      </div>
-      <div class="et-row">
-        <span class="et-edge"><span class="et-from">McNulty</span><span class="et-rel">INVESTIGATES</span><span class="et-to">Barksdale</span></span>
-        <div class="et-track"><span class="et-bar et-bar--accent" style="--start:1;--end:3"></span></div>
-      </div>
-      <div class="et-row">
-        <span class="et-edge"><span class="et-from">McNulty</span><span class="et-rel">INVESTIGATES</span><span class="et-to">Stanfield</span></span>
-        <div class="et-track"><span class="et-bar et-bar--accent" style="--start:5;--end:5"></span></div>
+  <div class="edge-timeline">
+    <div class="et-header">
+      <span class="et-label-col">Who · What</span>
+      <div class="et-seasons">
+        <span>S1</span><span>S2</span><span>S3</span><span>S4</span><span>S5</span>
       </div>
     </div>
 
-    <div class="edge-shape">
-      <div class="es-label">// data shape · wire-graph.json</div>
-<pre class="es-code"><span class="es-brace">{</span>
-  <span class="es-key">"source"</span>:       <span class="es-str">"stringer_bell"</span>,
-  <span class="es-key">"target"</span>:       <span class="es-str">"barksdale_org"</span>,
-  <span class="es-key">"label"</span>:        <span class="es-str">"LEADS"</span>,
-  <span class="es-key">"season_start"</span>: <span class="es-num">2</span>,
-  <span class="es-key">"season_end"</span>:   <span class="es-num">3</span>
-<span class="es-brace">}</span></pre>
-      <div class="es-foot">No five-graphs-per-season. One graph. The active set is a query.</div>
+    <div class="et-row">
+      <span class="et-edge"><span class="et-from">Avon</span><span class="et-rel">leads</span><span class="et-to">Barksdale</span></span>
+      <div class="et-track"><span class="et-bar" style="--start:1;--end:3"></span></div>
+    </div>
+    <div class="et-row">
+      <span class="et-edge"><span class="et-from">Stringer</span><span class="et-rel">under</span><span class="et-to">Avon</span></span>
+      <div class="et-track"><span class="et-bar" style="--start:1;--end:1"></span></div>
+    </div>
+    <div class="et-row">
+      <span class="et-edge"><span class="et-from">Stringer</span><span class="et-rel">leads</span><span class="et-to">Barksdale</span></span>
+      <div class="et-track"><span class="et-bar et-bar--succession" style="--start:2;--end:3"></span></div>
+    </div>
+    <div class="et-row">
+      <span class="et-edge"><span class="et-from">Marlo</span><span class="et-rel">leads</span><span class="et-to">Stanfield</span></span>
+      <div class="et-track"><span class="et-bar et-bar--alt" style="--start:3;--end:5"></span></div>
+    </div>
+    <div class="et-row">
+      <span class="et-edge"><span class="et-from">McNulty</span><span class="et-rel">investigates</span><span class="et-to">Barksdale</span></span>
+      <div class="et-track"><span class="et-bar et-bar--accent" style="--start:1;--end:3"></span></div>
+    </div>
+    <div class="et-row">
+      <span class="et-edge"><span class="et-from">McNulty</span><span class="et-rel">investigates</span><span class="et-to">Stanfield</span></span>
+      <div class="et-track"><span class="et-bar et-bar--accent" style="--start:5;--end:5"></span></div>
     </div>
   </div>
 
@@ -708,29 +596,21 @@
   </div>
 
   <aside class="notes">
-    This is the architectural decision that makes everything else in the talk work.
+    Walk this left to right. The Gantt chart tells the story.
 
-    I am not building five separate graphs, one per season. That gives you snapshots, not dynamics, and you cannot ask cross-season questions like "what role did Stringer fill that nobody fills any more?"
+    Avon leads Barksdale from S1. That bar runs to S3, then it goes dark. He's inside. The node stays in the graph. The edge just stops being active.
 
-    One graph. Every edge carries season_start and season_end.
+    Stringer works under Avon in S1 only. By S2 he's leading directly. That's the second bar: same person, different relationship, different season range.
 
-    Walk the audience through the Gantt left to right.
+    Marlo leads Stanfield from S3 through to the end. New organisation enters the graph. The Barksdale edges don't disappear. They just become inactive.
 
-    Avon LEADS Barksdale: active S1 to S3, then he goes to prison and the edge goes inactive. Avon's node stays in the graph. The edge just stops being live.
+    The two blue bars at the bottom are McNulty. Same person, same role, two different targets. He investigates Barksdale through S3, then Stanfield in S5. One node. Two edges. Different season ranges.
 
-    Stringer WORKS_FOR Avon: only S1. By S2, Stringer is leading directly. That is the orange succession bar in row three: Stringer LEADS Barksdale, S2 to S3.
+    The key design decision: one graph, not five. If you built a separate graph per season you'd get snapshots. You couldn't ask "what role did Stringer fill that nobody fills now?" You'd have to compare graphs manually. This way you just query the active edges at a given point.
 
-    Marlo LEADS Stanfield: green bar, S3 to S5. New organisation enters the graph without removing the old one.
+    When the demo scrubs seasons, all it's doing is filtering edges where season_start is at or below the selected season and season_end is at or above it. The work is in the model.
 
-    The two blue bars at the bottom are the same investigation edge against two different targets. McNulty investigates Barksdale S1 to S3, then in S5 he is on Stanfield. Same role, different target, same person, different edge.
-
-    The JSON panel on the right is the actual shape. That is what every edge in wire-graph.json looks like. Six lines. That is the whole temporal model.
-
-    When the demo lets you scrub seasons, all it is doing is filtering edges where season_start is less than or equal to the current season and season_end is greater than or equal to it. The work is in the model, not the rendering.
-
-    The pills at the bottom are the takeaway. Nodes persist. Edges switch on and off. Roles get reoccupied. Three things, one model.
-
-    Transition: But first, what exactly is "the game"? Worth being clear on that before running the experiments.
+    Transition: "Before the experiments, it's worth being clear on what exactly 'the game' is."
   </aside>
 </section>
 
@@ -776,21 +656,21 @@
   </div>
 
   <aside class="notes">
-    In the show, "the game is the game" starts as a street-level phrase. Avon says it. Omar says it. It is about the drug trade.
+    "The game is the game" starts on the street. Avon says it. Omar says it. It sounds like it's about the drug trade.
 
     But once you start modelling, the same structure shows up everywhere.
 
-    The police have a game: CompStat, clearance rates, political visibility. Not justice. Numbers.
+    The police: CompStat, clearance rates, crime numbers down for the press conference. Not justice. Numbers. Bunny Colvin tries to step outside it and gets destroyed for it.
 
-    Carcetti is playing the political game. Baltimore is a stepping stone and everyone knows it.
+    City Hall: Carcetti knows Baltimore is a stepping stone to the governor's race. The machine knows it. The compromises stack up from day one.
 
-    The schools are trapped in their own version — teaching to tests, protecting budget lines, the kids as throughput.
+    The schools: teaching to tests, protecting budget lines, the kids are throughput. The system rewards something other than the kids.
 
-    Briefly: the docks in Season 2, the stevedores trying to keep a dying industry alive by making compromises.
+    The docks: Season 2. Sobotka knows it's over. He's just trying to keep the union alive long enough to matter.
 
-    Not going to turn this into a full institutional analysis. Just worth noting: the pattern is not exclusive to the street.
+    Don't overdo this. One sentence per arena, then move on.
 
-    Transition: Right. Let's look at the actual graph.
+    Transition: "Right. Let's look at the actual graph."
   </aside>
 </section>
 
@@ -804,105 +684,68 @@
   </a>
 
   <aside class="notes">
-    This is the live graph explorer — graph.html running full screen.
+    Open graph.html. Let it load. Start with Season 1, people and organisations only.
 
-    Start with Season 1. People and organisations only — Roles and Games hidden to keep it readable.
+    Point out the clusters: Barksdale and their connections on one side. Baltimore Police and McNulty on the other. Omar sitting between them, not aligned with either.
 
-    Point out the key clusters:
-    — Barksdale org and its connections centre-left
-    — Baltimore Police and McNulty on the right
-    — Omar sitting between them, targeting the Barksdale side
+    [S2] Watch what shifts. Stringer starts leading directly. Avon's edges go quiet.
 
-    [Click S2] Watch what changes. Stringer starts leading directly. Avon's edges fade.
+    [S3] Marlo's org starts appearing. Two drug organisations now in the graph. Barksdale weakening.
 
-    [Click S3] Marlo's org begins appearing. Barksdale is weakening. Both orgs are now in the drug trade game.
+    [Toggle Roles] You can see the structural positions now. Notice the Kingpin role moving from Avon toward Marlo as the seasons change.
 
-    [Toggle Roles ON] Now you can see the structural positions. Notice how the Kingpin role shifts from Avon toward Marlo across the seasons.
+    [S5, Remove Avon] The Barksdale org reorganises around Stringer. The investigation edges stay active. The games continue.
 
-    [Click S5, then toggle Remove Avon] The Barksdale org reorganises. The investigation edges stay. The games continue.
+    Say something like: "This is the graph changing locally. Not collapsing. Reorganising."
 
-    Key observation: removing Avon changes the local graph. It does not collapse the system.
+    To advance: click outside the graph first, or Escape, then arrow keys.
 
-    To advance to the next slide: click outside the graph area first, or press Escape to release focus, then use arrow keys.
-
-    Transition: Let me be more specific about what that experiment actually shows.
+    Transition: "Let me be more specific about what that experiment actually shows."
   </aside>
 </section>
 
 <!-- ── 7: Experiment — remove Avon ──────────────────────────────────────── -->
 <section>
-  <h2>What happens if Avon is removed?</h2>
+  <h2>Avon goes inside</h2>
   <div class="two-col">
     <div>
-      <p class="col-label">Before</p>
+      <p class="col-label">Seasons 1–2</p>
       <div class="edge-list">
-        <div class="edge-item">Avon <span class="edge-type">LEADS</span> Barksdale Org</div>
-        <div class="edge-item">Stringer <span class="edge-type">WORKS_FOR</span> Avon</div>
-        <div class="edge-item">Barksdale Org <span class="edge-type">INVESTIGATES</span> ← Police</div>
+        <div class="story-line">Avon runs the West Side.</div>
+        <div class="story-line">Stringer handles the business side.</div>
+        <div class="story-line">The police are building a case against them.</div>
+        <div class="story-line">Omar is robbing their corners.</div>
       </div>
     </div>
     <div class="fragment fade-left">
-      <p class="col-label">After</p>
+      <p class="col-label">Avon goes to prison</p>
       <div class="edge-list">
-        <div class="edge-item edge-item--succession">Stringer <span class="edge-type edge-type--succession">LEADS</span> Barksdale Org</div>
-        <div class="edge-item">Barksdale Org <span class="edge-type">INVESTIGATES</span> ← Police</div>
-        <div class="edge-item edge-item--note">Role reoccupied. Game carries on.</div>
+        <div class="story-line story-line--ok">Stringer steps up. Same territory.</div>
+        <div class="story-line story-line--ok">The police investigation carries on.</div>
+        <div class="story-line story-line--ok">Omar is still out there.</div>
+        <div class="story-line story-line--note">One person removed. The game unchanged.</div>
       </div>
     </div>
   </div>
 
-  <div class="metrics-row fragment fade-up">
-    <span class="metrics-label">What the graph actually says (Season 2 · live from wire-graph.json)</span>
-    <div class="metrics-grid">
-      <div class="metric">
-        <span class="metric-name">Largest connected component</span>
-        <span class="metric-delta"><span data-metric="s2-comp-before">23</span> → <span data-metric="s2-comp-after-avon">22</span></span>
-        <span class="metric-note">graph holds</span>
-      </div>
-      <div class="metric">
-        <span class="metric-name">Barksdale Org betweenness</span>
-        <span class="metric-delta"><span data-metric="s2-bksd-before">0.21</span> → <span data-metric="s2-bksd-after">0.17</span></span>
-        <span class="metric-note" data-metric="s2-bksd-delta">−19%</span>
-      </div>
-      <div class="metric">
-        <span class="metric-name">Top kingpin centrality</span>
-        <span class="metric-delta">Avon → Stringer</span>
-        <span class="metric-note">rank 1 reoccupied</span>
-      </div>
-      <div class="metric metric--game">
-        <span class="metric-name">Drug Trade game</span>
-        <span class="metric-delta">active</span>
-        <span class="metric-note">unchanged</span>
-      </div>
-    </div>
-  </div>
+  <p class="avon-kicker fragment fade-up">
+    Avon goes. Stringer gets the bump. The map reorganises locally. The game carries on.
+  </p>
 
   <aside class="notes">
-    Walk through this clearly.
+    Tell this as a story. Don't read graph queries out loud.
 
-    Before: Avon leads the org. Stringer reports to Avon. The org controls territory. The police are investigating. Omar is targeting them.
+    Before Avon goes inside: he runs the West Side. Stringer is his number two. The police are building the case. Omar is out there robbing their corners. That's the situation.
 
-    After Avon goes to prison in Season 2: Stringer leads directly. The territory edges stay. The investigation edges stay. Omar is still out there.
+    Then Avon goes to prison. Walk the right column.
 
-    Key line: "Avon goes. Stringer gets the bump. The relationships change, but the game carries on."
+    Stringer steps up. Same territory. The investigation carries on, if anything it intensifies. Omar is still out there.
 
-    Now the metrics row. This is the principal-staff version of the answer. Not vibes — numbers.
+    Say something like: "Avon goes. Stringer gets the bump. The map reorganises locally. The game carries on."
 
-    Largest connected component drops by one. That is just Avon's node. The graph holds.
+    Important nuance: Stringer leads differently. He's more political, he tries to legitimise things. That changes the story locally. But structurally? Same organisation, same territory, same game.
 
-    Barksdale's betweenness centrality drops about 19%. That is the local change. Real, but contained.
-
-    The kingpin role's top-ranked occupant flips from Avon to Stringer. That is the role reoccupation showing up in the centrality ranking, not just in the story.
-
-    The drug trade game itself is untouched. PLAYS_GAME edges are organisational, not personal.
-
-    Important nuance — do not shortcut this: I am not saying nothing changes. Stringer leads differently. He is more political. He tries to transition out of the game entirely. That matters locally.
-
-    But structurally? The graph reorganises. The game carries on.
-
-    Audience prediction beat (optional, before clicking Remove Avon in the demo): "Show of hands — who thinks the Barksdale org collapses when Avon goes?" Then click and let the numbers settle the question.
-
-    Transition: That looks contained. Now — does the same hold if you take out someone else?
+    Transition: "But that's the obvious experiment. Let me show you the one that surprised me."
   </aside>
 </section>
 
@@ -925,23 +768,17 @@
   </div>
 
   <aside class="notes">
-    This slide does important work. Do not rush it.
+    Don't rush this. It does real work.
 
-    The graph does change. Locally, it is a different structure. Stringer-led Barksdale is not the same as Avon-led Barksdale.
+    The left column matters: things do change. Leadership changes. Relationships shift. Stringer-led Barksdale is not the same as Avon-led Barksdale. Stringer buys into Clay Davis's political machine. He tries to legitimise the money. That's a different set of edges.
 
-    Stringer tries to get out of the game itself — he starts buying into Clay Davis's political machine, tries to legitimise the money. That is a different set of edges.
+    But the right column is the point. An organisation still controls territory. The police are still investigating. Stanfield is still growing. The drug trade game carries on.
 
-    But the system-level structure persists:
-    — An organisation still controls territory.
-    — The police are still investigating.
-    — Competition from Stanfield is intensifying.
-    — The drug trade game carries on.
+    Say it plainly: "That does not mean nothing changes. The graph changes locally. It reorganises. But it does not simply collapse."
 
-    The graph reorganises locally. The wider pattern does not collapse.
+    This is the honest version of "the game is the game." It's not fatalism. It's a structural observation.
 
-    This is the honest version of "the game is the game" — it is not fatalism, it is a structural observation. The system continues regardless of who occupies which node.
-
-    Transition: And the clearest way to see that is through roles.
+    Transition: "The clearest place to see this is in how roles work."
   </aside>
 </section>
 
@@ -1011,120 +848,82 @@
   </div>
 
   <aside class="notes">
-    This is the most interesting structural observation in the model.
+    This is the most interesting structural observation in the whole model.
 
-    The naive version would be "Michael becomes Omar". That feels wrong. Different characters, different arcs, different contexts.
+    The lazy version would be "Michael becomes Omar." But that's not quite right, and it feels too neat. They're different people with different stories.
 
-    The graph gives you a better framing. Michael does not become Omar. He starts occupying the same structural position in the graph.
+    The graph gives you a better framing. Say something like: "Michael doesn't become Omar. He starts occupying the same structural position. Different person. Same role."
 
-    Omar occupies the Outside Predator role from Season 1 through to his death in Season 5. Operates outside both the police and the drug organisations. Takes what he wants. Answers to no-one.
+    Omar: Outside Predator from S1 through to his death in S5. Operates outside both the police and the drug trade. Answers to no-one. Takes what he wants.
 
-    Michael in Season 5 is doing the same thing. Different person. Same position.
+    Michael in S5 is doing exactly the same thing. Same position in the graph. Different node.
 
-    Same for McNulty and Sydnor. Sydnor is not McNulty. He is more disciplined, more political, better at the institution. But by Season 5 he is doing what McNulty always did. Bending the rules to work the case. Chasing what the institution does not want chased.
+    Same pattern with McNulty and Sydnor. Sydnor is more disciplined, more political. He's better at the institution than McNulty ever was. But by S5 he's doing what McNulty always did: bending the rules, chasing the case the institution doesn't want chased.
 
-    Now flip it. Slim Charles is the inverse pattern. Same person, moving through three positions across the timeline.
+    Now flip it: Slim Charles is the inverse. Same person, three different roles across the timeline. Avon's enforcer in S2 and S3. Prop Joe's operator in S4 and S5. Then after Joe dies, Slim is effectively running what's left of the Co-Op. Three OCCUPIES_ROLE edges. One node.
 
-    Season 2 and 3 he is Avon's chief enforcer. Hard, disciplined, loyal to Barksdale.
+    Sometimes the role outlives the person. Sometimes the person outlives the role. Either way, it's structural movement.
 
-    Barksdale collapses. Season 4 and 5 he is muscle and lieutenant inside Prop Joe's Eastern crew, working the Co-Op.
-
-    Joe is killed in Season 5. Slim is the one calling shots in what is left of the New Day Co-Op. He is functionally the kingpin of the post-Joe trade.
-
-    Three different positions. Same human being. The graph carries that as three OCCUPIES_ROLE edges with different season ranges, all anchored to the same node.
-
-    The takeaway is symmetric. Sometimes the role outlives the person. Sometimes the person outlives the role. Either way it is structural movement, not character drama.
-
-    Transition: Now. Does anyone actually escape this structure?
+    Transition: "So. Does anyone actually escape this?"
   </aside>
 </section>
 
 <!-- ── 9b: The kingpin isn't the most important node ────────────────────── -->
 <section>
-  <h2>The kingpin is not the most important node</h2>
+  <h2>The most important person isn't who you'd expect</h2>
 
-  <p class="finding-lede">Take out Avon, the graph reorganises. Take out Prop Joe, the drug trade fragments.</p>
+  <p class="finding-lede">Remove the kingpin and the organisation survives. Remove the broker and the whole trade network splits.</p>
 
-  <div class="finding-grid">
-    <div class="finding-card finding-card--small">
-      <div class="finding-head">
+  <div class="vs-grid">
+    <div class="vs-card">
+      <div class="vs-who">
         <div class="finding-photo">
           <img src="assets/characters/avon.png" alt="Avon Barksdale">
         </div>
-        <div class="finding-id">
-          <span class="finding-name">Avon Barksdale</span>
-          <span class="finding-tag">Kingpin · S1–S3</span>
+        <div>
+          <span class="vs-name">Avon Barksdale</span>
+          <span class="vs-tag">The Kingpin</span>
         </div>
       </div>
-      <div class="finding-stats">
-        <div class="fstat">
-          <span class="fstat-label">Degree (S2)</span>
-          <span class="fstat-value" data-metric="avon-degree">4</span>
-        </div>
-        <div class="fstat">
-          <span class="fstat-label">Betweenness</span>
-          <span class="fstat-value" data-metric="avon-between">0.04</span>
-        </div>
-        <div class="fstat">
-          <span class="fstat-label">Removed → component</span>
-          <span class="fstat-value"><span data-metric="s2-comp-before-2">23</span> → <span data-metric="s2-comp-after-avon-2">22</span></span>
-        </div>
-        <div class="fstat fstat--accent">
-          <span class="fstat-label">Successor available</span>
-          <span class="fstat-value">Stringer</span>
-        </div>
-      </div>
-      <div class="finding-foot">Local reshuffle. Game intact.</div>
+      <p class="vs-remove">Remove him from Season 2.</p>
+      <p class="vs-result">Stringer steps in. Same territory. Same operation. The Barksdale org carries on.</p>
+      <div class="finding-foot">Local reshuffle. Nothing breaks.</div>
     </div>
 
-    <div class="finding-card finding-card--big">
-      <div class="finding-head">
+    <div class="vs-card vs-card--alert">
+      <div class="vs-who">
         <div class="finding-photo finding-photo--accent">
           <img src="assets/characters/prop_joe.png" alt="Prop Joe">
         </div>
-        <div class="finding-id">
-          <span class="finding-name">Prop Joe</span>
-          <span class="finding-tag">Broker · S1–S5</span>
+        <div>
+          <span class="vs-name">Prop Joe</span>
+          <span class="vs-tag">The Broker</span>
         </div>
       </div>
-      <div class="finding-stats">
-        <div class="fstat">
-          <span class="fstat-label">Degree (S3)</span>
-          <span class="fstat-value" data-metric="pj-degree">5</span>
-        </div>
-        <div class="fstat fstat--alert">
-          <span class="fstat-label">Betweenness</span>
-          <span class="fstat-value" data-metric="pj-between">0.31</span>
-        </div>
-        <div class="fstat fstat--alert">
-          <span class="fstat-label">Removed → component</span>
-          <span class="fstat-value"><span data-metric="s3-comp-before">23</span> → <span data-metric="s3-comp-after-pj">19</span></span>
-        </div>
-        <div class="fstat fstat--alert">
-          <span class="fstat-label">Co-Op</span>
-          <span class="fstat-value">disbands</span>
-        </div>
-      </div>
-      <div class="finding-foot finding-foot--alert">Bridge between Barksdale and Stanfield. Cut him out, the drug trade graph splits.</div>
+      <p class="vs-remove">Marlo has him killed. Season 5.</p>
+      <p class="vs-result">The Co-Op falls apart. The east side dealers lose their broker and their supply chain. Marlo takes the Greek connection for himself.</p>
+      <div class="finding-foot finding-foot--alert">Marlo wins. Everyone else loses the bridge.</div>
     </div>
   </div>
 
-  <p class="finding-kicker fragment fade-up">The graph names the broker the show calls a side character.</p>
+  <p class="finding-kicker fragment fade-up">The show treats Prop Joe as a supporting character. The map says he is the load-bearing one.</p>
 
   <aside class="notes">
-    This is the slide where the graph earns its keep.
+    This is where the graph earns its keep.
 
-    Audience instinct: the kingpin is the most structurally important person. Remove the kingpin, the system breaks.
+    Everyone will say the kingpin is the most important person. Remove Avon, the system breaks. That's the intuition.
 
-    The graph says no. By Season 3, Avon's betweenness centrality is around 0.04. He sits at the end of his own organisation, not between organisations. Removing him drops the largest connected component by one. Stringer steps up. Done.
+    The graph says no. Remove Avon and Stringer steps in. Done. Local reshuffle.
 
-    Prop Joe is the opposite. He is the only character in Seasons 2 and 3 with active edges to both Barksdale and Stanfield. He runs the Eastern Org. He runs the Co-Op. His betweenness centrality in Season 3 is around 0.31. Eight times Avon's. Remove him and the largest connected component drops by four. The Co-Op disbands. Marlo loses his connection into the broader trade.
+    Prop Joe is a different story. He runs the Eastern crew. He set up the Co-Op and brokered the supply connection through the Greeks. He's the only character with active edges to both the east and west side operations.
 
-    The kingpin is the visible node. The broker is the load-bearing one. Centrality measures structural importance, not narrative importance. The two are not the same thing.
+    Marlo has him killed in Season 5, takes the Greek connection for himself. That part benefits Marlo. But Prop Joe's removal collapses the Co-Op. The east side dealers, Cheese, the independents: they all lose the broker who was holding the network together. They're suddenly without a bridge.
 
-    For the room: this is exactly the failure mode in real systems. The org chart says one thing. The dependency graph says another. The person whose departure actually breaks things is rarely the one with the title.
+    Say something like: "Marlo wins that move. Everyone else loses the person who was connecting them."
 
-    Transition: So if even the most central node can be reoccupied, does anyone genuinely escape?
+    If anyone wants numbers: Avon's betweenness centrality is 0.04. Prop Joe's is 0.31. Eight times higher. The show treats him as a supporting character. The map says he's the load-bearing one.
+
+    Transition: "So if even the most central node can be replaced, does anyone genuinely get out?"
   </aside>
 </section>
 
@@ -1178,21 +977,21 @@
   </p>
 
   <aside class="notes">
-    The talk would be too deterministic without Namond. He stops the argument becoming "nobody can ever leave".
+    Namond stops the talk becoming too bleak. Without him it sounds like "nobody can ever leave," which isn't quite right.
 
-    He is one of the few characters who might genuinely get out. Colvin intervenes in Season 4. Namond goes to a different environment, a different life.
+    He might genuinely get out. Colvin intervenes in S4. Namond goes to a different environment, a different life.
 
-    But notice what the graph says: Namond gets out. The game does not end.
+    But notice what the graph says: Namond gets out. The game does not end. His edges to the Barksdale org fade in S4. The rest of the graph carries on without noticing.
 
-    His MEMBER_OF edge to the Barksdale org fades out in Season 4. The rest of the graph carries on without him.
+    Say it plainly: "Namond didn't win the game. He stopped playing it. That's a different thing."
 
-    He does not win the game. He stops playing it. That is a different thing entirely.
+    Optional if it feels right: "There's also that uncomfortable echo. By S4, Namond is already starting to sound a bit like Clay Davis. The performer. The charmer. The one who works the room. Different arena. Same kind of game."
 
-    Optional line if it feels right: "There is also that uncomfortable echo — by Season 4, Namond is already starting to talk like Clay Davis. The performer, the charmer, the one who works the room. Different arena. Same kind of game."
+    Walk the three columns briefly. Some stop playing. Some just find a bigger table: Carcetti goes for governor, Rawls goes to State Police. And most roles get reoccupied regardless.
 
-    Some people get out. Most people get replaced. The game carries on.
+    Marlo's note at the bottom: he won. He got forced into a suit. Last scene: he's back on the corner, alone, in the middle of the night. The game called him back.
 
-    Transition: And the game is not limited to one arena.
+    Transition: "And the game shows up in every arena."
   </aside>
 </section>
 
@@ -1260,25 +1059,25 @@
   </div>
 
   <aside class="notes">
-    Keep this short. One pass. Not a full institutional analysis.
+    Keep this short. One sentence per institution. Don't turn it into a lecture.
 
-    Each season widens the lens. Same structural problem, different arena. Same six images you saw at the start. Now each one is named by the game it plays.
+    Same six images from the opening slide. Now each one has a game name under it.
 
-    The street has the Drug Trade Game. Most visible. Most violent. Most quoted.
+    The street: Drug Trade Game. Most visible, most violent, most quoted.
 
-    The police have the Stats Game. Not corrupt in the usual sense. Trapped in CompStat. Clearance rates. Crime numbers down for the press conference. Not justice. Numbers. Bunny Colvin tries to step outside it and gets destroyed.
+    The police: Stats Game. CompStat. Clearance rates. Numbers down for the press conference. Not justice. Numbers. Colvin tries to step outside it and gets destroyed.
 
-    The docks have the Survival Game. A dying industry. Smuggling on the side. Sobotka knows it is over. He is just trying to keep the union alive long enough to matter.
+    The docks: Survival Game. Dying industry. Sobotka knows it's over. He's just trying to keep the union alive long enough to matter.
 
-    City Hall has the Political Game. Carcetti is a true believer who becomes a pragmatist. The game does that. He knows Baltimore is a stepping stone. The machine knows it. The compromises stack up.
+    City Hall: Political Game. Carcetti starts as a reformer. The game makes him a pragmatist. Baltimore is a stepping stone and everybody knows it.
 
-    The schools have the System Game. Four kids in Season 4. Four different outcomes. All of them shaped more by the structure around them than by their own choices. The teachers know it. The system rewards something else.
+    Schools: System Game. Four kids, S4. The structure shapes them more than their own choices do. The teachers know it.
 
-    The press has the Narrative Game. The Sun newsroom. McNulty's serial-killer fabrication. How institutions tell stories about themselves and start believing the stories.
+    The press: Narrative Game. The Sun newsroom. McNulty's serial killer fabrication. How institutions tell stories about themselves and start believing them.
 
-    Different arenas. Same pattern. The phrase that started on the street ends up describing every one of these.
+    Say something like: "The phrase started on the street. But the pattern shows up everywhere you look."
 
-    Transition: So. After all of this. Who wins?
+    Transition: "So. After all of this. Who wins?"
   </aside>
 </section>
 
@@ -1325,21 +1124,21 @@
   </p>
 
   <aside class="notes">
-    This is the bridge. The point of the talk for this room.
+    This is the bridge. The point of this talk for this room.
 
-    Everything I have just shown using The Wire is the exact shape of systems we run.
+    Everything I've just shown using The Wire is the same shape as systems you actually run.
 
-    Org chart: a VP leaves. The natural question is "who breaks". The graph tells you whether the dependencies repoint or whether you have a structural hole.
+    Org chart: a VP leaves. The question is whether the dependencies repoint or whether there's a structural hole nobody documented.
 
-    Microservices: a service gets deprecated. The dependency graph tells you whether the calls reroute cleanly or whether you have a load-bearing service nobody documented.
+    Microservices: a service gets deprecated. The dependency graph tells you whether calls reroute cleanly or whether you've got a load-bearing service that nobody wrote down.
 
-    Supply chain: a vendor folds. The procurement graph tells you whether a substitute slots in or whether you have a single point of failure dressed up as a relationship.
+    Supply chain: a vendor folds. Does a substitute slot in, or is that vendor holding up four other things nobody noticed?
 
-    Customer base: a flagship account churns. The revenue graph tells you whether the rest of the network absorbs it or whether one customer was holding up the whole segment.
+    Customer base: a flagship account churns. Does the rest of the network absorb it, or was that one customer holding up the whole segment?
 
-    The Wire is the test case because the storytelling is rich enough that the structural pattern is unmistakable. The point for tonight is not Baltimore. It is that this modelling approach generalises. It gives you answers your org chart and your dashboards do not.
+    Say something like: "The Wire is the test case because the storytelling is rich enough that the structural pattern is unmistakable. But the modelling approach generalises. It gives you answers your org chart doesn't."
 
-    Transition: So. Back to the question.
+    Transition: "Right. Back to the question."
   </aside>
 </section>
 
@@ -1354,21 +1153,21 @@
   </div>
 
   <aside class="notes">
-    The answer. Say it simply. Do not overtalk it.
+    Say it simply. Click through each line. Don't add much.
 
-    People win moments: Avon wins Season 1. Marlo wins Season 4 and 5. Carcetti wins an election. Omar wins a lot of corners and a lot of stick-ups.
+    People win moments: Avon wins Season 1. Marlo wins the city. Carcetti wins the election. Omar wins a lot of corners.
 
     Some people get out: Namond might. Bubbles eventually. Cutty manages it.
 
     Most roles get reoccupied: Kingpin moves from Avon to Marlo. Outside Predator moves from Omar to Michael. Rule-Bending Detective moves from McNulty to Sydnor.
 
-    When you look at the graph — the thing that keeps surviving, the thing that no single node removal affects — is the game itself.
+    Then the last line. Let it sit.
 
-    Pause here. Let it land.
+    Say something like: "When you look at the graph, the thing that keeps surviving, the thing no single removal affects, is the game itself."
 
-    That is the honest answer to "who wins the game."
+    Pause. Don't fill the silence.
 
-    Transition: And here is why I think the graph is the right tool for this question.
+    Transition: "And here's why the graph is the right tool for that question."
   </aside>
 </section>
 
@@ -1401,19 +1200,19 @@
   </p>
 
   <aside class="notes">
-    The interesting bit for me is not just the answer. It is that the graph let me test it.
+    The interesting bit isn't just the answer. It's that the graph let me test it.
 
-    Remove a node and see what actually changes — not what you assumed would change. Move the timeline forward and watch the relationships shift. Show where roles get reoccupied without the person who was filling them.
+    Say something like: "Remove a node and see what actually changes. Not what you assumed would change. Move the timeline and watch the relationships shift. The model makes the question testable. That's the useful thing."
 
-    The model makes the question testable. That is the useful thing.
+    Click through the operations on the slide: remove, change_edge, set_season, observe.
 
-    Collective Engine line — keep it small and grounded, do not turn it into a pitch: "That is the small connection back to Collective Engine: model the system once, then poke it and see what changes."
+    Then the Collective Engine line. Keep it small. Don't turn it into a pitch.
 
-    Optional half-step before closing if the room wants it: "The Wire is the test case. The same approach maps to the systems you actually run — org charts, dependency graphs, supply chains, customer networks."
+    "That's the small connection back to Collective Engine: model the system once, then poke it and see what changes."
 
-    End there. No summary slide. Open for questions.
+    End there. No summary. Open for questions.
 
-    [Press S to close speaker view]
+    [Press S to close speaker notes]
   </aside>
 </section>
 
@@ -1422,7 +1221,9 @@
   <p class="iff-remember">Remember...</p>
   <div class="iff-text">I.F.F</div>
   <aside class="notes">
-    Close on this. Let it sit.
+    Close on this. Don't explain it. Let it sit.
+
+    If anyone asks what it means: that's the point. Figure it out.
   </aside>
 </section>
 
